@@ -1,4 +1,7 @@
+# ホワイトリスト形式
 *
+
+# traceするファイルを親ディレクトリから順に入れてく
 !.gitignore
 !.bashrc
 !.zshrc
@@ -8,4 +11,5 @@
 !.config/wezterm
 !.config/wezterm/**
 
+# 各フォルダの.DS_STOREはtraceしない
 .DS_STORE
