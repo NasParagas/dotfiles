@@ -12,5 +12,12 @@
 ## 注意
 
 - windows+weztermの場合、weztermのプロパティに`--config-file`を設定する必要あり
+aaa
 
+## 依存
 
+- neovim
+- lazygit
+- deno
+- kickstarterの依存
+- :
