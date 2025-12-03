@@ -10,6 +10,7 @@
 !.config/nvim/**
 !.config/wezterm
 !.config/wezterm/**
-
+!.setup_config_symlink.sh
+!README.md
 # 各フォルダの.DS_STOREはtraceしない
 .DS_STORE

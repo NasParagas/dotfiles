@@ -1,6 +1,30 @@
 return {
-  {
-    'nvim-tree/nvim-tree.lua',
-    opts = {},
-  },
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		keys = {
+			{ mode = "n", "<C-n>", "<cmd>NvimTreeToggle<CR>", desc = "NvimTreeをトグルする" },
+			{ mode = "n", "<C-m>", "<cmd>NvimTreeFocus<CR>", desc = "NvimTreeにフォーカス" },
+		},
+		opts = {
+			filesystem_watchers = {
+				enable = true, -- 変更監視を有効化
+				debounce_delay = 50, -- 更新のデバウンス
+			},
+			sync_root_with_cwd = true,
+			respect_buf_cwd = true,
+			update_focused_file = { enable = true, update_root = true },
+			filters = {
+				dotfiles = false,
+				custom = {},
+				exclude = {},
+			},
+			git = {
+				ignore = false,
+			},
+		},
+	},
 }
