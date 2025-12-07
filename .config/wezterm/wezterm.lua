@@ -13,9 +13,9 @@ config.font = wezterm.font("HackGen35 Console NF")
 
 -- ウィンドウ設定
 -- 背景の透明度
-config.window_background_opacity = 0.9
+config.window_background_opacity = 0.6
 -- 背景のブラー
-config.macos_window_background_blur = 4
+config.macos_window_background_blur = 2
 -- ウィンドウ名削除(本当は削除するだけじゃなさそう)
 config.window_decorations = "RESIZE"
 

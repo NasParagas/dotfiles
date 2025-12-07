@@ -24,10 +24,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
 	-- nvim/lua/plugins/
+	-- colorscheme
+	{ import = "plugins.catppuccin" },
+
 	{ import = "plugins.lsp" },
 	{ import = "plugins.autopairs" },
 	{ import = "plugins.blink_cmp" },
-	{ import = "plugins.catppuccin" },
 	{ import = "plugins.conform" },
 	{ import = "plugins.gitsigns" },
 	{ import = "plugins.lazygit" },
@@ -37,9 +39,7 @@ require("lazy").setup({
 	{ import = "plugins.none_ls" },
 	{ import = "plugins.nvim_transitter" },
 	{ import = "plugins.nvim_tree" },
-	{ import = "plugins.peek" },
 	{ import = "plugins.telescope" },
-	{ import = "plugins.tint" },
 	{ import = "plugins.todo_comments" },
 	{ import = "plugins.vimenter" },
 	{ import = "plugins.winresizer" },

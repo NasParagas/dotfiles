@@ -3,7 +3,7 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			theme = "gruvbox_light",
+			theme = "codedark",
 			icons_enabled = true,
 			section_separators = "",
 			component_separators = "",
