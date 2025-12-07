@@ -15,10 +15,21 @@
 
 ## 依存
 
-- neovim
+
 - lazygit
 - deno
 - kickstarterの依存
 - pyright
 - rust
 
+## その他環境
+- pixi
+  - https://pixi.sh/dev/installation/
+
+```bash
+curl -fsSL https://pixi.sh/install.sh | sh
+# or
+brew install pixi
+``
+
+- neovim

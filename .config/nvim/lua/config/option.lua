@@ -5,6 +5,12 @@
 -- 行番号の有無
 vim.o.number = true
 
+-- 外部でファイルが更新されたら自動更新
+vim.opt.autoread = true
+
+-- swapファイルを作成しない
+vim.opt.swapfile = false
+
 -- Sync clipboard between OS and Neovim.
 --  See `:help 'clipboard'`
 vim.schedule(function()

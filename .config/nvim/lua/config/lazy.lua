@@ -43,7 +43,7 @@ require("lazy").setup({
 	{ import = "plugins.todo_comments" },
 	{ import = "plugins.vimenter" },
 	{ import = "plugins.winresizer" },
-	{ import = "plugins.obsidian_bridge" },
+	--	{ import = "plugins.obsidian_bridge" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
