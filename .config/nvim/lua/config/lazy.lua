@@ -35,12 +35,14 @@ require("lazy").setup({
 	-- git
 	{ import = "plugins.gitsigns" },
 	{ import = "plugins.lazygit" },
+	{ import = "plugins.git_messanger" },
 	--editor
 	{ import = "plugins.barbar" },
 	{ import = "plugins.lualine" },
 	{ import = "plugins.nvim_tree" },
 	{ import = "plugins.winresizer" },
 	{ import = "plugins.toggleterm" },
+	{ import = "plugins.hlchunk" },
 	-- other
 	{ import = "plugins.blink_cmp" },
 	{ import = "plugins.conform" },
