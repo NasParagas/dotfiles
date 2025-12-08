@@ -40,7 +40,7 @@ require("lazy").setup({
 	{ import = "plugins.lualine" },
 	{ import = "plugins.nvim_tree" },
 	{ import = "plugins.winresizer" },
-	-- { import = "plugins.toggleterm" },
+	{ import = "plugins.toggleterm" },
 	-- other
 	{ import = "plugins.blink_cmp" },
 	{ import = "plugins.conform" },

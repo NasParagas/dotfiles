@@ -35,14 +35,14 @@ return {
 			-- 好きなキーに割り当て（例: Ctrl-/ にしたいなら <C-/>）
 			vim.keymap.set({ "n", "t" }, "<C-j>", toggle_bottom_float, { desc = "Bottom float terminal" })
 
-			local function split_terminal_vertical()
-				vim.cmd("vsplit")
-				local shell = vim.env.SHELL
-				vim.cmd("terminal " .. shell)
-
-				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i", true, false, true), "n", false)
-			end
-			vim.keymap.set({ "t", "n" }, "<C-S-e>", split_terminal_vertical, { desc = "垂直分割" })
+			-- 	local function split_terminal_vertical()
+			-- 		vim.cmd("vsplit")
+			-- 		local shell = vim.env.SHELL
+			-- 		vim.cmd("terminal " .. shell)
+			--
+			-- 		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i", true, false, true), "n", false)
+			-- 	end
+			-- 	vim.keymap.set({ "t", "n" }, "<C-S-e>", split_terminal_vertical, { desc = "垂直分割" })
 		end,
 	},
 }
