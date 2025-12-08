@@ -32,9 +32,10 @@ return { -- Fuzzy Finder (files, lsp, etc)
 				find_files = {
 					-- `.`付きのフォルダなどを表示
 					hidden = true,
-					file_ignore_patterns = {
-						"/%.git/",
-					},
+					no_ignore = true,
+					-- 	file_ignore_patterns = {
+					-- 		"/%.git/",
+					-- 	},
 				},
 			},
 			extensions = {

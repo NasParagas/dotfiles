@@ -26,23 +26,29 @@ require("lazy").setup({
 	-- nvim/lua/plugins/
 	-- colorscheme
 	{ import = "plugins.catppuccin" },
-
+	-- lsp
 	{ import = "plugins.lsp" },
+	{ import = "plugins.lsp_signature" },
+	-- coding
 	{ import = "plugins.autopairs" },
-	{ import = "plugins.blink_cmp" },
-	{ import = "plugins.conform" },
+	{ import = "plugins.todo_comments" },
+	-- git
 	{ import = "plugins.gitsigns" },
 	{ import = "plugins.lazygit" },
-	{ import = "plugins.lsp_signature" },
+	--editor
+	{ import = "plugins.barbar" },
 	{ import = "plugins.lualine" },
-	{ import = "plugins.mini" },
-	{ import = "plugins.none_ls" },
-	{ import = "plugins.nvim_transitter" },
 	{ import = "plugins.nvim_tree" },
-	{ import = "plugins.telescope" },
-	{ import = "plugins.todo_comments" },
-	{ import = "plugins.vimenter" },
 	{ import = "plugins.winresizer" },
+	-- { import = "plugins.toggleterm" },
+	-- other
+	{ import = "plugins.blink_cmp" },
+	{ import = "plugins.conform" },
+	{ import = "plugins.mini" },
+	--	{ import = "plugins.none_ls" },
+	{ import = "plugins.nvim_transitter" },
+	{ import = "plugins.telescope" },
+	{ import = "plugins.vimenter" },
 	--	{ import = "plugins.obsidian_bridge" },
 }, {
 	ui = {
