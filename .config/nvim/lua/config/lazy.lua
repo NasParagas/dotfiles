@@ -43,6 +43,9 @@ require("lazy").setup({
 	{ import = "plugins.winresizer" },
 	{ import = "plugins.toggleterm" },
 	{ import = "plugins.hlchunk" },
+	{ import = "plugins.render_markdown" },
+	{ import = "plugins.quick_scope" },
+
 	-- other
 	{ import = "plugins.blink_cmp" },
 	{ import = "plugins.conform" },
