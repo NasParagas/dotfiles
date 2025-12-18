@@ -17,7 +17,10 @@ return {
 		keys = {
 			{ "t]", "<Cmd>BufferNext<CR>", desc = "Next Buffer" },
 			{ "t[", "<Cmd>BufferPrevious<CR>", desc = "Previous Buffer" },
+			-- {"", "", desc = "~番目のbufferへ"},
+			{ "<leader>w", "<Cmd>BufferClose<CR>", desc = "close current buffer" },
+			{ "<leader><C-w>", "<Cmd>BufferCloseAllButCurrent<CR>", desc = "close other all buffer " },
 		},
-		version = "^1.0.0", -- optional: only update when a new 1.x version is released
+		version = "^1.0.0",
 	},
 }
