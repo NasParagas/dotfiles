@@ -13,10 +13,14 @@ config.font = wezterm.font("HackGen35 Console NF")
 
 -- ウィンドウ設定
 -- 背景の透明度
-config.window_background_opacity = 0.7
+config.window_background_opacity = 0.75
 -- 背景のブラー
 config.macos_window_background_blur = 2
--- ウィンドウ名削除(本当は削除するだけじゃなさそう)
+
+-- NONE: desable titlebar and border
+-- TITLE: desable resizable border
+-- RESIZE: desable title bar
+-- TITLE | RESIZE: enable both (default)
 config.window_decorations = "RESIZE"
 
 -- タブ設定

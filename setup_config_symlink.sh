@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# called shebang. determines how to execute this script
+# execute /usr/bin/env and env finds and execute bash
+# good for picking up bash even if its PATH is different
+
+# -e: exits the script immediately if a command exits an error
+# -u: treats undefined variables as an error
+# -o pipefall: sets the exit status of the entire pipeline to the status of last command to fall
 set -euo pipefail
 
 # Apply symlink for the entire ~/.config to point at ~/dotfiles/.config
@@ -15,7 +22,9 @@ set -euo pipefail
 
 
 # --- Settings ---
+# "${VARS"-PATH"}" means set VARS to PATH if it isnt set
 DOTFILES_ROOT="${DOTFILES_ROOT:-$HOME/dotfiles}"
+# Now, add dotdir path here if you want to add symlink dotfiles considering safety
 DOTFILES_CONFIG_DIR="$DOTFILES_ROOT/.config"
 TARGET_CONFIG_DIR="$HOME/.config"
 
