@@ -54,6 +54,16 @@ sudo apt install -y unzip
 curl -fsSL https://pixi.sh/install.sh | sh
 # or
 brew install pixi
-``
+```
  
 - neovim
+
+## neovim tips
+
+### clangd lsp
+```shell
+ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S . -B build
+ mv build/compile_commands.json .
+ 
+```
+
