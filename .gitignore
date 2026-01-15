@@ -8,6 +8,8 @@
 !.config
 !.config/nvim/
 !.config/nvim/**
+!.config/kitty/
+!.config/kitty/**
 !.config/wezterm
 !.config/wezterm/**
 !setup_config_symlink.sh
