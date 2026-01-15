@@ -44,8 +44,9 @@ require("lazy").setup({
 	{ import = "plugins.toggleterm" },
 	{ import = "plugins.hlchunk" },
 	{ import = "plugins.render_markdown" },
+	{ import = "plugins.img_clip" },
 	{ import = "plugins.quick_scope" },
-
+	{ import = "plugins.image" },
 	-- other
 	{ import = "plugins.blink_cmp" },
 	{ import = "plugins.conform" },
