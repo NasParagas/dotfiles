@@ -5,7 +5,7 @@ echo hello from .zshrc
 export PATH="/opt/nvim-macos-arm64/bin:$PATH"
 
 # メモ帳へのエイリアス
-alias notes='cd "/${HOME}/lIBRARy/Mobile Documents/com~apple~CloudDocs/notes"'
+alias notes='cd "/${HOME}/library/mobile documents/icloud~md~obsidian/documents/notes"'
 
 # cargo
 . "$HOME/.local/bin/env"
