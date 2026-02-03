@@ -29,13 +29,14 @@ require("lazy").setup({
 	-- lsp
 	{ import = "plugins.lsp" },
 	{ import = "plugins.lsp_signature" },
-	-- coding
+	-- 自動で対応する括弧とか補完してくれるやつ
 	{ import = "plugins.autopairs" },
+	-- NOTE:みたいにhighlightしてくれるやつ
 	{ import = "plugins.todo_comments" },
-	-- git
+	-- 行の左側で色々知らせてくれるやつ
 	{ import = "plugins.gitsigns" },
+	-- git TUI
 	{ import = "plugins.lazygit" },
-	{ import = "plugins.git_messanger" },
 	--editor
 	{ import = "plugins.barbar" },
 	{ import = "plugins.lualine" },
@@ -56,6 +57,7 @@ require("lazy").setup({
 	{ import = "plugins.telescope" },
 	{ import = "plugins.vimenter" },
 	--	{ import = "plugins.obsidian_bridge" },
+	-- { import = "plugins.git_messanger" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the

@@ -1,4 +1,4 @@
---- [[ Basic Autocommands ]]
+-- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text

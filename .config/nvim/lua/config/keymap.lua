@@ -23,11 +23,5 @@ vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
 -- 変数名・関数名などの一括変更
 vim.keymap.set("n", "<leader>RE", vim.lsp.buf.rename, { silent = true, desc = "LSP Rename" })
 
--- Normal / Visual / Select / Operator-pending モードで無効化
-vim.keymap.set({ "n", "v", "s", "o" }, "<C-z>", "<nop>", { noremap = true, silent = true })
-
--- Insert モードでも無効化したい場合（推奨）
-vim.keymap.set("i", "<C-z>", "<nop>", { noremap = true, silent = true })
-
--- Terminal モード（:terminal バッファ）でも無効化したい場合（必要なら）
-vim.keymap.set("t", "<C-z>", "<nop>", { noremap = true, silent = true })
+-- ありえないぐらい間違えるので無効化
+vim.keymap.set({ "n", "v", "s", "o", "i", "t" }, "<C-z>", "<nop>", { noremap = true, silent = true })
