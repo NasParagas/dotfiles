@@ -37,8 +37,12 @@ require("lazy").setup({
 	{ import = "plugins.gitsigns" },
 	-- git TUI
 	{ import = "plugins.lazygit" },
-	-- todo
+	-- simple todo&notopad
 	{ import = "plugins.dooing" },
+	-- markdown preview
+	{ import = "plugins.markdown_preview" },
+	-- いろいろ詰め合わせ。今はimageだけ使ってる
+	{ import = "plugins.snacks" },
 
 	{ import = "plugins.barbar" },
 	{ import = "plugins.lualine" },
@@ -49,7 +53,7 @@ require("lazy").setup({
 	{ import = "plugins.render_markdown" },
 	{ import = "plugins.img_clip" },
 	{ import = "plugins.quick_scope" },
-	{ import = "plugins.image" },
+	-- { import = "plugins.image" },
 	-- other
 	{ import = "plugins.blink_cmp" },
 	{ import = "plugins.conform" },
