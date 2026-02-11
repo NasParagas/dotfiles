@@ -1,3 +1,4 @@
+-- 関数の補完とかしてくれるやつのはず
 return {
 	{ -- Autocompletion
 		"saghen/blink.cmp",
@@ -57,6 +58,7 @@ return {
 				-- <c-k>: Toggle signature help
 				--
 				-- See :h blink-cmp-config-keymap for defining your own keymap
+				-- TabとS-Tabで補完を移動
 				preset = "super-tab",
 
 				-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
