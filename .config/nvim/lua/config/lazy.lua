@@ -37,7 +37,9 @@ require("lazy").setup({
 	{ import = "plugins.gitsigns" },
 	-- git TUI
 	{ import = "plugins.lazygit" },
-	--editor
+	-- todo
+	{ import = "plugins.dooing" },
+
 	{ import = "plugins.barbar" },
 	{ import = "plugins.lualine" },
 	{ import = "plugins.nvim_tree" },
