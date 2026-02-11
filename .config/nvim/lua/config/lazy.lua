@@ -43,26 +43,29 @@ require("lazy").setup({
 	{ import = "plugins.markdown_preview" },
 	-- いろいろ詰め合わせ。今はimageだけ使ってる
 	{ import = "plugins.snacks" },
-
+	-- bufferをタブとして表示してくれるやつ
 	{ import = "plugins.barbar" },
+	-- 下のステータスバー
 	{ import = "plugins.lualine" },
+	-- ファイルを階層的に表示してくれる
 	{ import = "plugins.nvim_tree" },
+	-- neovim内のpaneをresizeできる
 	{ import = "plugins.winresizer" },
 	{ import = "plugins.toggleterm" },
 	{ import = "plugins.hlchunk" },
 	{ import = "plugins.render_markdown" },
 	{ import = "plugins.img_clip" },
 	{ import = "plugins.quick_scope" },
-	-- { import = "plugins.image" },
 	-- other
 	{ import = "plugins.blink_cmp" },
 	{ import = "plugins.conform" },
 	{ import = "plugins.mini" },
-	--	{ import = "plugins.none_ls" },
 	{ import = "plugins.nvim_transitter" },
 	{ import = "plugins.telescope" },
 	{ import = "plugins.vimenter" },
-	--	{ import = "plugins.obsidian_bridge" },
+	-- { import = "plugins.none_ls" },
+	-- { import = "plugins.image" },
+	-- { import = "plugins.obsidian_bridge" },
 	-- { import = "plugins.git_messanger" },
 }, {
 	ui = {
