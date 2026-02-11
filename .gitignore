@@ -12,6 +12,8 @@
 !.config/kitty/**
 !.config/wezterm
 !.config/wezterm/**
+!.config/ghostty
+!.config/ghostty/**
 !setup_config_symlink.sh
 !README.md
 # 各フォルダの.DS_STOREはtraceしない

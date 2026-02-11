@@ -1,0 +1,43 @@
+# フォント設定
+font-family = "HackGen35 Console NF"
+font-size = 13
+
+# ウィンドウサイズ (cols/rows)
+window-width = 120
+window-height = 28
+
+# ウィンドウ設定
+# 背景の透明度 (0.0 ~ 1.0)
+background-opacity = 0.85
+
+# ウィンドウの装飾 (タイトルバーなし、リサイズは可能)
+# WezTermの "RESIZE" (タイトルバーなし) に相当
+# window-decoration = false
+
+# タブ設定
+# Ghosttyはデフォルトでシングルタブ時はバーを隠す挙動に近いですが、
+# タイトルバーを消しているため、ネイティブな見た目になります。
+# 必要に応じて以下を調整してください。
+macos-titlebar-style = transparent
+
+# キーマッピング (keybind)
+# WezTerm: Shift+Ctrl+...
+
+# Paneを右側に分割 (WezTerm: SplitHorizontal)
+keybind = ctrl+shift+e=new_split:right
+
+# Paneを下側に分割 (WezTerm: SplitVertical)
+keybind = ctrl+shift+o=new_split:down
+
+# Paneを閉じる (確認なしで閉じる挙動になります)
+keybind = ctrl+shift+w=close_surface
+
+# Pane移動 (Vimライク)
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+
+# (オプション) 設定ファイルの自動リロード
+# Ghosttyは保存時にデフォルトでリロードされますが、明示するなら以下
+auto-update = check
