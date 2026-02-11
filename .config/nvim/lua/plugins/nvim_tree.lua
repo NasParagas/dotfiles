@@ -19,7 +19,7 @@ return {
 			update_focused_file = { enable = true, update_root = true },
 			filters = {
 				dotfiles = false,
-				custom = {},
+				custom = { ".DS_store" },
 				exclude = {},
 			},
 			git = {
