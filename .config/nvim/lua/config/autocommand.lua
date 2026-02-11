@@ -23,3 +23,17 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.bo.cindent = true -- C/C++ の構文に沿ったインデント支援
 	end,
 })
+
+-- markdown
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		-- insertモードでのenterらしい?
+		vim.opt_local.formatoptions:append("r")
+		-- normalモードでのoとO
+		vim.opt_local.formatoptions:append("o")
+		-- b=blank required
+		-- ` -`で始まる行について行うという設定...のはず
+		vim.opt_local.comments = "b:-,b:*,b:+,n:>"
+	end,
+})
