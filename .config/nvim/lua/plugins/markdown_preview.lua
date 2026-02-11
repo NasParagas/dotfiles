@@ -1,11 +1,18 @@
 return {
 	"iamcco/markdown-preview.nvim",
 	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	ft = { "markdown" },
-	-- build = function()
-	-- 	vim.fn["mkdp#util#install"]()
-	build = "cd app && npm install",
+	build = "cd app && yarn install",
 	init = function()
 		vim.g.mkdp_filetypes = { "markdown" }
+		vim.g.mkdp_images_path = vim.fn.expand("%:p:h")
 	end,
+	ft = { "markdown" },
+	keys = {
+		{
+			"<leader>MP",
+			"<cmd>MarkdownPreview<cr>",
+			desc = "Markdown Preview",
+			ft = "markdown", -- markdownファイルの時だけ有効
+		},
+	},
 }
