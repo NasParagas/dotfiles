@@ -17,7 +17,7 @@ return {
 			{ "<C-[>", "<Cmd>BufferPrevious<CR>", desc = "Previous Buffer" },
 			-- {"", "", desc = "~番目のbufferへ"},
 			{ "<leader>w", "<Cmd>BufferClose<CR>", desc = "close current buffer" },
-			{ "<leader><C-w>", "<Cmd>BufferCloseAllButCurrent<CR>", desc = "close other all buffer " },
+			{ "<leader><C-w>", "<Cmd>CloseAllBufferExceptCurrent<CR>", desc = "close other all buffer " },
 		},
 		version = "^1.0.0",
 	},
