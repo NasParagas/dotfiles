@@ -128,4 +128,4 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 eval "$(uv generate-shell-completion bash)"
 export WEZTERM_CONFIG_FILE="~/.config/wezterm/"
 export PATH="$HOME/.local/bin:$PATH"
-
+alias notes="cd '${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes'"
