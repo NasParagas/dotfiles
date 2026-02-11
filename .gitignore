@@ -4,7 +4,8 @@
 # traceするファイルを親ディレクトリから順に入れてく
 !.gitignore
 !.bashrc
-!.zshrc
+!.bash_profile
+# !.zshrc
 !.config
 !.config/nvim/
 !.config/nvim/**

@@ -119,9 +119,13 @@ fi
 
 # kokokara
 echo "hello from .bashrc"
+export BASH_SILENCE_DEPRECATION_WARNING=1
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+export PATH="/opt/nvim-macos-arm64/bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 . "$HOME/.cargo/env"
 . "$HOME/.local/bin/env"
 eval "$(uv generate-shell-completion bash)"
 export WEZTERM_CONFIG_FILE="~/.config/wezterm/"
 export PATH="$HOME/.local/bin:$PATH"
+
