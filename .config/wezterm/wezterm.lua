@@ -8,7 +8,7 @@ config.initial_cols = 120
 config.initial_rows = 28
 
 -- フォント設定
-config.font_size = 12
+config.font_size = 13
 config.font = wezterm.font("HackGen35 Console NF")
 
 -- ウィンドウ設定
