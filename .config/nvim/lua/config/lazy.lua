@@ -51,6 +51,9 @@ require("lazy").setup({
 	{ import = "plugins.nvim_tree" },
 	-- neovim内のpaneをresizeできる
 	{ import = "plugins.winresizer" },
+	-- foldするやつ
+	{ import = "plugins.nvim_ufo" },
+
 	{ import = "plugins.toggleterm" },
 	{ import = "plugins.hlchunk" },
 	{ import = "plugins.render_markdown" },
