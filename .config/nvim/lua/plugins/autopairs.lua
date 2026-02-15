@@ -1,7 +1,7 @@
 return {
 	"windwp/nvim-autopairs",
 	event = "InsertEnter",
-	config = true,
+
 	opts = {
 		enabled = function(bufnr)
 			return true
@@ -23,4 +23,15 @@ return {
 		map_c_h = false, -- Map the <C-h> key to delete a pair
 		map_c_w = false, -- map <c-w> to delete a pair if possible
 	},
+
+	-- config = trueだとデフォルト
+	-- config = true,
+	-- rule追加
+	config = function(_, opts)
+		local npairs = require("nvim-autopairs")
+		npairs.setup(opts)
+		local Rule = require("nvim-autopairs.rule")
+		local cond = require("nvim-autopairs.conds")
+		npairs.add_rule(Rule("<", ">"):with_pair(cond.not_before_regex("%%w")):with_pair(cond.not_before_regex(" ")))
+	end,
 }
