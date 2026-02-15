@@ -2,8 +2,10 @@
 -- See `:help vim.o
 -- see `:help option-list`
 
--- 行番号の有無
+-- ファイル全体から見た行番号表示
 vim.o.number = true
+-- カーソル一からの相対行番号の表示
+vim.o.relativenumber = true
 
 -- 外部でファイルが更新されたら自動更新
 vim.opt.autoread = true
