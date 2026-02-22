@@ -79,7 +79,7 @@ require("lazy").setup({
 	{ import = "plugins.which_key" },
 
 	-- disable
-	-- ?
+	-- formatter
 	-- { import = "plugins.none_ls" },
 	-- collenction of utillity plugins. now use image only
 	-- disable: want to use wezterm, so now use markdown image preview in browser
