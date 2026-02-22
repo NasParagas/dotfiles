@@ -1,2 +1,0 @@
-# TODO
-- setupにripgrepのインストール追加
