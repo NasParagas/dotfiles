@@ -1,6 +1,6 @@
 return { -- Fuzzy Finder (files, lsp, etc)
 	"nvim-telescope/telescope.nvim",
-	event = "VimEnter", -- 起動タイミング(VimEnterは起動時読み込み)
+	event = "VeryLazy",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{ -- If encountering errors, see telescope-fzf-native README for installation instructions

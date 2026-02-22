@@ -1,12 +1,9 @@
 return {
 	"oflisback/obsidian-bridge.nvim",
+	event = "VeryLazy",
 	opts = {
 		-- your config here
 		scroll_sync = true,
-	},
-	event = {
-		"BufReadPre *.md",
-		"BufNewFile *.md",
 	},
 	lazy = true,
 	dependencies = {

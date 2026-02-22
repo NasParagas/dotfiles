@@ -1,7 +1,7 @@
 return {
 	"kevinhwang91/nvim-ufo",
 	dependencies = { "kevinhwang91/promise-async" },
-	event = "BufRead", -- ファイルを開いたときに読み込む
+	event = "BufRead",
 	keys = {
 		-- すべて折りたたむ / すべて開く のショートカットを作っておくと便利
 		{

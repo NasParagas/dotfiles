@@ -3,6 +3,7 @@ return
 -- lazy.nvim
 {
 	"folke/snacks.nvim",
+	event = "VimEnter",
 	opts = {
 		image = {
 			-- your image configuration comes here
