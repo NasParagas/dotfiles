@@ -11,6 +11,6 @@ end
 vim.o.background = "dark"
 
 -- colorscheme setting
--- set_theme("catppuccin")
+-- set_colorscheme("catppuccin")
 set_colorscheme("gruvbox")
--- set_theme("tokyonight")
+-- set_colorscheme("tokyonight")
