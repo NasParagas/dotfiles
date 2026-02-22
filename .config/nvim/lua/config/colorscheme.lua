@@ -14,3 +14,6 @@ vim.o.background = "dark"
 -- set_colorscheme("catppuccin")
 set_colorscheme("gruvbox")
 -- set_colorscheme("tokyonight")
+-- set_colorscheme("kanagawa-wave")
+-- set_colorscheme("kanagawa-dragon")
+-- set_colorscheme("kanagawa-lotus")
