@@ -26,49 +26,71 @@ require("lazy").setup({
 	-- nvim/lua/plugins/
 	-- colorscheme
 	{ import = "plugins.catppuccin" },
+	-- show keymaps randomly
+	{ import = "plugins.random_key_tips" },
 	-- lsp
 	{ import = "plugins.lsp" },
 	{ import = "plugins.lsp_signature" },
-	-- 自動で対応する括弧とか補完してくれるやつ
+	-- auto complete pairs like `{}`
 	{ import = "plugins.autopairs" },
-	-- NOTE:みたいにhighlightしてくれるやつ
+	-- NOTE: comment highlight
 	{ import = "plugins.todo_comments" },
-	-- 行の左側で色々知らせてくれるやつ
+	-- for checking git status line by line
 	{ import = "plugins.gitsigns" },
 	-- git TUI
 	{ import = "plugins.lazygit" },
 	-- simple todo&notopad
 	{ import = "plugins.dooing" },
-	-- markdown preview
+	-- beautiful notify
+	{ import = "plugins.nvim_notify" },
+	-- markdown preview in brawser(for cant inline image preview)
 	{ import = "plugins.markdown_preview" },
-	-- いろいろ詰め合わせ。今はimageだけ使ってる
-	{ import = "plugins.snacks" },
-	-- bufferをタブとして表示してくれるやつ
+	-- display buffer like tab
 	{ import = "plugins.barbar" },
-	-- 下のステータスバー
+	-- status bar
 	{ import = "plugins.lualine" },
-	-- ファイルを階層的に表示してくれる
+	-- display directories hierarchically
 	{ import = "plugins.nvim_tree" },
-	-- neovim内のpaneをresizeできる
+	-- pane resizer
 	{ import = "plugins.winresizer" },
-	-- foldするやつ
+	-- fold/unfold
 	{ import = "plugins.nvim_ufo" },
-
+	-- terminal
 	{ import = "plugins.toggleterm" },
+	-- display line on indent
 	{ import = "plugins.hlchunk" },
+	-- inline markdown preview
 	{ import = "plugins.render_markdown" },
+	-- image paster
 	{ import = "plugins.img_clip" },
+	-- highlight unique charactor in line to help `f` `F`...
 	{ import = "plugins.quick_scope" },
-	-- other
+	-- completion
 	{ import = "plugins.blink_cmp" },
+	-- auto formatter
 	{ import = "plugins.conform" },
+	-- collection of utillity plugins
 	{ import = "plugins.mini" },
+	-- parsing highlighting
 	{ import = "plugins.nvim_transitter" },
+	-- fuzzy finder
 	{ import = "plugins.telescope" },
-	{ import = "plugins.vimenter" },
+	-- show pending keybind
+	{ import = "plugins.which_key" },
+
+	-- disable
+	-- ?
 	-- { import = "plugins.none_ls" },
+	-- collenction of utillity plugins. now use image only
+	-- disable: want to use wezterm, so now use markdown image preview in browser
+	-- { import = "plugins.snacks" },
+	-- inline image preview
+	-- disable: same as above
 	-- { import = "plugins.image" },
+	-- A plugin for synchronous operation with Obsidian
+	-- disable: no need
 	-- { import = "plugins.obsidian_bridge" },
+	-- ?
 	-- { import = "plugins.git_messanger" },
 }, {
 	ui = {
