@@ -35,5 +35,16 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- b=blank required
 		-- ` -`で始まる行について行うという設定...のはず
 		vim.opt_local.comments = "b:-,b:*,b:+,n:>"
+		-- タブ文字の幅をスペース2つ分に見せる
+		vim.opt_local.tabstop = 2
+
+		-- インデント（>> や <<）の幅をスペース2つ分にする
+		vim.opt_local.shiftwidth = 2
+
+		-- Tabキーを押した時に、タブ文字ではなくスペースを挿入する
+		vim.opt_local.expandtab = true
+
+		-- バックスペースキーでスペース2つ分を一度に消せるようにする（あたかもタブのように振る舞う）
+		vim.opt_local.softtabstop = 2
 	end,
 })
