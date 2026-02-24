@@ -8,11 +8,11 @@ end
 
 -- background setting
 -- vim.o.background = "light"
-vim.o.background = "dark"
+-- vim.o.background = "dark"
 
 -- colorscheme setting
 -- set_colorscheme("catppuccin")
-set_colorscheme("gruvbox")
+-- set_colorscheme("gruvbox")
 -- set_colorscheme("tokyonight")
 -- set_colorscheme("kanagawa-wave")
 -- set_colorscheme("kanagawa-dragon")
