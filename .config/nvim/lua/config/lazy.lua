@@ -78,6 +78,8 @@ require("lazy").setup({
 	{ import = "plugins.telescope" },
 	-- show pending keybind
 	{ import = "plugins.which_key" },
+	-- git diffview
+	{ import = "plugins.diffview" },
 
 	-- disable
 	-- formatter
