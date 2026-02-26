@@ -109,6 +109,68 @@ return {
           })
 				]],
 			},
+			{
+				name = "Tokyonight Storm",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "storm",
+					})
+				]],
+			},
+			{
+				name = "Tokyonight Moon",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "moon",
+					})
+				]],
+			},
+			{
+				name = "Tokyonight Night",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "night",
+					})
+				]],
+			},
+			{
+				name = "Tokyonight Day",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "day",
+					})
+				]],
+			},
+			{
+				name = "Gruvbox Dark",
+				colorscheme = "gruvbox",
+				before = [[
+					require("gruvbox").setup({ })
+					vim.o.background = "dark"
+				]],
+			},
+			{
+				name = "Catppuccin Mocha",
+				colorscheme = "catppuccin",
+				before = [[
+					require("catppuccin").setup({
+						flavour = "mocha",
+					})
+				]],
+			},
+			{
+				name = "Kanagawa Wave",
+				colorscheme = "kanagawa",
+				before = [[
+					require("kanagawa").setup({
+						theme = "Wave",
+                      })
+				]],
+			},
 		},
 		livePreview = true,
 	},
