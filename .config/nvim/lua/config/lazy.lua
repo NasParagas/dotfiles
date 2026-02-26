@@ -26,10 +26,11 @@ require("lazy").setup({
 	-- nvim/lua/plugins/
 	-- colorscheme
 	{ import = "plugins.colorscheme" },
+	-- colorscheme selector
 	{ import = "plugins.themery" },
 	-- show keymaps randomly
 	{ import = "plugins.random_key_tips" },
-	-- lsp
+	-- lsp (from kickstarter.nvim)
 	{ import = "plugins.lsp" },
 	{ import = "plugins.lsp_signature" },
 	-- auto complete pairs like `{}`
