@@ -171,6 +171,16 @@ return {
                       })
 				]],
 			},
+			{
+				name = "Everforest Medium Dark",
+				colorscheme = "everforest",
+				before = [[
+                    require("everforest").setup({
+                        background = "medium",
+                    })
+                    vim.o.background = "dark"
+                ]],
+			},
 		},
 		livePreview = true,
 	},
