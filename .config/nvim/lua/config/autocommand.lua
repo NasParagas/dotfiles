@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "c", "cpp" },
 	callback = function()
 		vim.opt_local.autoindent = true
-		vim.opt_local.cindent = true -- C/C++ の構文に沿ったインデント支援
+		vim.opt_local.cindent = true
 	end,
 })
 
@@ -31,9 +31,9 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "markdown",
 	callback = function()
-		-- insertモードでのenterらしい?
+		-- Enter in insert mode
 		vim.opt_local.formatoptions:append("r")
-		-- normalモードでのoとO
+		-- "o" and "O" in normal mode
 		vim.opt_local.formatoptions:append("o")
 		-- b=blank required
 		-- ` -`で始まる行について行うという設定...のはず
