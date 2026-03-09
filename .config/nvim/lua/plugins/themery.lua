@@ -96,11 +96,8 @@ return {
                 }
               }
             },
-        
-            -- もしフローティングウィンドウの枠線なども透明にしたい場合は以下も推奨
             overrides = function(colors)
               return {
-                -- 必要に応じて追加
                 NormalFloat = { bg = "none" },
                 FloatBorder = { bg = "none" },
                 FloatTitle = { bg = "none" },
