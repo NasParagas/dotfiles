@@ -33,7 +33,6 @@ return {
 			-- =========================
 			-- bottom float terminal
 			-- =========================
-			--          -- TODO: no need
 			-- local bottom_float_term = Terminal:new({
 			-- 	direction = "float",
 			-- 	count = 1,
