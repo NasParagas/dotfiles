@@ -81,6 +81,8 @@ require("lazy").setup({
 	{ import = "plugins.which_key" },
 	-- git diffview
 	{ import = "plugins.diffview" },
+	-- git tracker
+	{ import = "plugins.wrapped" },
 
 	-- disable
 	-- formatter
