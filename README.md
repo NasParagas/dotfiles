@@ -1,8 +1,25 @@
 # dotfiles
 
-## 手順
-- `git clone`
-- `./setup_config_symlink.sh`
+This dotfiles 
+
+## Prerequisites
+- `git`
+
+```sh
+sudo apt update
+sudo apt install git
+```
+
+- Other required packages are installed execute `./environment_setup.sh`
+  - `deno`
+  -
+
+## Setup
+
+```sh
+git clone https://github.com/NasParagas/dotfiles.git
+./setup_config_symlink.sh
+```
 
 ## 注意
 - windows+weztermでwslにdotfileのsetupを行う場合、windows側のweztermのプロパティに`--config-file`を設定する必要あり
@@ -15,7 +32,7 @@
 
 ### clangd
 - 以下のようにして、clangdに対してコンパイル使った情報を伝える
-```shell
+```sh
  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S . -B build
  mv build/compile_commands.json .
  
