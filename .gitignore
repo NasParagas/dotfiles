@@ -1,11 +1,10 @@
-# ホワイトリスト形式
+# white-list
 *
 
-# traceするファイルを親ディレクトリから順に入れてく
 !.gitignore
 !.bashrc
 !.bash_profile
-# !.zshrc
+!.zshrc
 !.config
 !.config/nvim/
 !.config/nvim/**
@@ -16,6 +15,7 @@
 !.config/ghostty
 !.config/ghostty/**
 !setup_config_symlink.sh
+!environment_setup.sh
 !README.md
-# 各フォルダの.DS_STOREはtraceしない
+
 .DS_STORE

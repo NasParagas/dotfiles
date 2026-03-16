@@ -1,4 +1,3 @@
--- 関数の補完とかしてくれるやつのはず
 return {
 	{ -- Autocompletion
 		"saghen/blink.cmp",
