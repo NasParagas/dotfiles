@@ -86,9 +86,9 @@ return {
 			vim.keymap.set({ "n", "t" }, "<C-j>", function()
 				toggle_center(1)
 			end, { desc = "Center large terminal" })
-			vim.keymap.set({ "n", "t" }, "<leader>tn", create_new_terminal, { desc = "Open new terminal" })
+			vim.keymap.set({ "n", "t" }, "<A-t>n", create_new_terminal, { desc = "Open new terminal" })
 			-- Manage multiple terminals
-			vim.keymap.set("n", "<leader>ts", "<cmd>TermSelect<CR>", { desc = "Select running terminals" })
+			vim.keymap.set("n", "<A-t>s", "<cmd>TermSelect<CR>", { desc = "Select running terminals" })
 		end,
 	},
 }
