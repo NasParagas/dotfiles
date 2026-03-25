@@ -238,6 +238,11 @@ return {
 					cmd = {
 						"clangd",
 						"--clang-tidy",
+						"--background-index",
+					},
+					filetypes = {
+						"c",
+						"cpp",
 					},
 				},
 
