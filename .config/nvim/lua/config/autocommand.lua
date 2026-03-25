@@ -1,9 +1,4 @@
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.hl.on_yank()`
+-----
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -12,7 +7,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- file setting
+----- file setting -----
 -- all
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
@@ -43,5 +38,37 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- バックスペースキーでスペース2つ分を一度に消せるようにする（あたかもタブのように振る舞う）
 		vim.opt_local.softtabstop = 2
 		vim.keymap.set("i", "<S-Enter>", "<CR><Esc>S", { buffer = true, remap = false })
+
+		----- normal mode の gf にファイルへ移動する機能だけでなく新規作成機能も追加(mdのみ) -----
+		vim.keymap.set("n", "gf", function()
+			-- get file path under cursor
+			local filepath_under_cursor = vim.fn.expand("<cfile>")
+
+			-- filepath が空(=カーソル下がfilepathでない)なら何もしない
+			if filepath_under_cursor == "" then
+				return
+			end
+
+			-- filepath が .md で終わる場合
+			if filepath_under_cursor:match("%.md$") then
+				-- 開いているファイルの絶対パス (TODO: %":p:h" とは)
+				local current_dir = vim.fn.expand("%:p:h")
+
+				-- 作成したいファイル
+				local target_path = current_dir .. "/" .. filepath_under_cursor
+
+				-- 作成したいファイルが新しいディレクトリだった場合、ディレクトリも作成
+				local target_dir = vim.fn.fnamemodify(target_path, ":h")
+				if vim.fn.isdirectory(target_dir) == 0 then
+					vim.fn.mkdir(target_dir, "p") -- = mkdir -p target_dir
+				end
+
+				-- ファイルを開く (ファイルがない時は、新規の空bufferとして開く)
+				vim.cmd("edit " .. vim.fn.fnameescape(target_path))
+			else
+				-- .md 以外は標準のgfに委ねる
+				vim.cmd("normal! gf")
+			end
+		end, { buffer = true, desc = "Follow Markdown link (and create it if not exists)" })
 	end,
 })
