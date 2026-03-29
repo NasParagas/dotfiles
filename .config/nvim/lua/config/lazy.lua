@@ -83,6 +83,8 @@ require("lazy").setup({
 	{ import = "plugins.diffview" },
 	-- git tracker
 	{ import = "plugins.wrapped" },
+	-- jaca
+	{ import = "plugins.nvim_jdtls" },
 
 	-- disable
 	-- formatter
