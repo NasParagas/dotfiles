@@ -87,24 +87,8 @@ return {
 					require("kanagawa").setup({
 						theme = "Wave",
 						transparent = true,
-            colors = {
-              theme = {
-                all = {
-                  ui = {
-                    bg_gutter = "none"
-                  }
-                }
-              }
-            },
-            overrides = function(colors)
-              return {
-                NormalFloat = { bg = "none" },
-                FloatBorder = { bg = "none" },
-                FloatTitle = { bg = "none" },
-              }
-            end,
-          })
-				]],
+                    })
+                ]],
 			},
 			{
 				name = "Tokyonight Storm",
