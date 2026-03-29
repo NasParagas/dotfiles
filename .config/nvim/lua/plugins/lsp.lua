@@ -235,6 +235,7 @@ return {
 						"clangd",
 						"--clang-tidy",
 						"--background-index",
+						"--extra-arg=-std=c++23",
 					},
 					filetypes = {
 						"c",
