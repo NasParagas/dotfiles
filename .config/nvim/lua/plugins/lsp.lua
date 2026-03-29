@@ -223,17 +223,11 @@ return {
 				pyright = {
 					pythonVersion = "3.12",
 				},
+				-- Rust
 				rust_analyzer = {},
-				neocmake = {},
 
-				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-				--
-				-- Some languages (like typescript) have entire language plugins that can be useful:
-				--    https://github.com/pmizio/typescript-tools.nvim
-				--
-				-- But for many setups, the LSP (`ts_ls`) will work just fine
-				-- ts_ls = {},
-				--
+				-- cmake
+				neocmake = {},
 
 				-- Enable C/C++ via clangd
 				clangd = {
