@@ -35,7 +35,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.comments = "b:-,b:*,b:+,n:>"
 		vim.opt_local.tabstop = 2
 		vim.opt_local.shiftwidth = 2
-		-- バックスペースキーでスペース2つ分を一度に消せるようにする（あたかもタブのように振る舞う）
+		-- バックスペースキーでスペース2つ分を一度に消せるようにする
 		vim.opt_local.softtabstop = 2
 		vim.keymap.set("i", "<S-Enter>", "<CR><Esc>S", { buffer = true, remap = false })
 
