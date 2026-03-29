@@ -48,7 +48,7 @@ require("lazy").setup({
 	-- markdown preview in brawser(for cant inline image preview)
 	{ import = "plugins.markdown_preview" },
 	-- display buffer like tab
-	{ import = "plugins.barbar" },
+	-- { import = "plugins.barbar" },
 	-- status bar
 	{ import = "plugins.lualine" },
 	-- display directories hierarchically
