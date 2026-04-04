@@ -12,13 +12,15 @@ sudo apt install git
 
 - Other required packages are installed execute `./environment_setup.sh`
   - `deno`
-  -
+  - `Rust`
+  - `node.js`
+  - `treesitter-cli`
 
 ## Setup
 
 ```sh
 git clone https://github.com/NasParagas/dotfiles.git
-./setup_config_symlink.sh
+./environment_setup.sh
 ```
 
 ## 注意
