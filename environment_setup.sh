@@ -6,7 +6,7 @@ set -x
 # Configurable variables
 #=============================
 : "${WORK_DIR:=${HOME}/ws}"         # Workspace directory (can be overridden)
-: "${BRANCH_NEOVIM:=master}"        # Neovim branch: stable or master
+: "${BRANCH_NEOVIM:=stable}"        # Neovim branch: stable or master
 : "${DOTFILES_REPO:=https://github.com/NasParagas/dotfiles.git}"
 
 export DEBIAN_FRONTEND=noninteractive
