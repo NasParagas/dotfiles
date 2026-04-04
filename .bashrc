@@ -116,16 +116,36 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
+#############
 # kokokara
+#############
 echo "hello from .bashrc"
+
+# ???
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# ???
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
-export PATH="/opt/nvim-macos-arm64/bin:$PATH"
+
+# neovim for mac
+# export PATH="/opt/nvim-macos-arm64/bin:$PATH"
+export PATH="$PATH:$HOME/neovim/build/bin/nvim"
+
+# neovim for linux
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+
+# Rust
 . "$HOME/.cargo/env"
 . "$HOME/.local/bin/env"
+
+# uv
 eval "$(uv generate-shell-completion bash)"
+
+# wezterm config file path
 export WEZTERM_CONFIG_FILE="~/.config/wezterm/"
+
+# ???
 export PATH="$HOME/.local/bin:$PATH"
+
+# "notes" alias for icloud notes
 alias notes="cd '${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes'"
