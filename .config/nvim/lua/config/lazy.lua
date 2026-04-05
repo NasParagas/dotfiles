@@ -23,36 +23,58 @@ vim.opt.rtp:prepend(lazypath)
 --    :Lazy update
 require("lazy").setup({
 
-	-- nvim/lua/plugins/
-	-- colorscheme
+	-- nvim/lua/plugins/**
+
+	----- colorscheme -----
+	-- all colorscheme
 	{ import = "plugins.colorscheme" },
 	-- colorscheme selector
 	{ import = "plugins.themery" },
-	-- show keymaps randomly
-	{ import = "plugins.random_key_tips" },
-	-- lsp (from kickstarter.nvim)
+
+	----- lsp -----
 	{ import = "plugins.lsp" },
 	{ import = "plugins.lsp_signature" },
-	-- auto complete pairs like `{}`
-	{ import = "plugins.autopairs" },
-	-- NOTE: comment highlight
-	{ import = "plugins.todo_comments" },
+	-- completion
+	{ import = "plugins.blink_cmp" },
+	-- auto formatter
+	{ import = "plugins.conform" },
+
+	----- git -----
 	-- for checking git status line by line
 	{ import = "plugins.gitsigns" },
 	-- git TUI
 	{ import = "plugins.lazygit" },
+
+	----- Markdown preview -----
+	-- markdown preview in brawser
+	-- maybe wont use in neovim v0.12, and no maintainer
+	-- { import = "plugins.markdown_preview" },
+	-- LGTM
+	{ import = "plugins.live_preview" },
+	-- inline markdown preview
+	-- 表示崩れるから微妙という気がしてきていた
+	-- { import = "plugins.render_markdown" },
+	-- { import = "plugins.markview" },
+
+	----- File management -----
+	-- { import = "plugins.nvim_tree" },
+	{ import = "plugins.oil" },
+
+	-- show keymaps randomly
+	{ import = "plugins.random_key_tips" },
+	-- auto complete pairs like `{}`
+	{ import = "plugins.autopairs" },
+	-- comment highlight
+	{ import = "plugins.todo_comments" },
 	-- simple todo&notopad
 	{ import = "plugins.dooing" },
 	-- beautiful notify
-	{ import = "plugins.nvim_notify" },
-	-- markdown preview in brawser(for cant inline image preview)
-	{ import = "plugins.markdown_preview" },
+	-- { import = "plugins.nvim_notify" },
+
 	-- display buffer like tab
 	-- { import = "plugins.barbar" },
 	-- status bar
 	{ import = "plugins.lualine" },
-	-- display directories hierarchically
-	{ import = "plugins.nvim_tree" },
 	-- pane resizer
 	{ import = "plugins.winresizer" },
 	-- fold/unfold
@@ -61,32 +83,19 @@ require("lazy").setup({
 	{ import = "plugins.toggleterm" },
 	-- display line on indent
 	{ import = "plugins.hlchunk" },
-	-- inline markdown preview
-	{ import = "plugins.render_markdown" },
 	-- image paster
 	{ import = "plugins.img_clip" },
-	-- highlight unique charactor in line to help `f` `F`...
-	{ import = "plugins.quick_scope" },
-	-- completion
-	{ import = "plugins.blink_cmp" },
-	-- auto formatter
-	{ import = "plugins.conform" },
 	-- collection of utillity plugins
 	{ import = "plugins.mini" },
 	-- parsing highlighting
-	{ import = "plugins.nvim_transitter" },
+	{ import = "plugins.nvim_treesitter" },
 	-- fuzzy finder
 	{ import = "plugins.telescope" },
 	-- show pending keybind
 	{ import = "plugins.which_key" },
 	-- git diffview
 	{ import = "plugins.diffview" },
-	-- git tracker
-	{ import = "plugins.wrapped" },
-	-- jaca
-	{ import = "plugins.nvim_jdtls" },
-
-	-- disable
+	----- disables -----
 	-- formatter
 	-- { import = "plugins.none_ls" },
 	-- collenction of utillity plugins. now use image only
@@ -100,6 +109,12 @@ require("lazy").setup({
 	-- { import = "plugins.obsidian_bridge" },
 	-- ?
 	-- { import = "plugins.git_messanger" },
+	-- git tracker
+	-- { import = "plugins.wrapped" },
+	-- java
+	-- { import = "plugins.nvim_jdtls" },
+	-- highlight unique charactor in line to help `f` `F`...
+	-- { import = "plugins.quick_scope" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
