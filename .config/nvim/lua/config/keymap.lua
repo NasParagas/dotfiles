@@ -25,3 +25,5 @@ vim.keymap.set("t", "<C-Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- ありえないぐらい間違えるので無効化
 vim.keymap.set({ "n", "v", "s", "o", "i", "t" }, "<C-z>", "<nop>", { noremap = true, silent = true })
+
+----- buffer -----
