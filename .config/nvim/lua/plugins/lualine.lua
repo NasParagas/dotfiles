@@ -4,10 +4,15 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			theme = "codedark",
-			icons_enabled = true,
-			section_separators = "",
-			component_separators = "",
+			theme = "everforest",
+		},
+		sections = {
+			lualine_a = { "mode" },
+			lualine_b = { "branch", "diff", "diagnostics" },
+			lualine_c = { "filename" },
+			lualine_x = { "filetype" },
+			lualine_y = { "progress" },
+			lualine_z = {},
 		},
 	},
 }
