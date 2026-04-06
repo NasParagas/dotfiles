@@ -1,4 +1,4 @@
------
+-- Highlight text after yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Create a user command named 'InsertDetails'
+-- Create HTML details/summary tag
 vim.api.nvim_create_user_command("InsertDetails", function()
 	-- Define the standard HTML details/summary lines
 	local lines = {
@@ -51,13 +51,15 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- "o" and "O" in normal mode
 		vim.opt_local.formatoptions:append("o")
 		-- b=blank required
-		-- ` -`で始まる行について行うという設定...のはず
+		-- "- "とかでenterを押した時、それをその下の行でも続ける
 		vim.opt_local.comments = "b:-,b:*,b:+,n:>"
+		-- shift enter でリスト化しない
+		vim.keymap.set("i", "<S-Enter>", "<CR><Esc>S", { buffer = true, remap = false })
+
 		vim.opt_local.tabstop = 2
 		vim.opt_local.shiftwidth = 2
 		-- バックスペースキーでスペース2つ分を一度に消せるようにする
 		vim.opt_local.softtabstop = 2
-		vim.keymap.set("i", "<S-Enter>", "<CR><Esc>S", { buffer = true, remap = false })
 
 		----- normal mode の gf にファイルへ移動する機能だけでなく新規作成機能も追加(mdのみ) -----
 		vim.keymap.set("n", "gf", function()
@@ -71,7 +73,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 			-- filepath が .md で終わる場合
 			if filepath_under_cursor:match("%.md$") then
-				-- 開いているファイルの絶対パス (TODO: %":p:h" とは)
+				-- 開いているファイルの絶対パス (%...現在のファイル名(つまり開いているmd), :p...絶対パスへ変換..., :h...末尾(ファイル名)を取り除く)
 				local current_dir = vim.fn.expand("%:p:h")
 
 				-- 作成したいファイル
@@ -90,5 +92,31 @@ vim.api.nvim_create_autocmd("FileType", {
 				vim.cmd("normal! gf")
 			end
 		end, { buffer = true, desc = "Follow Markdown link (and create it if not exists)" })
+
+		----- 【ここから追加】空のリストでEnterを押した時にリストを解除する -----
+		vim.keymap.set("i", "<CR>", function()
+			-- 現在の行のテキストと、カーソルの列番号を取得
+			local line = vim.api.nvim_get_current_line()
+			local col = vim.api.nvim_win_get_cursor(0)[2]
+
+			-- カーソルより前の文字列を取得
+			local before_cursor = line:sub(1, col)
+
+			-- カーソルより前が「リスト記号＋スペース」のみか判定
+			-- ( -, *, +, >, または 1. などの数字リストに対応 )
+			if
+				before_cursor:match("^%s*[-*+]%s+$")
+				or before_cursor:match("^%s*>%s+$")
+				or before_cursor:match("^%s*%d+%.%s+$")
+			then
+				-- <C-u> を返すことで、行の先頭まで（＝リスト記号を）一気に削除する
+				-- これによりCodiMDのように「記号が消えてそのままの行に残る」挙動になる
+				return "<C-u><CR>"
+			end
+
+			-- リスト記号のみでない場合は、通常のEnter（改行してリスト継続）として振る舞う
+			return "<CR>"
+		end, { buffer = true, expr = true, replace_keycodes = true, desc = "Break markdown list on empty item" })
+		----- 【追加ここまで】 -----
 	end,
 })
