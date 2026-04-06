@@ -24,18 +24,20 @@ return { -- Fuzzy Finder (files, lsp, etc)
 	config = function()
 		-- [[ Configure Telescope ]]
 		-- See `:help telescope` and `:help telescope.setup()`
+		local actions = require("telescope.actions")
+
 		require("telescope").setup({
 			-- デフォルト設定
 			defaults = {},
-			-- 検索時の設定(検索の種類ごと)
+			-- -- 検索時の設定(検索の種類ごと)
 			pickers = {
 				find_files = {
-					-- `.`付きのフォルダなどを表示
-					hidden = true,
+					-- 		-- `.`付きのフォルダなどを表示
+					-- 		hidden = true,
 					no_ignore = true,
-					-- 	file_ignore_patterns = {
-					-- 		"/%.git/",
-					-- 	},
+					-- 		-- 	file_ignore_patterns = {
+					-- 		-- 		"/%.git/",
+					-- 		-- 	},
 				},
 			},
 			extensions = {
@@ -54,11 +56,26 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 		vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
 		vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+		vim.keymap.set("n", "<leader>sF", function()
+			builtin.find_files({
+				hidden = true,
+				no_ignore = true,
+				file_ignore_patterns = { "%.git/" },
+			})
+		end, { desc = "[S]earch [F]iles (Hidden)" })
 		vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
 		vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 		vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+		vim.keymap.set("n", "<leader>sG", function()
+			builtin.live_grep({
+				additional_args = function()
+					return { "--hidden", "--no-ignore" }
+				end,
+				file_ignore_patterns = { "%.git/" },
+			})
+		end, { desc = "[S]earch by [G]rep (Hidden)" })
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-		-- vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
+		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 		vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
