@@ -13,7 +13,7 @@ config.font = wezterm.font("HackGen35 Console NF")
 config.initial_cols = 120
 config.initial_rows = 28
 -- window opacity
-config.window_background_opacity = 0.5
+config.window_background_opacity = 0.7
 -- background blur
 -- config.macos_window_background_blur = 2
 -- window titlebar and bordar setting
