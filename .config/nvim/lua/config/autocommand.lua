@@ -29,9 +29,12 @@ end, { desc = "Insert HTML details and summary tags" })
 
 ----- file setting -----
 -- all
+-- tabをスペースに変換
 vim.opt.expandtab = true
+-- tabの幅を4スペースに設定
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
+vim.smartindent = true
 
 -- C/C++
 vim.api.nvim_create_autocmd("FileType", {
