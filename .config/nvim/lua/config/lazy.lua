@@ -25,96 +25,95 @@ require("lazy").setup({
 
 	-- nvim/lua/plugins/**
 
-	----- colorscheme -----
+	----- Appearance / UI -----
 	-- all colorscheme
 	{ import = "plugins.colorscheme" },
 	-- colorscheme selector
 	{ import = "plugins.themery" },
+	-- status bar
+	{ import = "plugins.lualine" },
+	-- display line on indent
+	{ import = "plugins.hlchunk" },
+	-- show pending keybind
+	{ import = "plugins.which_key" },
+	-- show keymaps randomly
+	{ import = "plugins.random_key_tips" },
 
-	----- lsp -----
+	----- LSP / Coding Support -----
+	-- language server protocol
 	{ import = "plugins.lsp" },
+	-- show function signature when typing
 	{ import = "plugins.lsp_signature" },
-	-- completion
+	-- completion engine
 	{ import = "plugins.blink_cmp" },
 	-- auto formatter
 	{ import = "plugins.conform" },
+	-- parsing & highlighting
+	{ import = "plugins.nvim_treesitter" },
 
-	----- git -----
+	----- Editor Enhancements -----
+	-- auto complete pairs like `{}`
+	{ import = "plugins.autopairs" },
+	-- extended increment/decrement
+	-- { import = "plugins.dial" },
+	-- fold/unfold enhancement
+	{ import = "plugins.nvim_ufo" },
+	-- pane resizer
+	{ import = "plugins.winresizer" },
+
+	----- Navigation -----
+	-- fuzzy finder
+	{ import = "plugins.telescope" },
+	-- file explorer (editing like a buffer)
+	{ import = "plugins.oil" },
+
+	----- Git -----
 	-- for checking git status line by line
 	{ import = "plugins.gitsigns" },
 	-- git TUI
 	{ import = "plugins.lazygit" },
-
-	----- Markdown preview -----
-	-- markdown preview in brawser
-	-- maybe wont use in neovim v0.12, and no maintainer
-	-- { import = "plugins.markdown_preview" },
-	-- LGTM
-	{ import = "plugins.live_preview" },
-	-- inline markdown preview
-	-- 表示崩れるから微妙という気がしてきていた
-	-- { import = "plugins.render_markdown" },
-	-- { import = "plugins.markview" },
-
-	----- File management -----
-	-- { import = "plugins.nvim_tree" },
-	{ import = "plugins.oil" },
-
-	-- show keymaps randomly
-	{ import = "plugins.random_key_tips" },
-	-- auto complete pairs like `{}`
-	{ import = "plugins.autopairs" },
-	-- comment highlight
-	{ import = "plugins.todo_comments" },
-	-- simple todo&notopad
-	{ import = "plugins.dooing" },
-	-- beautiful notify
-	-- { import = "plugins.nvim_notify" },
-
-	-- display buffer like tab
-	-- { import = "plugins.barbar" },
-	-- status bar
-	{ import = "plugins.lualine" },
-	-- pane resizer
-	{ import = "plugins.winresizer" },
-	-- fold/unfold
-	{ import = "plugins.nvim_ufo" },
-	-- terminal
-	{ import = "plugins.toggleterm" },
-	-- display line on indent
-	{ import = "plugins.hlchunk" },
-	-- image paster
-	{ import = "plugins.img_clip" },
-	-- collection of utillity plugins
-	{ import = "plugins.mini" },
-	-- parsing highlighting
-	{ import = "plugins.nvim_treesitter" },
-	-- fuzzy finder
-	{ import = "plugins.telescope" },
-	-- show pending keybind
-	{ import = "plugins.which_key" },
 	-- git diffview
 	{ import = "plugins.diffview" },
-	----- disables -----
-	-- formatter
+
+	----- AI Support -----
+	-- github copilot
+	{ import = "plugins.copilot" },
+	-- AI chat & code companion
+	-- { import = "plugins.codecompanion" },
+
+	----- Writing / Productivity -----
+	-- markdown preview in browser (LGTM)
+	{ import = "plugins.live_preview" },
+	-- LaTeX math preview
+	{ import = "plugins.nabla" },
+	-- simple todo & notepad
+	{ import = "plugins.dooing" },
+	-- comment highlight & search
+	{ import = "plugins.todo_comments" },
+	-- image paster
+	{ import = "plugins.img_clip" },
+
+	----- Utilities -----
+	-- collection of utility plugins
+	{ import = "plugins.mini" },
+	-- terminal integration
+	{ import = "plugins.toggleterm" },
+
+	----- Disabled / Unused -----
 	-- { import = "plugins.none_ls" },
-	-- collenction of utillity plugins. now use image only
-	-- disable: want to use wezterm, so now use markdown image preview in browser
 	-- { import = "plugins.snacks" },
-	-- inline image preview
-	-- disable: same as above
 	-- { import = "plugins.image" },
-	-- A plugin for synchronous operation with Obsidian
-	-- disable: no need
 	-- { import = "plugins.obsidian_bridge" },
-	-- ?
 	-- { import = "plugins.git_messanger" },
-	-- git tracker
 	-- { import = "plugins.wrapped" },
-	-- java
 	-- { import = "plugins.nvim_jdtls" },
-	-- highlight unique charactor in line to help `f` `F`...
 	-- { import = "plugins.quick_scope" },
+	-- { import = "plugins.nvim_notify" },
+	-- { import = "plugins.barbar" },
+	-- { import = "plugins.markdown_preview" },
+	-- { import = "plugins.render_markdown" },
+	-- { import = "plugins.markview" },
+	-- { import = "plugins.nvim_tree" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
