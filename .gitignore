@@ -19,3 +19,4 @@
 !README.md
 
 .DS_STORE
+.config/nvim/lua/plugins/copilot.lua
