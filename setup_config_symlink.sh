@@ -1,88 +1,86 @@
 #!/usr/bin/env bash
-# called shebang. determines how to execute this script
-# execute /usr/bin/env and env finds and execute bash
-# good for picking up bash even if its PATH is different
-
-# -e: exits the script immediately if a command exits an error
-# -u: treats undefined variables as an error
-# -o pipefall: sets the exit status of the entire pipeline to the status of last command to fall
+# コマンド失敗、未定義変数、パイプ途中失敗を即座にエラー扱いにする。
 set -euo pipefail
 
-# Apply symlink for the entire ~/.config to point at ~/dotfiles/.config
-# - Backs up existing ~/.config (if it's a directory or file) with timestamp
-# - Replaces existing symlink if it points elsewhere
-# - Verifies result
-#
-# Usage:
-#   chmod +x setup_config_symlink.sh
-#   ./setup_config_symlink.sh
-#
-# Optional env vars:
-#   DOTFILES_ROOT   (default: "$HOME/dotfiles")
-
-
-# --- Settings ---
-# "${VARS"-PATH"}" means set VARS to PATH if it isnt set
+# 呼び出し側で DOTFILES_ROOT が未指定なら ~/dotfiles を使う。
 DOTFILES_ROOT="${DOTFILES_ROOT:-$HOME/dotfiles}"
-# Now, add dotdir path here if you want to add symlink dotfiles considering safety
-DOTFILES_CONFIG_DIR="$DOTFILES_ROOT/.config"
-TARGET_CONFIG_DIR="$HOME/.config"
+# シンボリックリンクのリンク先として使うため、repo ルートを絶対パスに正規化する。
+SOURCE_ROOT="$(cd "$DOTFILES_ROOT" && pwd -P)"
 
-# --- Functions ---
+# HOME 直下へリンクしたい dotfile / dotdir をここに列挙する。
+TARGETS=(
+  # 各種アプリ設定をまとめた ~/.config を管理する。
+  ".config"
+  # bash のログインシェル用設定を管理する。
+  ".bash_profile"
+  # bash の通常設定を管理する。
+  ".bashrc"
+  # zsh の設定を管理する。
+  ".zshrc"
+  # ~/.codex も管理したくなったらコメントアウトを外す。
+  ".codex"
+)
+
+# 緑色の INFO ログを出す。
 msg() { echo -e "[\033[1;32mINFO\033[0m] $*"; }
+# 黄色の WARN ログを出す。
 warn() { echo -e "[\033[1;33mWARN\033[0m] $*"; }
+# 赤色の ERROR ログを出す。
 err() { echo -e "[\033[1;31mERROR\033[0m] $*"; }
 
-# --- Checks ---
-if [ ! -d "$DOTFILES_CONFIG_DIR" ]; then
-  err "Dotfiles .config directory not found: $DOTFILES_CONFIG_DIR"
-  err "Ensure your dotfiles are under: $DOTFILES_ROOT/.config"
-  exit 1
-fi
+# 既存のファイルやディレクトリを、タイムスタンプ付きで退避する。
+backup_target() {
+  # 退避対象のフルパスを受け取る。
+  local target_path="$1"
+  # 連続実行でも衝突しにくい backup 名を作る。
+  local backup_path="${target_path}.backup-$(date +%Y%m%d-%H%M%S)"
 
-# --- Backup existing ~/.config/nvim if present ---
-if [ -e "$TARGET_CONFIG_DIR" ] && [ ! -L "$TARGET_CONFIG_DIR" ]; then
-  ts=$(date '+%Y%m%d-%H%M%S')
-  backup="$HOME/.config.backup-$ts"
-  msg "Backing up existing ~/.config -> $backup"
-  mv "$TARGET_CONFIG_DIR" "$backup"
-elif [ -L "$TARGET_CONFIG_DIR" ]; then
-  current_target=$(readlink "$TARGET_CONFIG_DIR")
-  if [ "$current_target" = "$DOTFILES_CONFIG_DIR" ]; then
-    msg "Symlink already points to $DOTFILES_CONFIG_DIR. Nothing to do."
-    exit 0
-  else
-    warn "Existing ~/.config symlink points to: $current_target"
-    msg "Replacing symlink to point to $DOTFILES_CONFIG_DIR"
-    rm "$TARGET_CONFIG_DIR"
+  # 何をどこへ退避するのかを表示する。
+  warn "Existing $target_path found. Backing it up to $backup_path"
+  # 削除せず mv で退避して、元の内容を残す。
+  mv "$target_path" "$backup_path"
+}
+
+# allowlist にある 1 件分の symlink を作成する。
+link_target() {
+  # TARGETS に書いた相対パスを受け取る。
+  local relative_path="$1"
+  # repo 内のリンク元パスを組み立てる。
+  local source_path="$SOURCE_ROOT/$relative_path"
+  # HOME 配下のリンク先パスを組み立てる。
+  local target_path="$HOME/$relative_path"
+
+  # repo 側に対象がなければその場で失敗させる。
+  if [[ ! -e "$source_path" && ! -L "$source_path" ]]; then
+    err "Source not found in dotfiles repo: $source_path"
+    return 1
   fi
-fi
 
-# --- Create symlink ---
-msg "Creating symlink: $TARGET_CONFIG_DIR -> $DOTFILES_CONFIG_DIR"
-ln -s "$DOTFILES_CONFIG_DIR" "$TARGET_CONFIG_DIR"
+  # 既に正しい symlink なら何もせず終了する。
+  if [[ -L "$target_path" && "$(readlink "$target_path")" == "$source_path" ]]; then
+    msg "Already linked: $target_path -> $source_path"
+    return 0
+  fi
 
-# --- Verify ---
-resolved_target=$(readlink -f "$TARGET_CONFIG_DIR")
-resolved_source=$(readlink -f "$DOTFILES_CONFIG_DIR")
-if [ "$resolved_target" = "$resolved_source" ]; then
-  msg "Symlink created successfully: $TARGET_CONFIG_DIR -> $resolved_source"
-else
-  err "Symlink verification failed: $resolved_target != $resolved_source"
-  exit 1
-fi
+  # 通常ファイル、ディレクトリ、誤った symlink があれば先に退避する。
+  if [[ -e "$target_path" || -L "$target_path" ]]; then
+    backup_target "$target_path"
+  fi
 
-cat << 'EOF'
-Next steps:
-  1) Launch Neovim and verify the loaded init file:
-       :echo $MYVIMRC
-       :scriptnames
-  2) You should see something like:
-       $HOME/dotfiles/.config/nvim/init.lua
+  # repo 内の実体を指す symlink を HOME 配下に作る。
+  msg "Linking $target_path -> $source_path"
+  ln -s "$source_path" "$target_path"
 
-Tip:
-  - To revert, remove the symlink:
-       rm $HOME/.config/nvim
-    and restore your backup (if created):
-       mv $HOME/.config/nvim.backup-<timestamp> $HOME/.config/nvim
-EOF
+  # 作成後に readlink でリンク先を検証する。
+  if [[ -L "$target_path" && "$(readlink "$target_path")" == "$source_path" ]]; then
+    msg "Linked successfully: $target_path"
+  else
+    err "Symlink verification failed: $target_path"
+    return 1
+  fi
+}
+
+# 対象一覧を先頭から順に処理し、どれか 1 件でも失敗したらスクリプト全体を止める。
+for target in "${TARGETS[@]}"; do
+  link_target "$target"
+done
