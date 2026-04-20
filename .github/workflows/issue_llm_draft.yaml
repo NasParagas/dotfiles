@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v6
       - name: Generate draft with GitHub Models
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
-        uses: actions/checkout@v6
         run: |
           PROMPT=$(cat <<EOF
           以下のGitHub Issueを読んで、修正の叩き台を日本語のMarkdownで作成してください。
