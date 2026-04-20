@@ -1,0 +1,78 @@
+name: issue-llm-draft
+
+on:
+  issues:
+    # Issueにラベルがついたら起動
+    types: [labeled]
+
+# GITHUB_TOKENに与える権限...だそう
+permissions:
+  # modelsを使用できるように
+  models: read
+  # issueにコメントを書き込めるように
+  issues: write
+
+jobs:
+  draft:
+    if: github.event.label.name == 'llm-draft-fix'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate draft with GitHub Models
+        env:
+          # TOKENはGithub Actionsが自動で用意してくれるらしい。ありがとう
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # このeventの対象となったそれぞれ
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        # jq: jsonを扱うコマンド. -nで新しいjsonを組み立てる
+        # payload.jsonを作って、それをcurlで投げる
+        run: |
+          jq -n \
+            --arg title "$ISSUE_TITLE" \
+            --arg body "$ISSUE_BODY" \
+            '{
+              model: "openai/gpt-4o",
+              messages: [
+                {
+                  role: "system",
+                  content: "You are an assistant that creates draft fixes for GitHub issues. Do not make excessive assertions, and clearly state if any information is missing. Output in Japanese using Markdown format."
+                },
+                {
+                  role: "user",
+                  content:
+                    "Please read the following issue and create a draft for the fix.\n\n" +
+                    "Output format:\n" +
+                    "## Summary of the issue\n" +
+                    "## Potential causes\n" +
+                    "## Fix strategy\n" +
+                    "## Potential files to be modified\n" +
+                    "## Points to verify before implemention\n" +
+                    "## Missing information\n\n" +
+                    "Issue title:\n" + $title + "\n\n" +
+                    "Issue body:\n" + $body
+                }
+              ],
+              temperature: 0.3
+            }' > payload.json
+
+          curl -sS https://models.github.ai/inference/chat/completions \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -d @payload.json > response.json
+
+          jq -r '.choices[0].message.content' response.json > comment.md
+
+      - name: Comment on issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body-file comment.md
+
+      - name: Comment on issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body-file comment.md
