@@ -2,69 +2,54 @@ name: issue-llm-draft
 
 on:
   issues:
+    # Issueにラベルがついたら起動
     types: [labeled]
 
-permissions:
+permissions:  # Personal access tokesを作る時のpermissionと同じような感じかな
   models: read
   issues: write
 
 jobs:
   draft:
+    # label名で条件分け
     if: github.event.label.name == 'llm-draft-fix'
     runs-on: ubuntu-latest
 
     steps:
+        # これ入れないとリポジトリにアクセスできないらしい(runnner上にcloneしてこない?)
       - uses: actions/checkout@v6
       - name: Generate draft with GitHub Models
         env:
+          # actionsではその場限りのtokenを自動で作ってくれる
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           PROMPT=$(cat <<EOF
-          以下のGitHub Issueを読んで、修正の叩き台を日本語のMarkdownで作成してください。
-          断定しすぎず、不足情報があれば明示してください。
-
-          出力形式:
-          ## 問題の要約
-          ## 原因候補
-          ## 修正方針
-          ## 変更が必要そうなファイル候補
-          ## 実装前に確認すべき点
-          ## 不足している情報
-
+          以下のIssueを読んで、修正、変更の叩き台を日本語のMarkdownで作成してください。
           Issue title:
           $ISSUE_TITLE
-
           Issue body:
           $ISSUE_BODY
           EOF
           )
-
-          jq -n \
+          payload=$(jq -n \
             --arg prompt "$PROMPT" \
             '{
-              model: "openai/gpt-4o",
-              messages: [
-                {
-                  role: "system",
-                  content: "You are an assistant that creates draft fixes for GitHub issues. Output in Japanese using Markdown format. Do not make excessive assertions, and clearly state if any information is missing."
-                },
+              model: "openai/gpt-5-mini",
                 {
                   role: "user",
                   content: $prompt
                 }
               ],
-              temperature: 0.3
-            }' > payload.json
-
-          curl --fail-with-body -sS https://models.github.ai/inference/chat/completions \
-            -H "Content-Type: application/json" \
+            }'
+            )          
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -d @payload.json > response.json
-
+            -d "$payload" > response.json
           jq -r '.choices[0].message.content' response.json > comment.md
-
       - name: Comment on issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
