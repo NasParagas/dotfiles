@@ -37,17 +37,21 @@ jobs:
             --arg prompt "$PROMPT" \
             '{
               model: "openai/gpt-5-mini",
+              messages: [
                 {
                   role: "user",
                   content: $prompt
                 }
-              ],
+              ]
             }'
-            )          
+          )
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            -H "Content-Type: application/json" \
+            https://models.github.ai/inference/chat/completions \
             -d "$payload" > response.json
           jq -r '.choices[0].message.content' response.json > comment.md
       - name: Comment on issue
