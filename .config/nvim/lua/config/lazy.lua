@@ -77,7 +77,7 @@ require("lazy").setup({
 
 	----- AI Support -----
 	-- github copilot
-	{ import = "plugins.copilot" },
+	-- { import = "plugins.copilot" },
 	-- AI chat & code companion
 	-- { import = "plugins.codecompanion" },
 
@@ -85,7 +85,7 @@ require("lazy").setup({
 	-- markdown preview in browser (LGTM)
 	{ import = "plugins.live_preview" },
 	-- LaTeX math preview
-	{ import = "plugins.nabla" },
+	-- { import = "plugins.nabla" },
 	-- simple todo & notepad
 	{ import = "plugins.dooing" },
 	-- comment highlight & search
@@ -104,14 +104,14 @@ require("lazy").setup({
 	-- { import = "plugins.snacks" },
 	-- { import = "plugins.image" },
 	-- { import = "plugins.obsidian_bridge" },
-	-- { import = "plugins.git_messanger" },
+	{ import = "plugins.git_messanger" },
 	-- { import = "plugins.wrapped" },
 	-- { import = "plugins.nvim_jdtls" },
-	-- { import = "plugins.quick_scope" },
+	{ import = "plugins.quick_scope" },
 	-- { import = "plugins.nvim_notify" },
 	-- { import = "plugins.barbar" },
 	-- { import = "plugins.markdown_preview" },
-	-- { import = "plugins.render_markdown" },
+	{ import = "plugins.render_markdown" },
 	-- { import = "plugins.markview" },
 	-- { import = "plugins.nvim_tree" },
 }, {
