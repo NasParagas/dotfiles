@@ -1,13 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
 
-#=============================
-# Configurable variables
-#=============================
-: "${WORK_DIR:=${HOME}/ws}"         # Workspace directory (can be overridden)
-: "${BRANCH_NEOVIM:=stable}"        # Neovim branch: stable or master
-: "${DOTFILES_REPO:=https://github.com/NasParagas/dotfiles.git}"
+# configulation variable
+WORK_DIR="${WORK_DIR:-$HOME/ws}"
+BRANCH_NEOVIM="${BRANCH_NEOVIM:-master}"
+DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/NasParagas/dotfiles.git}"
+APT_PACKAGES=(
+    git curl ca-certificates build-essential
+    ninja-build gettext cmake unzip
+    llvm clang libclang-dev libssl-dev
+    pkg-config libtool autoconf automake
+    ripgrep
+)
+NPM_PACKAGES=(
+    pyright
+    typescript
+    typescript-language-server
+    yarn
+)
+
+# log setting
+info() { printf '\033[1;32m[INFO]\033[0m %s\n' "$*"; }
+error() { printf '\033[1;31m[ERROR]\033[0m %s\n' "$*" >&2; }
+
+require_sudo() {
+    command -
+}
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -19,12 +37,15 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 #=============================
 # Verify if sudo is available and prompt for password if needed
 if ! command -v sudo >/dev/null 2>&1; then
-  echo "Error: 'sudo' command not found. Please install sudo to run this script." >&2
-  exit 1
+    echo "Error: 'sudo' command not found. Please install sudo to run this script." >&2
+    exit 1
 fi
 
 # Ensure the user has sudo privileges
-sudo -v || { echo "Error: Sudo privileges are required to run this script." >&2; exit 1; }
+sudo -v || {
+    echo "Error: Sudo privileges are required to run this script." >&2
+    exit 1
+}
 
 mkdir -p "${WORK_DIR}"
 
@@ -37,9 +58,9 @@ sudo apt-get update -y
 
 # Install packages (--no-install-recommends for lightweight installation)
 sudo apt-get install -y --no-install-recommends \
-  git vim wget curl ca-certificates openssl build-essential unzip \
-  ninja-build gettext cmake llvm clang libclang-dev libssl-dev \
-  libopencv-dev openssh-server pkg-config libtool autoconf automake
+    git vim wget curl ca-certificates openssl build-essential unzip \
+    ninja-build gettext cmake llvm clang libclang-dev libssl-dev \
+    libopencv-dev openssh-server pkg-config libtool autoconf automake
 
 # Clear APT cache
 sudo rm -rf /var/lib/apt/lists/*
@@ -49,24 +70,24 @@ sudo rm -rf /var/lib/apt/lists/*
 #=============================
 # Install rustup non-interactively
 if [[ ! -x "${HOME}/.cargo/bin/rustc" ]]; then
-  # shellcheck disable=SC1117
-  curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y
+    # shellcheck disable=SC1117
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y
 fi
 
 # Load cargo environment for current shell
 if [[ -f "${HOME}/.cargo/env" ]]; then
-  # shellcheck disable=SC1090
-  source "${HOME}/.cargo/env"
+    # shellcheck disable=SC1090
+    source "${HOME}/.cargo/env"
 fi
 
 # Install tree-sitter CLI
 if ! command -v tree-sitter >/dev/null 2>&1; then
-  cargo install tree-sitter-cli || true
+    cargo install tree-sitter-cli || true
 fi
 
 # Add cargo to system-wide PATH (requires sudo)
 sudo install -d /etc/profile.d
-sudo tee /etc/profile.d/cargo_path.sh > /dev/null <<'EOF'
+sudo tee /etc/profile.d/cargo_path.sh >/dev/null <<'EOF'
 # cargo
 if [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
@@ -79,7 +100,7 @@ sudo chmod 644 /etc/profile.d/cargo_path.sh
 #=============================
 # Install nvm (installs to user's $HOME/.nvm)
 if [[ ! -d "${HOME}/.nvm" ]]; then
-  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 fi
 
 # Load nvm into current shell
@@ -112,6 +133,19 @@ npm -v
 # Since 'n' installed Node to /usr/local, global installations now need sudo
 sudo npm install -g pyright typescript typescript-language-server yarn
 
+# ===============================
+# Others
+# =============================
+# lazygit
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+LAZYGIT_ARCH=$(uname -m | sed -e 's/aarch64/arm64/')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_${LAZYGIT_ARCH}.tar.gz"
+tar xf lazygit.tar.gz lazygit
+sudo install lazygit -D -t /usr/local/bin/
+
+# ripgrep
+sudo apt-get install ripgrep
+
 #=============================
 # Neovim: Build and install from source
 #=============================
@@ -119,7 +153,7 @@ cd "${WORK_DIR}"
 
 # Clean up existing directory if present
 if [[ -d "${WORK_DIR}/neovim" ]]; then
-  rm -rf "${WORK_DIR}/neovim"
+    rm -rf "${WORK_DIR}/neovim"
 fi
 
 git clone https://github.com/neovim/neovim --branch "${BRANCH_NEOVIM}" --depth 1
@@ -140,19 +174,19 @@ rm -rf "${WORK_DIR}/neovim"
 cd "${WORK_DIR}"
 
 if [[ -d "${WORK_DIR}/dotfiles" ]]; then
-  # Pull updates if directory exists
-  cd "${WORK_DIR}/dotfiles"
-  git pull --rebase --autostash || true
+    # Pull updates if directory exists
+    cd "${WORK_DIR}/dotfiles"
+    git pull --rebase --autostash || true
 else
-  git clone "${DOTFILES_REPO}"
-  cd "${WORK_DIR}/dotfiles"
+    git clone "${DOTFILES_REPO}"
+    cd "${WORK_DIR}/dotfiles"
 fi
 
 # Run setup script (now runs as the regular user, linking to user's $HOME)
 if [[ -x "./setup_config_symlink.sh" ]]; then
-  ./setup_config_symlink.sh
+    ./setup_config_symlink.sh
 else
-  echo "WARN: setup_config_symlink.sh not found or not executable in dotfiles repo." >&2
+    echo "WARN: setup_config_symlink.sh not found or not executable in dotfiles repo." >&2
 fi
 
 cd "${WORK_DIR}"
@@ -161,7 +195,7 @@ cd "${WORK_DIR}"
 # Finish: Persist environment variables
 #=============================
 # Auto-load nvm on login (requires sudo to write to /etc/profile.d)
-sudo tee /etc/profile.d/nvm.sh > /dev/null <<'EOF'
+sudo tee /etc/profile.d/nvm.sh >/dev/null <<'EOF'
 export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
   . "$NVM_DIR/nvm.sh"
