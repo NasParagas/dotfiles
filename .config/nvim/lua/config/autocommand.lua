@@ -29,9 +29,9 @@ end, { desc = "Insert HTML details and summary tags" })
 
 ----- file setting -----
 -- all
--- tabをスペースに変換
+-- tab → spave
 vim.opt.expandtab = true
--- tabの幅を4スペースに設定
+-- tabの幅をspace 4つに
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.smartindent = true
@@ -49,12 +49,10 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "markdown",
 	callback = function()
-		-- Enter in insert mode
+		----- リスト関連の設定 -----
+		-- "- "とかでenterを押した時、下の行でも"- "と自動入力
 		vim.opt_local.formatoptions:append("r")
-		-- "o" and "O" in normal mode
 		vim.opt_local.formatoptions:append("o")
-		-- b=blank required
-		-- "- "とかでenterを押した時、それをその下の行でも続ける
 		vim.opt_local.comments = "b:-,b:*,b:+,n:>"
 		-- shift enter でリスト化しない
 		vim.keymap.set("i", "<S-Enter>", "<CR><Esc>S", { buffer = true, remap = false })
@@ -96,30 +94,29 @@ vim.api.nvim_create_autocmd("FileType", {
 			end
 		end, { buffer = true, desc = "Follow Markdown link (and create it if not exists)" })
 
-		----- 【ここから追加】空のリストでEnterを押した時にリストを解除する -----
-		vim.keymap.set("i", "<CR>", function()
-			-- 現在の行のテキストと、カーソルの列番号を取得
-			local line = vim.api.nvim_get_current_line()
-			local col = vim.api.nvim_win_get_cursor(0)[2]
-
-			-- カーソルより前の文字列を取得
-			local before_cursor = line:sub(1, col)
-
-			-- カーソルより前が「リスト記号＋スペース」のみか判定
-			-- ( -, *, +, >, または 1. などの数字リストに対応 )
-			if
-				before_cursor:match("^%s*[-*+]%s+$")
-				or before_cursor:match("^%s*>%s+$")
-				or before_cursor:match("^%s*%d+%.%s+$")
-			then
-				-- <C-u> を返すことで、行の先頭まで（＝リスト記号を）一気に削除する
-				-- これによりCodiMDのように「記号が消えてそのままの行に残る」挙動になる
-				return "<C-u><CR>"
-			end
-
-			-- リスト記号のみでない場合は、通常のEnter（改行してリスト継続）として振る舞う
-			return "<CR>"
-		end, { buffer = true, expr = true, replace_keycodes = true, desc = "Break markdown list on empty item" })
-		----- 【追加ここまで】 -----
+		-- ----- 空のリストでEnterを押した時にリストを解除する -----
+		-- vim.keymap.set("i", "<CR>", function()
+		-- 	-- 現在の行のテキストと、カーソルの列番号を取得
+		-- 	local line = vim.api.nvim_get_current_line()
+		-- 	local col = vim.api.nvim_win_get_cursor(0)[2]
+		--
+		-- 	-- カーソルより前の文字列を取得
+		-- 	local before_cursor = line:sub(1, col)
+		--
+		-- 	-- カーソルより前が「リスト記号＋スペース」のみか判定
+		-- 	-- ( -, *, +, >, または 1. などの数字リストに対応 )
+		-- 	if
+		-- 		before_cursor:match("^%s*[-*+]%s+$")
+		-- 		or before_cursor:match("^%s*>%s+$")
+		-- 		or before_cursor:match("^%s*%d+%.%s+$")
+		-- 	then
+		-- 		-- <C-u> を返すことで、行の先頭まで（＝リスト記号を）一気に削除する
+		-- 		-- これによりCodiMDのように「記号が消えてそのままの行に残る」挙動になる
+		-- 		return "<C-u><CR>"
+		-- 	end
+		--
+		-- 	-- リスト記号のみでない場合は、通常のEnter（改行してリスト継続）として振る舞う
+		-- 	return "<CR>"
+		-- end, { buffer = true, expr = true, replace_keycodes = true, desc = "Break markdown list on empty item" })
 	end,
 })
