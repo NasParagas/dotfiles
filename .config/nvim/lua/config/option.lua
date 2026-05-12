@@ -2,74 +2,57 @@
 -- See `:help vim.o
 -- see `:help option-list`
 
--- ファイル全体から見た行番号表示
+-- Display absolute line numbers.
 vim.o.number = true
--- カーソル一からの相対行番号の表示
+
+-- Display relative line numbers from the corsor line.
 vim.o.relativenumber = true
 
--- 外部でファイルが更新されたら自動更新
+-- Automatically reload files when changed outside neovim
 vim.opt.autoread = true
 
--- swapファイルを作成しない
+-- Create swap file
 vim.opt.swapfile = false
 
--- Sync clipboard between OS and Neovim.
---  See `:help 'clipboard'`
-vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
-	-- vim.g.clipboard = {
-	-- 	name = "OSC 52",
-	-- 	copy = {
-	-- 		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-	-- 		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-	-- 	},
-	-- 	paste = {
-	-- 		["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-	-- 		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-	-- 	},
-	-- }
-end)
-
--- Enable break indent
+-- Preserve indentation for wrapped lines
 vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+-- Ignore case in search unless the pattern contains uppercase or setting \C
+-- \C: case-sensitive search
+-- \c: case-insansitive search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Keep signcolumn on by default
 vim.o.signcolumn = "yes"
 
--- Configure how new splits should be opened
+-- Configure how new split pane should be opened
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-options-guide`
+-- Show invisible whitespave chars
 vim.o.list = true
+-- Difine symbols
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
--- Preview substitutions live, as you type!
+-- Preview substitutions live while typing
 vim.o.inccommand = "split"
 
 -- Minimal number of screen lines to keep above and below the cursor.
--- vim.o.scrolloff = 20
+vim.o.scrolloff = 8
+-- Left and Right
+vim.o.sidescrolloff = 8
 
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
--- See `:help 'confirm'`
+-- Ask whether to save changes before :q, :e, etc.
 vim.o.confirm = true
 
--- タブ関連の設定
--- vim.opt.tabstop = 2 -- タブ文字の表示幅
--- vim.opt.shiftwidth = 2 -- 自動インデント幅
-vim.opt.expandtab = true -- タブをスペースに変換
+-- Convert tab to space
+vim.opt.expandtab = true
+
+-- Sync clipboard between OS and Neovim.
+vim.schedule(function()
+	vim.o.clipboard = "unnamedplus"
+end)
