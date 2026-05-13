@@ -10,7 +10,7 @@ APT_PACKAGES=(
     ninja-build gettext cmake unzip
     llvm clang libclang-dev libssl-dev
     pkg-config libtool autoconf automake
-    ripgrep
+    ripgrep bat eza
 )
 NPM_PACKAGES=(
     pyright
