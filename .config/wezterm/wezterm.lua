@@ -43,54 +43,65 @@ config.hide_mouse_cursor_when_typing = true
 
 -- keymaps
 config.keys = {
-	-- split pane
-	{
-		key = "e",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "o",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
-	-- close pane
-	{
-		key = "w",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.CloseCurrentPane({ confirm = true }),
-	},
-	-- move on pane
-	{
-		key = "h",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "j",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "k",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "l",
-		mods = "SHIFT|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Right"),
-	},
-	{
-		key = "q",
-		mods = "CTRL|SHIFT",
-		action = wezterm.action.QuickSelect,
-	},
-	{
-		key = "Enter",
-		mods = "CTRL|SHIFT",
-		action = wezterm.action.ActivateCopyMode,
-	},
+	-- -- split pane
+	-- {
+	-- 	key = "e",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	-- },
+	-- {
+	-- 	key = "o",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	-- },
+	-- -- close pane
+	-- {
+	-- 	key = "w",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.CloseCurrentPane({ confirm = true }),
+	-- },
+	-- -- move on pane
+	-- {
+	-- 	key = "h",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.ActivatePaneDirection("Left"),
+	-- },
+	-- {
+	-- 	key = "j",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.ActivatePaneDirection("Down"),
+	-- },
+	-- {
+	-- 	key = "k",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.ActivatePaneDirection("Up"),
+	-- },
+	-- {
+	-- 	key = "l",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.ActivatePaneDirection("Right"),
+	-- },
+	-- -- resize pane
+	-- {
+	-- 	key = "-",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
+	-- },
+	-- {
+	-- 	key = "+",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+	-- },
+	-- {
+	-- 	key = "q",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = wezterm.action.QuickSelect,
+	-- },
+	-- {
+	-- 	key = "Enter",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = wezterm.action.ActivateCopyMode,
+	-- },
 }
 
 return config
