@@ -14,5 +14,3 @@ This file configure plugins by lazy.nvim.
 ## lsp/
 This directory contains LSP setting files
 
-## after/
-`after/` directory load after normal ftplugin(filetype plugin).
