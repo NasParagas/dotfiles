@@ -52,6 +52,9 @@ vim.o.confirm = true
 -- Convert tab to space.
 -- NOTE: Other releted settings is configured in each filetype setting files.
 vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.smartindent = true
 
 -- Sync clipboard between OS and Neovim.
 vim.schedule(function()
