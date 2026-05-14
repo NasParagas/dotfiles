@@ -5,7 +5,7 @@
 -- Display absolute line numbers.
 vim.o.number = true
 
--- Display relative line numbers from the corsor line.
+-- Display relative line numbers from the cursor line.
 vim.o.relativenumber = true
 
 -- Automatically reload files when changed outside neovim
@@ -22,7 +22,7 @@ vim.o.undofile = true
 
 -- Ignore case in search unless the pattern contains uppercase or setting \C
 -- \C: case-sensitive search
--- \c: case-insansitive search
+-- \c: case-insensitive search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
@@ -49,7 +49,8 @@ vim.o.sidescrolloff = 8
 -- Ask whether to save changes before :q, :e, etc.
 vim.o.confirm = true
 
--- Convert tab to space
+-- Convert tab to space.
+-- NOTE: Other releted settings is configured in each filetype setting files.
 vim.opt.expandtab = true
 
 -- Sync clipboard between OS and Neovim.
