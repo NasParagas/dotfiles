@@ -17,6 +17,7 @@
 !setup_config_symlink.sh
 !environment_setup.sh
 !README.md
+!CONTRIBUTING.md
 
 .DS_STORE
 .config/nvim/lua/plugins/copilot.lua
