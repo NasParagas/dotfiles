@@ -1,31 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# configulation variable
-WORK_DIR="${WORK_DIR:-$HOME/ws}"
+### configulation variable ###
+# stable or master
 BRANCH_NEOVIM="${BRANCH_NEOVIM:-master}"
 DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/NasParagas/dotfiles.git}"
+# Apt packages we want to install
 APT_PACKAGES=(
-    git curl ca-certificates build-essential
-    ninja-build gettext cmake unzip
-    llvm clang libclang-dev libssl-dev
-    pkg-config libtool autoconf automake
-    ripgrep bat eza
+    # Mandantry packages
+    git
+    curl
+    vim
+    wget
+    ca-certificates
+    build-essential
+
+    # for neovim build
+    ninja-build
+    cmake
+    gettext
 )
+# Same npm
 NPM_PACKAGES=(
-    pyright
-    typescript
-    typescript-language-server
+    # TODO: for what?
     yarn
 )
-
-# log setting
-info() { printf '\033[1;32m[INFO]\033[0m %s\n' "$*"; }
-error() { printf '\033[1;31m[ERROR]\033[0m %s\n' "$*" >&2; }
-
-require_sudo() {
-    command -
-}
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -47,8 +46,6 @@ sudo -v || {
     exit 1
 }
 
-mkdir -p "${WORK_DIR}"
-
 #=============================
 # APT: Install base packages
 #=============================
@@ -57,10 +54,7 @@ sudo apt-get clean
 sudo apt-get update -y
 
 # Install packages (--no-install-recommends for lightweight installation)
-sudo apt-get install -y --no-install-recommends \
-    git vim wget curl ca-certificates openssl build-essential unzip \
-    ninja-build gettext cmake llvm clang libclang-dev libssl-dev \
-    libopencv-dev openssh-server pkg-config libtool autoconf automake
+sudo apt-get install -y --no-install-recommends "${APT_PACKAGES[@]}"
 
 # Clear APT cache
 sudo rm -rf /var/lib/apt/lists/*
@@ -131,7 +125,7 @@ npm -v
 # (Optional) LSP / Tools
 #=============================
 # Since 'n' installed Node to /usr/local, global installations now need sudo
-sudo npm install -g pyright typescript typescript-language-server yarn
+sudo npm install -g "${NPM_PACKAGES[@]}"
 
 # ===============================
 # Others
@@ -149,11 +143,11 @@ sudo apt-get install ripgrep
 #=============================
 # Neovim: Build and install from source
 #=============================
-cd "${WORK_DIR}"
+cd "${HOME}"
 
 # Clean up existing directory if present
-if [[ -d "${WORK_DIR}/neovim" ]]; then
-    rm -rf "${WORK_DIR}/neovim"
+if [[ -d "${HOME}/neovim" ]]; then
+    rm -rf "${HOME}/neovim"
 fi
 
 git clone https://github.com/neovim/neovim --branch "${BRANCH_NEOVIM}" --depth 1
@@ -165,21 +159,21 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 
 # Remove source to save space
-cd "${WORK_DIR}"
-rm -rf "${WORK_DIR}/neovim"
+cd "${HOME}"
+rm -rf "${HOME}/neovim"
 
 #=============================
 # dotfiles: Fetch and symlink
 #=============================
-cd "${WORK_DIR}"
+cd "${HOME}"
 
-if [[ -d "${WORK_DIR}/dotfiles" ]]; then
+if [[ -d "${HOME}/dotfiles" ]]; then
     # Pull updates if directory exists
-    cd "${WORK_DIR}/dotfiles"
+    cd "${HOME}/dotfiles"
     git pull --rebase --autostash || true
 else
     git clone "${DOTFILES_REPO}"
-    cd "${WORK_DIR}/dotfiles"
+    cd "${HOME}/dotfiles"
 fi
 
 # Run setup script (now runs as the regular user, linking to user's $HOME)
@@ -189,7 +183,7 @@ else
     echo "WARN: setup_config_symlink.sh not found or not executable in dotfiles repo." >&2
 fi
 
-cd "${WORK_DIR}"
+cd "${HOME}"
 
 #=============================
 # Finish: Persist environment variables
