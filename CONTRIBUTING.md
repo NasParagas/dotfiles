@@ -21,7 +21,7 @@ For issue-based work, create one branch per issue.
     - `refactor` for behavior-preserving restructuring
 - Example
   - `fix-123`
-  - `doc-111`
+  - `docs-111`
 
 ### Pull requests:
 
