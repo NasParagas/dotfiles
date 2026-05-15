@@ -1,29 +1,17 @@
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
 -- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
--- Diagnostic keymaps
+-- Open diagnostic
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
--- jkでinsert -> normal
--- vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
-
--- ターミナルモードで <Esc> を押したらノーマルモードに戻る
+-- Change to normal mode from terminal mode
 vim.keymap.set("t", "<C-Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- ありえないぐらい間違えるので無効化
+-- Disable <C-z>
 vim.keymap.set({ "n", "v", "s", "o", "i", "t" }, "<C-z>", "<nop>", { noremap = true, silent = true })
-
------ buffer -----
