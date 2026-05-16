@@ -1,6 +1,7 @@
 # white-list
 *
-
+!.github/
+!.github/pull_request_template.md
 !.gitignore
 !.bashrc
 !.bash_profile
@@ -18,6 +19,7 @@
 !environment_setup.sh
 !README.md
 !CONTRIBUTING.md
+!AGENTS.md
 
 .DS_STORE
 .config/nvim/lua/plugins/copilot.lua
