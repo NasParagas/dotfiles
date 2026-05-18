@@ -127,12 +127,14 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # ???
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 
-# neovim for mac
-# export PATH="/opt/nvim-macos-arm64/bin:$PATH"
+# neovim
 export PATH="$PATH:$HOME/neovim/build/bin/nvim"
 
+# neovim for mac
+# export PATH="/opt/nvim-macos-arm64/bin:$PATH"
+
 # neovim for linux
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+# export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 # Rust
 . "$HOME/.cargo/env"
