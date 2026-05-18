@@ -1,42 +1,38 @@
 # dotfiles
 
-This dotfiles 
+(改修中)
 
-## Prerequisites
-- `git`
+## Purpose
 
-```sh
-sudo apt update
-sudo apt install git
-```
+The purpose of this dotfile is to reproduce the environment within the scope of what can be completed by a script.
 
-- Other required packages are installed execute `./environment_setup.sh`
-  - `deno`
-  - `Rust`
-  - `node.js`
-  - `treesitter-cli`
+## Target Environment
+
+| Component | Role                 | Status    | Config / Docs      |
+|-----------|----------------------|-----------|--------------------|
+| Neovim    | Editor               | Supported | `doc/neovim.md`    |
+| WezTerm(config)   | Terminal emulator    | Planned   | `doc/wezterm.md`   |
+| AeroSpace(config) | macOS window manager | Planned   | `doc/aerospace.md` |
+| Codex CLI | Coding agent CLI     | Planned   | `doc/codex_cli.md` |
+
 
 ## Setup
 
-```sh
-git clone https://github.com/NasParagas/dotfiles.git
-./environment_setup.sh
-```
+TODO
+On mac, see `doc/setup_mac.md`, on Ubuntu, see `doc/setup_ubuntu.md`.
 
-## 注意
-- windows+weztermでwslにdotfileのsetupを行う場合、windows側のweztermのプロパティに`--config-file`を設定する必要あり
+## Major Dependencies
 
-## 使用環境
-- wezterm(bash)
-- neovim
+These tools may be installed during bootstrap, depending on the platform.
 
-## neovim tips
-
-### clangd
-- 以下のようにして、clangdに対してコンパイル使った情報を伝える
-```sh
- cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S . -B build
- mv build/compile_commands.json .
- 
-```
+| Dependency      | Purpose                                  | Installed by      | Notes                                            |
+|-----------------|------------------------------------------|-------------------|--------------------------------------------------|
+| Git             | clone/update dotfiles                    | apt               | required                                         |
+| curl / wget     | download installers and releases         | apt               | required                                         |
+| Rust / Cargo    | install Rust-based tools                 | rustup            | used for `tree-sitter-cli` and development       |
+| Node.js / npm   | JS tooling and Neovim ecosystem tools    | nvm / n           | required. currently installs Node 24             |
+| tree-sitter-cli | parser tooling for Neovim                | cargo             |                                                  |
+| lazygit         | Git TUI used from shell/Neovim           | Source build      | installed to `/usr/local/bin`                    |
+| ripgrep         | fast search used by shell/Neovim plugins | apt               |                                                  |
+| Deno            | JS/TS runtime                            | not automated yet | mark as planned/manual unless script installs it |
 
