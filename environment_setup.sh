@@ -163,29 +163,6 @@ cd "${HOME}"
 rm -rf "${HOME}/neovim"
 
 #=============================
-# dotfiles: Fetch and symlink
-#=============================
-cd "${HOME}"
-
-if [[ -d "${HOME}/dotfiles" ]]; then
-    # Pull updates if directory exists
-    cd "${HOME}/dotfiles"
-    git pull --rebase --autostash || true
-else
-    git clone "${DOTFILES_REPO}"
-    cd "${HOME}/dotfiles"
-fi
-
-# Run setup script (now runs as the regular user, linking to user's $HOME)
-if [[ -x "./setup_config_symlink.sh" ]]; then
-    ./setup_config_symlink.sh
-else
-    echo "WARN: setup_config_symlink.sh not found or not executable in dotfiles repo." >&2
-fi
-
-cd "${HOME}"
-
-#=============================
 # Finish: Persist environment variables
 #=============================
 # Auto-load nvm on login (requires sudo to write to /etc/profile.d)
