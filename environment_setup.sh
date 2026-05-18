@@ -158,10 +158,6 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo
 # Installation requires root privileges
 sudo make install
 
-# Remove source to save space
-cd "${HOME}"
-rm -rf "${HOME}/neovim"
-
 #=============================
 # Finish: Persist environment variables
 #=============================
