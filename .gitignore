@@ -16,7 +16,8 @@
 !.config/ghostty
 !.config/ghostty/**
 !setup_config_symlink.sh
-!environment_setup.sh
+!environment_setup_for_host_ubuntu.sh
+!environment_setup_for_docker_ubuntu.sh
 !README.md
 !CONTRIBUTING.md
 !AGENTS.md
