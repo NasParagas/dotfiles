@@ -128,7 +128,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 
 # neovim
-export PATH="$PATH:$HOME/neovim/build/bin/nvim"
+export PATH="$PATH:$HOME/neovim/build/bin"
 
 # neovim for mac
 # export PATH="/opt/nvim-macos-arm64/bin:$PATH"
