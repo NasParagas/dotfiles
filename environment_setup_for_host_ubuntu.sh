@@ -117,6 +117,15 @@ nvm install 24
 #=============================
 npm install -g "${NPM_PACKAGES[@]}"
 
+#=============================
+# uv
+#=============================
+export PATH="${HOME}/.local/bin:${PATH}"
+if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+fi
+uv --version
+
 #===============================
 # Others
 #=============================
