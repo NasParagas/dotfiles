@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ### configulation variable ###
-# stable or master
-BRANCH_NEOVIM="${BRANCH_NEOVIM:-stable}"
+NEOVIM_VERSION="${NEOVIM_VERSION:-0.12.1}"
+NEOVIM_TAG="v${NEOVIM_VERSION#v}"
 # These packages will be installed
 APT_PACKAGES=(
     # Mandantry packages
@@ -148,13 +148,13 @@ sudo install -m 0755 "${LAZYGIT_TMP_DIR}/lazygit" /usr/local/bin/lazygit
 NEOVIM_DIR="${HOME}/neovim"
 
 if [[ -d "${NEOVIM_DIR}/.git" ]]; then
-    git -C "${NEOVIM_DIR}" fetch --depth 1 origin "${BRANCH_NEOVIM}"
-    git -C "${NEOVIM_DIR}" checkout -B "${BRANCH_NEOVIM}" FETCH_HEAD
+    git -C "${NEOVIM_DIR}" fetch --depth 1 origin "refs/tags/${NEOVIM_TAG}:refs/tags/${NEOVIM_TAG}"
+    git -C "${NEOVIM_DIR}" checkout --detach "${NEOVIM_TAG}"
 elif [[ -e "${NEOVIM_DIR}" ]]; then
     echo "Error: ${NEOVIM_DIR} exists but is not a git repository." >&2
     exit 1
 else
-    git clone https://github.com/neovim/neovim --branch "${BRANCH_NEOVIM}" --depth 1 "${NEOVIM_DIR}"
+    git clone https://github.com/neovim/neovim --branch "${NEOVIM_TAG}" --depth 1 "${NEOVIM_DIR}"
 fi
 
 cd "${NEOVIM_DIR}"
