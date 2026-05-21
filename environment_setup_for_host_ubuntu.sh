@@ -111,6 +111,10 @@ export NVM_DIR="${HOME}/.nvm"
 
 # Install Node v24 via nvm
 nvm install 24
+# Install Node via nvm
+nvm install "${NODE_VERSION}"
+nvm alias default "${NODE_VERSION}"
+nvm use "${NODE_VERSION}"
 
 #=============================
 # (Optional) LSP / Tools
