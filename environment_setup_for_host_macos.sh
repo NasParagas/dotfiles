@@ -55,6 +55,16 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
     exit 1
 fi
 
+if ! xcode-select -p >/dev/null 2>&1; then
+    echo "Error: Xcode Command Line Tools are required. Run: xcode-select --install" >&2
+    exit 1
+fi
+
+if ! xcrun --find clang >/dev/null 2>&1; then
+    echo "Error: clang from Xcode Command Line Tools was not found. Run: xcode-select --install" >&2
+    exit 1
+fi
+
 if ! command -v brew >/dev/null 2>&1; then
     echo "Error: Homebrew is required. Install it from https://brew.sh/ and rerun this script." >&2
     exit 1
