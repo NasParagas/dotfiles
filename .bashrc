@@ -179,6 +179,18 @@ else
     warn_missing "user-local environment file not found: $HOME/.local/bin/env"
 fi
 
+# Node.js via nvm. Node-based LSP servers such as bash-language-server depend on this.
+export NVM_DIR="$HOME/.nvm"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    # shellcheck source=/dev/null
+    . "$NVM_DIR/nvm.sh"
+    if ! command -v node >/dev/null 2>&1; then
+        warn_missing "node is not available after loading nvm"
+    fi
+else
+    warn_missing "nvm is not installed: $NVM_DIR/nvm.sh"
+fi
+
 # uv
 if command -v uv >/dev/null 2>&1; then
     eval "$(uv generate-shell-completion bash)"
