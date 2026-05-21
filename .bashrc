@@ -1,4 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
+# shellcheck shell=bash
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -36,7 +37,9 @@ case "$os_name" in
         export BASH_SILENCE_DEPRECATION_WARNING=1
 
         # "notes" alias for iCloud notes.
-        alias notes="cd '${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes'"
+        notes() {
+            cd "${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes" || return
+        }
         ;;
     Linux)
         # make less more friendly for non-text input files, see lesspipe(1)
@@ -49,7 +52,11 @@ case "$os_name" in
 
         # enable color support of ls and also add handy aliases
         if [ -x /usr/bin/dircolors ]; then
-            test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+            if [ -r ~/.dircolors ]; then
+                eval "$(dircolors -b ~/.dircolors)"
+            else
+                eval "$(dircolors -b)"
+            fi
             alias ls='ls --color=auto'
             #alias dir='dir --color=auto'
             #alias vdir='vdir --color=auto'
@@ -74,8 +81,10 @@ case "$os_name" in
         # sources /etc/bash.bashrc).
         if ! shopt -oq posix; then
           if [ -f /usr/share/bash-completion/bash_completion ]; then
+            # shellcheck source=/dev/null
             . /usr/share/bash-completion/bash_completion
           elif [ -f /etc/bash_completion ]; then
+            # shellcheck source=/dev/null
             . /etc/bash_completion
           fi
         fi
@@ -137,6 +146,7 @@ alias l='ls -CF'
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
+    # shellcheck source=/dev/null
     . ~/.bash_aliases
 fi
 
@@ -154,13 +164,14 @@ export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$
 
 # neovim built from source
 if [ -d "$HOME/neovim/build/bin" ]; then
-    export PATH="$PATH:$HOME/neovim/build/bin"
+    export PATH="$HOME/neovim/build/bin:$PATH"
 else
     warn_missing "Neovim build path not found: $HOME/neovim/build/bin"
 fi
 
 # Rust
 if [ -r "$HOME/.cargo/env" ]; then
+    # shellcheck source=/dev/null
     . "$HOME/.cargo/env"
 else
     warn_missing "Rust environment file not found: $HOME/.cargo/env"
@@ -174,6 +185,7 @@ else
 fi
 
 if [ -r "$HOME/.local/bin/env" ]; then
+    # shellcheck source=/dev/null
     . "$HOME/.local/bin/env"
 else
     warn_missing "user-local environment file not found: $HOME/.local/bin/env"
