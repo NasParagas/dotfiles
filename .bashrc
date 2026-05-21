@@ -23,17 +23,68 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+os_name="$(uname -s)"
+
+is_wsl() {
+    [[ -n "${WSL_DISTRO_NAME:-}" || -n "${WSL_INTEROP:-}" ]] && return 0
+    grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null
+}
+
+case "$os_name" in
+    Darwin)
+        # macOS shows a default-shell migration warning when Bash is used.
+        export BASH_SILENCE_DEPRECATION_WARNING=1
+
+        # "notes" alias for iCloud notes.
+        alias notes="cd '${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes'"
+        ;;
+    Linux)
+        # make less more friendly for non-text input files, see lesspipe(1)
+        [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+        # set variable identifying the chroot you work in (used in the prompt below)
+        if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+            debian_chroot=$(cat /etc/debian_chroot)
+        fi
+
+        # enable color support of ls and also add handy aliases
+        if [ -x /usr/bin/dircolors ]; then
+            test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+            alias ls='ls --color=auto'
+            #alias dir='dir --color=auto'
+            #alias vdir='vdir --color=auto'
+
+            alias grep='grep --color=auto'
+            alias fgrep='fgrep --color=auto'
+            alias egrep='egrep --color=auto'
+        fi
+
+        if is_wsl; then
+            # Usually unnecessary: WezTerm searches ~/.config/wezterm/wezterm.lua by default.
+            # export WEZTERM_CONFIG_FILE="$HOME/.config/wezterm/wezterm.lua"
+            :
+        elif command -v notify-send >/dev/null 2>&1; then
+            # Add an "alert" alias for long running commands.  Use like so:
+            #   sleep 10; alert
+            alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+        fi
+
+        # enable programmable completion features (you don't need to enable
+        # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+        # sources /etc/bash.bashrc).
+        if ! shopt -oq posix; then
+          if [ -f /usr/share/bash-completion/bash_completion ]; then
+            . /usr/share/bash-completion/bash_completion
+          elif [ -f /etc/bash_completion ]; then
+            . /etc/bash_completion
+          fi
+        fi
+        ;;
+esac
+
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
@@ -72,18 +123,6 @@ xterm*|rxvt*)
     ;;
 esac
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
@@ -91,10 +130,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -105,49 +140,48 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
 #############
-# kokokara
+# user setting
 #############
 echo "hello from .bashrc"
 
-# ???
-export BASH_SILENCE_DEPRECATION_WARNING=1
+warn_missing() {
+    printf '[WARN] .bashrc: %s\n' "$*" >&2
+}
 
-# ???
+# Use a compact colored prompt for interactive shells.
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 
-# neovim
-export PATH="$PATH:$HOME/neovim/build/bin"
-
-# neovim for mac
-# export PATH="/opt/nvim-macos-arm64/bin:$PATH"
-
-# neovim for linux
-# export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+# neovim built from source
+if [ -d "$HOME/neovim/build/bin" ]; then
+    export PATH="$PATH:$HOME/neovim/build/bin"
+else
+    warn_missing "Neovim build path not found: $HOME/neovim/build/bin"
+fi
 
 # Rust
-. "$HOME/.cargo/env"
-. "$HOME/.local/bin/env"
+if [ -r "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+else
+    warn_missing "Rust environment file not found: $HOME/.cargo/env"
+fi
+
+# User-local executable path
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+else
+    warn_missing "user-local bin directory not found: $HOME/.local/bin"
+fi
+
+if [ -r "$HOME/.local/bin/env" ]; then
+    . "$HOME/.local/bin/env"
+else
+    warn_missing "user-local environment file not found: $HOME/.local/bin/env"
+fi
 
 # uv
-eval "$(uv generate-shell-completion bash)"
-
-# wezterm config file path
-export WEZTERM_CONFIG_FILE="~/.config/wezterm/"
-
-# ???
-export PATH="$HOME/.local/bin:$PATH"
-
-# "notes" alias for icloud notes
-alias notes="cd '${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes'"
+if command -v uv >/dev/null 2>&1; then
+    eval "$(uv generate-shell-completion bash)"
+else
+    warn_missing "uv is not installed; shell completion skipped"
+fi
