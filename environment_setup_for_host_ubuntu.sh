@@ -38,6 +38,11 @@ APT_PACKAGES=(
     gettext
     unzip
 
+    # for treesitter-cli
+    clang
+    libclang-dev
+    libc6-dev
+
     # for neovim plugins and Mason installers
     ripgrep
 
