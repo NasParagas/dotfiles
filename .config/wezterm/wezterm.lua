@@ -3,7 +3,9 @@ local wezterm = require("wezterm")
 -- reload when update config
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
-config.default_prog = { "/bin/bash", "-l" }
+if not wezterm.target_triple:find("windows") then
+	config.default_prog = { "/bin/bash", "-l" }
+end
 
 -- font setting
 config.font_size = 13
