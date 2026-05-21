@@ -5,7 +5,6 @@
 !.gitignore
 !.bashrc
 !.bash_profile
-!.zshrc
 !.config
 !.config/nvim/
 !.config/nvim/**
