@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-### configulation variable ###
-NEOVIM_VERSION="${NEOVIM_VERSION:-0.12.1}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=/dev/null
+source "${SCRIPT_DIR}/versions.sh"
+
+### configuration variable ###
 NEOVIM_TAG="v${NEOVIM_VERSION#v}"
 # These packages will be installed
 APT_PACKAGES=(
@@ -28,7 +31,7 @@ APT_PACKAGES=(
     fontconfig
 )
 NPM_PACKAGES=(
-    # TODO: for what?
+    # JavaScript package manager used by some development workflows.
     yarn
 )
 
@@ -77,13 +80,18 @@ fi
 
 # Load cargo environment for current shell
 if [[ -f "${HOME}/.cargo/env" ]]; then
-    # shellcheck disable=SC1090
+    # shellcheck source=/dev/null
     source "${HOME}/.cargo/env"
 fi
 
 # Install tree-sitter CLI
-if ! command -v tree-sitter >/dev/null 2>&1; then
-    cargo install tree-sitter-cli
+TREE_SITTER_INSTALLED_VERSION=""
+if command -v tree-sitter >/dev/null 2>&1; then
+    TREE_SITTER_INSTALLED_VERSION="$(tree-sitter --version | awk '{print $2}')"
+fi
+
+if [[ "${TREE_SITTER_INSTALLED_VERSION}" != "${TREE_SITTER_CLI_VERSION}" ]]; then
+    cargo install tree-sitter-cli --version "${TREE_SITTER_CLI_VERSION}" --locked
 fi
 
 # Add cargo to system-wide PATH (requires sudo)
@@ -101,16 +109,19 @@ sudo chmod 644 /etc/profile.d/cargo_path.sh
 #=============================
 # Install nvm (installs to user's $HOME/.nvm)
 if [[ ! -d "${HOME}/.nvm" ]]; then
-    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh" | PROFILE=/dev/null bash
 fi
 
 # Load nvm into current shell
 export NVM_DIR="${HOME}/.nvm"
-# shellcheck disable=SC1090
+# shellcheck source=/dev/null
 [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"
 
-# Install Node v24 via nvm
-nvm install 24
+if ! command -v nvm >/dev/null 2>&1; then
+    echo "Error: nvm is not available after installation." >&2
+    exit 1
+fi
+
 # Install Node via nvm
 nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
@@ -134,7 +145,6 @@ uv --version
 # Others
 #=============================
 # lazygit
-LAZYGIT_VERSION="${LAZYGIT_VERSION:-0.61.1}"
 LAZYGIT_ARCH="$(uname -m | sed -e 's/aarch64/arm64/')"
 LAZYGIT_TMP_DIR="$(mktemp -d)"
 TMP_DIRS+=("${LAZYGIT_TMP_DIR}")
@@ -174,7 +184,6 @@ sudo apt-get install -y --no-install-recommends wezterm-nightly
 #=============================
 # Font: HackGen
 #=============================
-HACKGEN_VERSION="${HACKGEN_VERSION:-2.10.0}"
 HACKGEN_TMP_DIR="$(mktemp -d)"
 TMP_DIRS+=("${HACKGEN_TMP_DIR}")
 HACKGEN_ZIP_NAME="HackGen_NF_v${HACKGEN_VERSION}.zip"
