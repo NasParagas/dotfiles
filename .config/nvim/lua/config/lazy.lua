@@ -86,8 +86,6 @@ require("lazy").setup({
 	{ import = "plugins.live_preview" },
 	-- LaTeX math preview
 	-- { import = "plugins.nabla" },
-	-- simple todo & notepad
-	{ import = "plugins.dooing" },
 	-- comment highlight & search
 	{ import = "plugins.todo_comments" },
 	-- image paster
