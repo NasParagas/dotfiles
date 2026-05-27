@@ -35,7 +35,7 @@ bash setup_config_symlink.sh
 ```
 
 Shared tool versions live in `versions.sh`. Reusable install steps such as
-Neovim, Node.js, lazygit, uv, and HackGen live under `setup_components/`.
+Neovim, Node.js, lazygit, uv, HackGen, and Docker live under `setup_components/`.
 
 ## Major Dependencies
 
@@ -49,5 +49,6 @@ These tools may be installed during bootstrap, depending on the platform.
 | Node.js / npm   | JS tooling and Neovim ecosystem tools    | nvm               | version is managed in `versions.sh`              |
 | tree-sitter-cli | parser tooling for Neovim                | cargo             | version is managed in `versions.sh`              |
 | lazygit         | Git TUI used from shell/Neovim           | Source build      | version is managed in `versions.sh`              |
+| Docker Engine   | container runtime on Ubuntu hosts        | Docker apt repo   | host Ubuntu only                                 |
 | ripgrep         | fast search used by shell/Neovim plugins | apt / brew        |                                                  |
 | Deno            | JS/TS runtime                            | not automated yet | mark as planned/manual unless script installs it |
