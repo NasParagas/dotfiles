@@ -20,6 +20,8 @@ source "${SCRIPT_DIR}/setup_components/lazygit.sh"
 source "${SCRIPT_DIR}/setup_components/neovim.sh"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/setup_components/hackgen.sh"
+# shellcheck source=/dev/null
+source "${SCRIPT_DIR}/setup_components/just.sh"
 
 setup_enable_tmp_cleanup
 
@@ -94,6 +96,7 @@ install_uv
 install_lazygit_for_macos
 install_neovim_from_source
 install_hackgen_for_macos
+install_just_for_macos
 
 #=============================
 # Finish
