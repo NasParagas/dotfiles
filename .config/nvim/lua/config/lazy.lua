@@ -55,7 +55,7 @@ require("lazy").setup({
 	-- auto complete pairs like `{}`
 	{ import = "plugins.autopairs" },
 	-- extended increment/decrement
-	-- { import = "plugins.dial" },
+	{ import = "plugins.dial" },
 	-- fold/unfold enhancement
 	{ import = "plugins.nvim_ufo" },
 	-- pane resizer
@@ -82,7 +82,7 @@ require("lazy").setup({
 	-- { import = "plugins.codecompanion" },
 
 	----- Writing / Productivity -----
-	-- markdown preview in browser (LGTM)
+	-- markdown preview in browser
 	{ import = "plugins.live_preview" },
 	-- LaTeX math preview
 	-- { import = "plugins.nabla" },
