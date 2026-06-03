@@ -90,6 +90,8 @@ require("lazy").setup({
 	{ import = "plugins.todo_comments" },
 	-- image paster
 	{ import = "plugins.img_clip" },
+	-- exit pair symbol ealily
+	{ import = "plugins.in-and-out" },
 
 	----- Utilities -----
 	-- collection of utility plugins
