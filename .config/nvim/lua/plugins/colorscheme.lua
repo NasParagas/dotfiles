@@ -25,4 +25,9 @@ return {
 		lazy = false,
 		priority = 1000,
 	},
+	{
+		"maxmx03/fluoromachine.nvim",
+		lazy = false,
+		priority = 1000,
+	},
 }
