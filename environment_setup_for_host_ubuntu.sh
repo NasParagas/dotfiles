@@ -21,6 +21,8 @@ source "${SCRIPT_DIR}/setup_components/neovim.sh"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/setup_components/hackgen.sh"
 # shellcheck source=/dev/null
+source "${SCRIPT_DIR}/setup_components/just.sh"
+# shellcheck source=/dev/null
 source "${SCRIPT_DIR}/setup_components/docker_ubuntu.sh"
 
 setup_enable_tmp_cleanup
@@ -99,6 +101,7 @@ install_npm_packages "${NPM_PACKAGES[@]}"
 install_uv
 install_lazygit_for_linux
 install_neovim_from_source
+install_just_for_linux
 install_docker_engine_for_ubuntu
 
 #=============================
