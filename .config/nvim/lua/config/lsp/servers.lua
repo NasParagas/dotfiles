@@ -60,13 +60,36 @@ local M = {
 	definitions = definitions,
 }
 
+-- Mason ships clangd only for x86_64 Linux, macOS, and Windows; it has no
+-- prebuilt binary for Linux aarch64 (e.g. Ubuntu on UTM/QEMU), where it fails
+-- with "The current platform is unsupported". On those platforms we install
+-- clangd from the system package manager (apt) and configure it directly.
+local function clangd_from_system()
+	return vim.fn.has("linux") == 1 and vim.uv.os_uname().machine ~= "x86_64"
+end
+
+-- LSP servers (plus extra tools) that Mason should install on this platform.
 function M.ensure_installed()
-	local ensure_installed = vim.tbl_keys(definitions)
+	local ensure_installed = {}
+	for name in pairs(definitions) do
+		if not (name == "clangd" and clangd_from_system()) then
+			table.insert(ensure_installed, name)
+		end
+	end
 	vim.list_extend(ensure_installed, {
 		"stylua",
 	})
 
 	return ensure_installed
+end
+
+-- Servers provided outside Mason (system package manager) on this platform.
+-- These are configured against whatever binary is found on $PATH.
+function M.system_servers()
+	if clangd_from_system() then
+		return { "clangd" }
+	end
+	return {}
 end
 
 return M
