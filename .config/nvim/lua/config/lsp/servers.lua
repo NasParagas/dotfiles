@@ -60,12 +60,14 @@ local M = {
 	definitions = definitions,
 }
 
--- Mason ships clangd only for x86_64 Linux, macOS, and Windows; it has no
--- prebuilt binary for Linux aarch64 (e.g. Ubuntu on UTM/QEMU), where it fails
--- with "The current platform is unsupported". On those platforms we install
--- clangd from the system package manager (apt) and configure it directly.
+-- Mason has no clangd prebuilt for Linux aarch64 at all (e.g. Ubuntu on
+-- UTM/QEMU), where it fails with "The current platform is unsupported". And on
+-- Linux we prefer a single consistent source regardless of architecture, so on
+-- every Linux host (arm64 and x86_64 alike) we install clangd from the system
+-- package manager (apt.llvm.org via llvm.sh) and configure it directly, rather
+-- than via Mason. macOS/Windows keep using Mason's prebuilt clangd.
 local function clangd_from_system()
-	return vim.fn.has("linux") == 1 and vim.uv.os_uname().machine ~= "x86_64"
+	return vim.fn.has("linux") == 1
 end
 
 -- LSP servers (plus extra tools) that Mason should install on this platform.
