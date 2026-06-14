@@ -47,6 +47,9 @@ APT_PACKAGES=(
     libclang-dev
     libc6-dev
 
+    # clangd LSP server (Mason has no prebuilt binary for Linux aarch64)
+    clangd
+
     # for neovim plugins and Mason installers
     ripgrep
 
@@ -124,3 +127,7 @@ install_hackgen_for_linux
 persist_nvm_env_for_ubuntu
 
 echo "Ubuntu host environment setup completed successfully."
+echo
+echo "NOTE: open a new shell (or run 'exec bash') before launching Neovim so that"
+echo "      nvm's node is on \$PATH; otherwise Mason cannot install Node-based LSP"
+echo "      servers such as pyright on the first launch."

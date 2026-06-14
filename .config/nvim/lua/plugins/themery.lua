@@ -33,34 +33,6 @@ return {
 				]],
 			},
 			{
-				name = "Tokyonight Night Transparent",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "night",
-						transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
-					})
-				]],
-			},
-			{
-				name = "Tokyonight Day Transparent",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "day",
-						transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
-					})
-				]],
-			},
-			{
 				name = "Gruvbox Dark Transparent",
 				colorscheme = "gruvbox",
 				before = [[
@@ -159,10 +131,21 @@ return {
                     require("everforest").setup({
                         background = "medium",
                     })
-                    vim.o.background = "dark"
+                ]],
+			},
+			{
+				name = "Fluoromachine Trans",
+				colorscheme = "fluoromachine",
+				before = [[
+                    require("fluoromachine").setup({
+                        glow = true,
+                        theme = "fluoromachine",
+                        transparent = true, 
+                    })
                 ]],
 			},
 		},
+
 		livePreview = true,
 	},
 	config = function(_, opts)

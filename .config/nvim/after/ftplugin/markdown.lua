@@ -7,6 +7,22 @@ vim.opt_local.comments = "b:-,b:*,b:+,n:>"
 -- But don't continue when pressing S-Enter.
 vim.keymap.set("i", "<S-Enter>", "<CR><Esc>S", { buffer = true, remap = false })
 
+-- On Enter, if the line is an empty list marker (e.g. "- ", "* ", "1. ",
+-- "- [ ] "), remove the marker and end the list instead of continuing it.
+vim.keymap.set("i", "<CR>", function()
+	local line = vim.api.nvim_get_current_line()
+	local empty_marker = line:match("^%s*[-*+]%s$") -- "- " / "* " / "+ "
+		or line:match("^%s*[-*+]%s%[.%]%s$") -- "- [ ] " task list
+		or line:match("^%s*%d+%.%s$") -- "1. " ordered list
+	if empty_marker then
+		vim.api.nvim_set_current_line("")
+		vim.api.nvim_win_set_cursor(0, { vim.fn.line("."), 0 })
+		return
+	end
+	-- Otherwise fall back to the default Enter (keeps list continuation via 'r').
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", false)
+end, { buffer = true, desc = "Markdown: end list on empty item, else newline" })
+
 -- Use 2-space indentation
 vim.opt_local.tabstop = 2
 vim.opt_local.shiftwidth = 2

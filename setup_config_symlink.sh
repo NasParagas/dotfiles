@@ -11,8 +11,6 @@ TARGETS=(
     ".bashrc"
     ".config/nvim"
     ".config/wezterm"
-    ".config/git"
-    ".codex"
     ".aerospace.toml"
 )
 

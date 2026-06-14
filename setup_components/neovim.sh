@@ -20,5 +20,5 @@ install_neovim_from_source() {
 
     make -C "${neovim_dir}" CMAKE_BUILD_TYPE=Release
 
-    sudo make install
+    sudo make -C "${neovim_dir}" install
 }

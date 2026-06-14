@@ -50,6 +50,10 @@ require("lazy").setup({
 	{ import = "plugins.conform" },
 	-- parsing & highlighting
 	{ import = "plugins.nvim_treesitter" },
+	-- Shows virtual text of the current context after functions, methods, statements
+	{ import = "plugins.nvim_context_vt" },
+	-- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
+	{ import = "plugins.treesj" },
 
 	----- Editor Enhancements -----
 	-- auto complete pairs like `{}`
@@ -90,6 +94,10 @@ require("lazy").setup({
 	{ import = "plugins.todo_comments" },
 	-- image paster
 	{ import = "plugins.img_clip" },
+	-- exit pair symbol ealily
+	{ import = "plugins.in-and-out" },
+	-- autopair ex.<div></div>
+	{ import = "plugins.nvim-ts-autotag" },
 
 	----- Utilities -----
 	-- collection of utility plugins
