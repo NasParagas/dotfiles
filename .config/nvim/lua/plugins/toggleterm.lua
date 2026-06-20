@@ -144,36 +144,59 @@ return {
 				end
 				vim.ui.select(all, {
 					prompt = "Delete terminal: ",
-					format_item = function(term) return term.id .. ": " .. term:_display_name() end,
+					format_item = function(term)
+						return term.id .. ": " .. term:_display_name()
+					end,
 				}, function(term)
-					if not term then return end
+					if not term then
+						return
+					end
 					term:shutdown()
 					for id, t in pairs(terminals) do
-						if t == term then terminals[id] = nil break end
+						if t == term then
+							terminals[id] = nil
+							break
+						end
 					end
 					for id, t in pairs(run_terminals) do
-						if t == term then run_terminals[id] = nil break end
+						if t == term then
+							run_terminals[id] = nil
+							break
+						end
 					end
 					for key, t in pairs(layout_terminals) do
-						if t == term then layout_terminals[key] = nil break end
+						if t == term then
+							layout_terminals[key] = nil
+							break
+						end
 					end
 				end)
 			end
 
 			-- Terminal keymaps
-			vim.keymap.set("n", "<leader>tt", function() toggle_center(1) end,  { desc = "[T]erminal [T]oggle" })
-			vim.keymap.set("n", "<leader>tn", create_new_terminal,              { desc = "[T]erminal [N]ew" })
-			vim.keymap.set("n", "<leader>tf", toggle_fullscreen,                { desc = "[T]erminal [F]ullscreen" })
-			vim.keymap.set("n", "<leader>tv", toggle_vertical,                  { desc = "[T]erminal [V]ertical" })
-			vim.keymap.set("n", "<leader>th", toggle_horizontal,                { desc = "[T]erminal [H]orizontal" })
-			vim.keymap.set("n", "<leader>ts", "<cmd>TermSelect<CR>",            { desc = "[T]erminal [S]elect" })
-			vim.keymap.set("n", "<leader>td", delete_terminal,                  { desc = "[T]erminal [D]elete" })
+			vim.keymap.set("n", "<leader>tt", function()
+				toggle_center(1)
+			end, { desc = "[T]erminal [T]oggle" })
+			vim.keymap.set("n", "<leader>tn", create_new_terminal, { desc = "[T]erminal [N]ew" })
+			vim.keymap.set("n", "<leader>tf", toggle_fullscreen, { desc = "[T]erminal [F]ullscreen" })
+			vim.keymap.set("n", "<leader>tv", toggle_vertical, { desc = "[T]erminal [V]ertical" })
+			vim.keymap.set("n", "<leader>th", toggle_horizontal, { desc = "[T]erminal [H]orizontal" })
+			vim.keymap.set("n", "<leader>ts", "<cmd>TermSelect<CR>", { desc = "[T]erminal [S]elect" })
+			vim.keymap.set("n", "<leader>td", delete_terminal, { desc = "[T]erminal [D]elete" })
 
 			-- Run keymaps
-			vim.keymap.set("n", "<leader>rt", function() toggle_run("test",  101) end, { desc = "[R]un [T]est" })
-			vim.keymap.set("n", "<leader>rw", function() toggle_run("watch", 102) end, { desc = "[R]un [W]atch" })
-			vim.keymap.set("n", "<leader>rc", function() toggle_run("check", 103) end, { desc = "[R]un [C]heck" })
-			vim.keymap.set("n", "<leader>rd", function() toggle_run("dev",   104) end, { desc = "[R]un [D]ev" })
+			vim.keymap.set("n", "<leader>rt", function()
+				toggle_run("test", 101)
+			end, { desc = "[R]un [T]est" })
+			vim.keymap.set("n", "<leader>rw", function()
+				toggle_run("watch", 102)
+			end, { desc = "[R]un [W]atch" })
+			vim.keymap.set("n", "<leader>rc", function()
+				toggle_run("check", 103)
+			end, { desc = "[R]un [C]heck" })
+			vim.keymap.set("n", "<leader>rd", function()
+				toggle_run("dev", 104)
+			end, { desc = "[R]un [D]ev" })
 		end,
 	},
 }
