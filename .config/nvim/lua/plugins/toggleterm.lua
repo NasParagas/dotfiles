@@ -88,7 +88,7 @@ return {
 						direction = "vertical",
 						on_open = function()
 							vim.cmd("wincmd L")
-							vim.cmd("vertical resize " .. math.floor(vim.o.columns * 0.4))
+							vim.cmd("vertical resize " .. math.floor(vim.o.columns * 0.25))
 						end,
 					})
 				end
