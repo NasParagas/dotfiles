@@ -4,16 +4,34 @@ return {
 	opts = {
 		themes = {
 			{
+				name = "Tokyonight Storm",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "storm",
+					})
+				]],
+			},
+			{
 				name = "Tokyonight Storm Transparent",
 				colorscheme = "tokyonight",
 				before = [[
 					require("tokyonight").setup({
 						style = "storm",
 						transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
+                        styles = {
+                          sidebars = "transparent",
+                          floats = "transparent",
+                        },
+					})
+				]],
+			},
+			{
+				name = "Tokyonight Moon",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "moon",
 					})
 				]],
 			},
@@ -24,59 +42,10 @@ return {
 					require("tokyonight").setup({
 						style = "moon",
 						transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
-
-					})
-				]],
-			},
-			{
-				name = "Gruvbox Dark Transparent",
-				colorscheme = "gruvbox",
-				before = [[
-					require("gruvbox").setup({
-						transparent_mode = true,
-					})
-					vim.o.background = "dark"
-				]],
-			},
-			{
-				name = "Catppuccin Mocha Transparent",
-				colorscheme = "catppuccin",
-				before = [[
-					require("catppuccin").setup({
-						flavour = "mocha",
-						transparent_background = true,
-					})
-				]],
-			},
-			{
-				name = "Kanagawa Wave Transparent",
-				colorscheme = "kanagawa",
-				before = [[
-					require("kanagawa").setup({
-						theme = "Wave",
-						transparent = true,
-                    })
-                ]],
-			},
-			{
-				name = "Tokyonight Storm",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "storm",
-					})
-				]],
-			},
-			{
-				name = "Tokyonight Moon",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "moon",
+                        styles = {
+                          sidebars = "transparent",
+                          floats = "transparent",
+                        },
 					})
 				]],
 			},
@@ -98,6 +67,7 @@ return {
 					})
 				]],
 			},
+
 			{
 				name = "Gruvbox Dark",
 				colorscheme = "gruvbox",
@@ -106,6 +76,17 @@ return {
 					vim.o.background = "dark"
 				]],
 			},
+			{
+				name = "Gruvbox Dark Transparent",
+				colorscheme = "gruvbox",
+				before = [[
+					require("gruvbox").setup({
+						transparent_mode = true,
+					})
+					vim.o.background = "dark"
+				]],
+			},
+
 			{
 				name = "Catppuccin Mocha",
 				colorscheme = "catppuccin",
@@ -116,6 +97,17 @@ return {
 				]],
 			},
 			{
+				name = "Catppuccin Mocha Transparent",
+				colorscheme = "catppuccin",
+				before = [[
+					require("catppuccin").setup({
+						flavour = "mocha",
+						transparent_background = true,
+					})
+				]],
+			},
+
+			{
 				name = "Kanagawa Wave",
 				colorscheme = "kanagawa",
 				before = [[
@@ -125,6 +117,17 @@ return {
 				]],
 			},
 			{
+				name = "Kanagawa Wave Transparent",
+				colorscheme = "kanagawa",
+				before = [[
+					require("kanagawa").setup({
+						theme = "Wave",
+						transparent = true,
+                    })
+                ]],
+			},
+
+			{
 				name = "Everforest Medium Dark",
 				colorscheme = "everforest",
 				before = [[
@@ -133,6 +136,7 @@ return {
                     })
                 ]],
 			},
+
 			{
 				name = "Fluoromachine Trans",
 				colorscheme = "fluoromachine",
@@ -141,6 +145,23 @@ return {
                         glow = true,
                         theme = "fluoromachine",
                         transparent = true, 
+                    })
+                ]],
+			},
+
+			{
+				name = "Lytmode",
+				colorscheme = "lytmode",
+				before = [[
+                    require("lytmode").setup({})
+                ]],
+			},
+			{
+				name = "Lytmode Trans",
+				colorscheme = "lytmode",
+				before = [[
+                    require("lytmode").setup({
+                        transparent = true,
                     })
                 ]],
 			},
