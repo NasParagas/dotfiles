@@ -9,7 +9,7 @@ end
 
 -- font setting
 config.font_size = 13
-config.font = wezterm.font("HackGen35 Console NF")
+config.font = wezterm.font("HackGen35 Console NF", { weight = "Bold" })
 
 -- log
 config.scrollback_lines = 10000
