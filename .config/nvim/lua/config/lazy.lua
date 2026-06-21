@@ -70,6 +70,8 @@ require("lazy").setup({
 	{ import = "plugins.telescope" },
 	-- file explorer (editing like a buffer)
 	{ import = "plugins.oil" },
+	-- highlight f/F/t/T jump targets
+	{ import = "plugins.quick_scope" },
 
 	----- Git -----
 	-- for checking git status line by line
@@ -78,18 +80,14 @@ require("lazy").setup({
 	{ import = "plugins.lazygit" },
 	-- git diffview
 	{ import = "plugins.diffview" },
-
-	----- AI Support -----
-	-- github copilot
-	-- { import = "plugins.copilot" },
-	-- AI chat & code companion
-	-- { import = "plugins.codecompanion" },
+	-- show commit message under cursor
+	{ import = "plugins.git_messanger" },
 
 	----- Writing / Productivity -----
 	-- markdown preview in browser
 	{ import = "plugins.live_preview" },
-	-- LaTeX math preview
-	-- { import = "plugins.nabla" },
+	-- render markdown in buffer
+	{ import = "plugins.render_markdown" },
 	-- comment highlight & search
 	{ import = "plugins.todo_comments" },
 	-- image paster
@@ -106,18 +104,23 @@ require("lazy").setup({
 	{ import = "plugins.toggleterm" },
 
 	----- Disabled / Unused -----
+	-- LaTeX math preview
+	-- { import = "plugins.nabla" },
+	----- AI Support -----
+	-- github copilot
+	-- { import = "plugins.copilot" },
+	-- AI chat & code companion
+	-- { import = "plugins.codecompanion" },
+
 	-- { import = "plugins.none_ls" },
 	-- { import = "plugins.snacks" },
 	-- { import = "plugins.image" },
 	-- { import = "plugins.obsidian_bridge" },
-	{ import = "plugins.git_messanger" },
 	-- { import = "plugins.wrapped" },
 	-- { import = "plugins.nvim_jdtls" },
-	{ import = "plugins.quick_scope" },
 	-- { import = "plugins.nvim_notify" },
 	-- { import = "plugins.barbar" },
 	-- { import = "plugins.markdown_preview" },
-	{ import = "plugins.render_markdown" },
 	-- { import = "plugins.markview" },
 	-- { import = "plugins.nvim_tree" },
 }, {
