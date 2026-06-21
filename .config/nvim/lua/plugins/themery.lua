@@ -165,6 +165,40 @@ return {
                     })
                 ]],
 			},
+
+			{
+				name = "Sweetie",
+				colorscheme = "sweetie",
+				before = [[
+                    vim.g.sweetie = {}
+                ]],
+			},
+
+			{
+				name = "Kanagawa Paper",
+				colorscheme = "kanagawa-paper",
+				before = [[
+                    require("kanagawa-paper").setup({})
+                ]],
+			},
+
+			{
+				name = "Moonlight",
+				colorscheme = "moonlight",
+			},
+
+			{
+				name = "Onenord",
+				colorscheme = "onenord",
+				before = [[
+                    require("onenord").setup({})
+                ]],
+			},
+
+			{
+				name = "Melange",
+				colorscheme = "melange",
+			},
 		},
 
 		livePreview = true,
