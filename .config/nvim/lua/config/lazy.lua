@@ -72,6 +72,8 @@ require("lazy").setup({
 	{ import = "plugins.oil" },
 	-- highlight f/F/t/T jump targets
 	{ import = "plugins.quick_scope" },
+	--
+	{ import = "plugins.flash" },
 
 	----- Git -----
 	-- for checking git status line by line
