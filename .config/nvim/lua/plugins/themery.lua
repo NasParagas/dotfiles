@@ -49,24 +49,24 @@ return {
 					})
 				]],
 			},
-			{
-				name = "Tokyonight Night",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "night",
-					})
-				]],
-			},
-			{
-				name = "Tokyonight Day",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "day",
-					})
-				]],
-			},
+			-- {
+			-- 	name = "Tokyonight Night",
+			-- 	colorscheme = "tokyonight",
+			-- 	before = [[
+			-- 		require("tokyonight").setup({
+			-- 			style = "night",
+			-- 		})
+			-- 	]],
+			-- },
+			-- {
+			-- 	name = "Tokyonight Day",
+			-- 	colorscheme = "tokyonight",
+			-- 	before = [[
+			-- 		require("tokyonight").setup({
+			-- 			style = "day",
+			-- 		})
+			-- 	]],
+			-- },
 
 			{
 				name = "Gruvbox Dark",
@@ -113,6 +113,7 @@ return {
 				before = [[
 					require("kanagawa").setup({
 						theme = "Wave",
+						transparent = false,
                       })
 				]],
 			},
@@ -153,7 +154,9 @@ return {
 				name = "Lytmode",
 				colorscheme = "lytmode",
 				before = [[
-                    require("lytmode").setup({})
+                    require("lytmode").setup({
+                        transparent = false,
+                    })
                 ]],
 			},
 			{
@@ -162,6 +165,9 @@ return {
 				before = [[
                     require("lytmode").setup({
                         transparent = true,
+                        color_overrides = {
+                            lytBack = "NONE",
+                        },
                     })
                 ]],
 			},
