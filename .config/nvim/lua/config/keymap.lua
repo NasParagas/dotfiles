@@ -15,3 +15,6 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 
 -- Disable <C-z>
 vim.keymap.set({ "n", "v", "s", "o", "i", "t" }, "<C-z>", "<nop>", { noremap = true, silent = true })
+
+-- Render a progress bar from a selected current/total value (e.g. 10/200)
+vim.keymap.set("x", "<leader>pb", ":ProgressBar<CR>", { desc = "Render [P]rogress [B]ar from selection" })
