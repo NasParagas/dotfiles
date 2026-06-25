@@ -16,12 +16,27 @@ config.font = wezterm.font("HackGen35 Console NF", { weight = "Bold" })
 -- log
 config.scrollback_lines = 10000
 
+--------------------
 -- window setting --
+--------------------
+
 -- initail window size
 config.initial_cols = 120
 config.initial_rows = 28
+
 -- window opacity
-config.window_background_opacity = 0.85
+config.window_background_opacity = 1.0
+
+wezterm.on("toggle-opacity", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	if not overrides.window_background_opacity then
+		overrides.window_background_opacity = 0.5 -- 透明にする値
+	else
+		overrides.window_background_opacity = nil -- デフォルトに戻す
+	end
+	window:set_config_overrides(overrides)
+end)
+
 -- background blur
 -- config.macos_window_background_blur = 2
 -- window titlebar and bordar setting
@@ -109,6 +124,11 @@ config.keys = {
 				end
 			end),
 		}),
+	},
+	{
+		key = "t",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.EmitEvent("toggle-opacity"),
 	},
 }
 
