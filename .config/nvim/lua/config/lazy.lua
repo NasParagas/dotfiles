@@ -105,6 +105,9 @@ require("lazy").setup({
 	-- terminal integration
 	{ import = "plugins.toggleterm" },
 
+	--- Other ---
+	{ import = "plugins.lean" },
+
 	----- Disabled / Unused -----
 	-- LaTeX math preview
 	-- { import = "plugins.nabla" },
