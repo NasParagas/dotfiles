@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-# Neovim source build shared by host setup scripts.
+# Neovim source build
 
 install_neovim_from_source() {
     local version="${NEOVIM_VERSION:?NEOVIM_VERSION must be set}"
