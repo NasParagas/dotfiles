@@ -25,9 +25,16 @@ end, { desc = "Insert HTML details and summary tags" })
 -- ------------
 local PROGRESS_BAR_WIDTH = 10
 
+-- Pattern matching an already rendered bar, e.g. " [████░░░░░░] 50%"
+local PROGRESS_BAR_PATTERN = "%s*%[[█░]*%]%s*%d+%%"
+
 local function build_progress_bar(text)
-	-- Front number is the current value (numerator), back number is the total (denominator)
-	local current, total = text:match("(%d+)%s*/%s*(%d+)")
+	-- Drop any previously rendered bar so re-running updates instead of appending
+	local base = text:gsub(PROGRESS_BAR_PATTERN, "")
+
+	-- Front number is the current value (numerator), back number is the total (denominator).
+	-- `mend` is the byte index of the last digit, so we can insert the bar right after it.
+	local _, mend, current, total = base:find("(%d+)%s*/%s*(%d+)")
 	if not current then
 		return nil, "No `current/total` pattern found in the selection"
 	end
@@ -40,25 +47,27 @@ local function build_progress_bar(text)
 	local ratio = math.min(math.max(current / total, 0), 1)
 	local filled = math.floor(ratio * PROGRESS_BAR_WIDTH + 0.5)
 	local bar = string.rep("█", filled) .. string.rep("░", PROGRESS_BAR_WIDTH - filled)
+	local rendered = string.format("[%s] %d%%", bar, math.floor(ratio * 100 + 0.5))
 
-	return string.format("[%s] %d%%", bar, math.floor(ratio * 100 + 0.5))
+	-- Insert the bar right after the `current/total` value, keeping any trailing text
+	return base:sub(1, mend) .. " " .. rendered .. base:sub(mend + 1)
 end
 
 vim.api.nvim_create_user_command("BuildProgressBar", function()
-	-- Operate on the most recent charwise visual selection (single line)
+	-- Work on the whole line of the selection so selecting just the
+	-- `current/total` value is enough; any existing bar on the line is updated.
 	local srow = vim.fn.line("'<")
-	local scol = vim.fn.col("'<")
-	local ecol = vim.fn.col("'>")
+	local line = vim.fn.getline(srow)
 
-	local selection = vim.fn.getline(srow):sub(scol, ecol)
-	local bar, err = build_progress_bar(selection)
-	if not bar then
+	local newline, err = build_progress_bar(line)
+	if not newline then
 		vim.notify("ProgressBar: " .. err, vim.log.levels.WARN)
 		return
 	end
 
-	-- Append the bar after the original selection, keeping the source text
-	vim.api.nvim_buf_set_text(0, srow - 1, scol - 1, srow - 1, ecol, { selection .. " " .. bar })
+	-- Rewrite the line with the bar inserted right after the value.
+	-- Any existing bar in the line was already stripped, so re-running updates it.
+	vim.fn.setline(srow, newline)
 end, { range = true, desc = "Render a progress bar from a selected current/total value" })
 
 -----------
