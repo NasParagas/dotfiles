@@ -27,6 +27,8 @@
 !TODO.md
 !CONTRIBUTING.md
 !AGENTS.md
+!scripts/
+!scripts/**
 
 .DS_STORE
 .config/nvim/lua/plugins/copilot.lua

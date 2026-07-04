@@ -49,6 +49,8 @@ APT_PACKAGES=(
 
     # network utilities
     iproute2
+    # other
+    htop
 )
 NPM_PACKAGES=(
     # JavaScript package manager used by some development workflows.

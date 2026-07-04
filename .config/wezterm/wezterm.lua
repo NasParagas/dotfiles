@@ -3,23 +3,40 @@ local wezterm = require("wezterm")
 -- reload when update config
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
+
+-- windows以外だったらbash起動
 if not wezterm.target_triple:find("windows") then
 	config.default_prog = { "/bin/bash", "-l" }
 end
 
 -- font setting
 config.font_size = 13
-config.font = wezterm.font("HackGen35 Console NF")
+config.font = wezterm.font("HackGen35 Console NF", { weight = "Bold" })
 
 -- log
 config.scrollback_lines = 10000
 
+--------------------
 -- window setting --
+--------------------
+
 -- initail window size
 config.initial_cols = 120
 config.initial_rows = 28
+
 -- window opacity
-config.window_background_opacity = 0.85
+config.window_background_opacity = 1.0
+
+wezterm.on("toggle-opacity", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	if not overrides.window_background_opacity then
+		overrides.window_background_opacity = 0.5 -- 透明にする値
+	else
+		overrides.window_background_opacity = nil -- デフォルトに戻す
+	end
+	window:set_config_overrides(overrides)
+end)
+
 -- background blur
 -- config.macos_window_background_blur = 2
 -- window titlebar and bordar setting
@@ -46,43 +63,43 @@ config.hide_mouse_cursor_when_typing = true
 -- keymaps
 config.keys = {
 	-- -- split pane
-	-- {
-	-- 	key = "e",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	-- },
-	-- {
-	-- 	key = "o",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-	-- },
-	-- -- close pane
-	-- {
-	-- 	key = "w",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.CloseCurrentPane({ confirm = true }),
-	-- },
-	-- -- move on pane
-	-- {
-	-- 	key = "h",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.ActivatePaneDirection("Left"),
-	-- },
-	-- {
-	-- 	key = "j",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.ActivatePaneDirection("Down"),
-	-- },
-	-- {
-	-- 	key = "k",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.ActivatePaneDirection("Up"),
-	-- },
-	-- {
-	-- 	key = "l",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.ActivatePaneDirection("Right"),
-	-- },
+	{
+		key = "e",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "o",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	-- close pane
+	{
+		key = "w",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.CloseCurrentPane({ confirm = true }),
+	},
+	-- move on pane
+	{
+		key = "h",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.ActivatePaneDirection("Left"),
+	},
+	{
+		key = "j",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.ActivatePaneDirection("Down"),
+	},
+	{
+		key = "k",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.ActivatePaneDirection("Up"),
+	},
+	{
+		key = "l",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.ActivatePaneDirection("Right"),
+	},
 	-- -- resize pane
 	-- {
 	-- 	key = "-",
@@ -94,16 +111,25 @@ config.keys = {
 	-- 	mods = "SHIFT|CTRL",
 	-- 	action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
 	-- },
-	-- {
-	-- 	key = "q",
-	-- 	mods = "CTRL|SHIFT",
-	-- 	action = wezterm.action.QuickSelect,
-	-- },
-	-- {
-	-- 	key = "Enter",
-	-- 	mods = "CTRL|SHIFT",
-	-- 	action = wezterm.action.ActivateCopyMode,
-	-- },
+
+	-- tab名変更
+	{
+		key = "r",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.PromptInputLine({
+			description = "Enter new name for tab",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
+	{
+		key = "t",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.EmitEvent("toggle-opacity"),
+	},
 }
 
 return config

@@ -4,70 +4,25 @@ return {
 	opts = {
 		themes = {
 			{
+				name = "Tokyonight Storm",
+				colorscheme = "tokyonight",
+				before = [[
+					require("tokyonight").setup({
+						style = "storm",
+					})
+				]],
+			},
+			{
 				name = "Tokyonight Storm Transparent",
 				colorscheme = "tokyonight",
 				before = [[
 					require("tokyonight").setup({
 						style = "storm",
 						transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
-					})
-				]],
-			},
-			{
-				name = "Tokyonight Moon Transparent",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "moon",
-						transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
-
-					})
-				]],
-			},
-			{
-				name = "Gruvbox Dark Transparent",
-				colorscheme = "gruvbox",
-				before = [[
-					require("gruvbox").setup({
-						transparent_mode = true,
-					})
-					vim.o.background = "dark"
-				]],
-			},
-			{
-				name = "Catppuccin Mocha Transparent",
-				colorscheme = "catppuccin",
-				before = [[
-					require("catppuccin").setup({
-						flavour = "mocha",
-						transparent_background = true,
-					})
-				]],
-			},
-			{
-				name = "Kanagawa Wave Transparent",
-				colorscheme = "kanagawa",
-				before = [[
-					require("kanagawa").setup({
-						theme = "Wave",
-						transparent = true,
-                    })
-                ]],
-			},
-			{
-				name = "Tokyonight Storm",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "storm",
+                        styles = {
+                          sidebars = "transparent",
+                          floats = "transparent",
+                        },
 					})
 				]],
 			},
@@ -81,23 +36,38 @@ return {
 				]],
 			},
 			{
-				name = "Tokyonight Night",
+				name = "Tokyonight Moon Transparent",
 				colorscheme = "tokyonight",
 				before = [[
 					require("tokyonight").setup({
-						style = "night",
+						style = "moon",
+						transparent = true,
+                        styles = {
+                          sidebars = "transparent",
+                          floats = "transparent",
+                        },
 					})
 				]],
 			},
-			{
-				name = "Tokyonight Day",
-				colorscheme = "tokyonight",
-				before = [[
-					require("tokyonight").setup({
-						style = "day",
-					})
-				]],
-			},
+			-- {
+			-- 	name = "Tokyonight Night",
+			-- 	colorscheme = "tokyonight",
+			-- 	before = [[
+			-- 		require("tokyonight").setup({
+			-- 			style = "night",
+			-- 		})
+			-- 	]],
+			-- },
+			-- {
+			-- 	name = "Tokyonight Day",
+			-- 	colorscheme = "tokyonight",
+			-- 	before = [[
+			-- 		require("tokyonight").setup({
+			-- 			style = "day",
+			-- 		})
+			-- 	]],
+			-- },
+
 			{
 				name = "Gruvbox Dark",
 				colorscheme = "gruvbox",
@@ -106,6 +76,17 @@ return {
 					vim.o.background = "dark"
 				]],
 			},
+			{
+				name = "Gruvbox Dark Transparent",
+				colorscheme = "gruvbox",
+				before = [[
+					require("gruvbox").setup({
+						transparent_mode = true,
+					})
+					vim.o.background = "dark"
+				]],
+			},
+
 			{
 				name = "Catppuccin Mocha",
 				colorscheme = "catppuccin",
@@ -116,14 +97,37 @@ return {
 				]],
 			},
 			{
+				name = "Catppuccin Mocha Transparent",
+				colorscheme = "catppuccin",
+				before = [[
+					require("catppuccin").setup({
+						flavour = "mocha",
+						transparent_background = true,
+					})
+				]],
+			},
+
+			{
 				name = "Kanagawa Wave",
 				colorscheme = "kanagawa",
 				before = [[
 					require("kanagawa").setup({
 						theme = "Wave",
+						transparent = false,
                       })
 				]],
 			},
+			{
+				name = "Kanagawa Wave Transparent",
+				colorscheme = "kanagawa",
+				before = [[
+					require("kanagawa").setup({
+						theme = "Wave",
+						transparent = true,
+                    })
+                ]],
+			},
+
 			{
 				name = "Everforest Medium Dark",
 				colorscheme = "everforest",
@@ -133,6 +137,7 @@ return {
                     })
                 ]],
 			},
+
 			{
 				name = "Fluoromachine Trans",
 				colorscheme = "fluoromachine",
@@ -143,6 +148,62 @@ return {
                         transparent = true, 
                     })
                 ]],
+			},
+
+			{
+				name = "Lytmode",
+				colorscheme = "lytmode",
+				before = [[
+                    require("lytmode").setup({
+                        transparent = false,
+                    })
+                ]],
+			},
+			{
+				name = "Lytmode Trans",
+				colorscheme = "lytmode",
+				before = [[
+                    require("lytmode").setup({
+                        transparent = true,
+                        color_overrides = {
+                            lytBack = "NONE",
+                        },
+                    })
+                ]],
+			},
+
+			{
+				name = "Sweetie",
+				colorscheme = "sweetie",
+				before = [[
+                    vim.g.sweetie = {}
+                ]],
+			},
+
+			{
+				name = "Kanagawa Paper",
+				colorscheme = "kanagawa-paper",
+				before = [[
+                    require("kanagawa-paper").setup({})
+                ]],
+			},
+
+			{
+				name = "Moonlight",
+				colorscheme = "moonlight",
+			},
+
+			{
+				name = "Onenord",
+				colorscheme = "onenord",
+				before = [[
+                    require("onenord").setup({})
+                ]],
+			},
+
+			{
+				name = "Melange",
+				colorscheme = "melange",
 			},
 		},
 

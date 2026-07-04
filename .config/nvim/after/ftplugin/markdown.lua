@@ -19,7 +19,13 @@ vim.keymap.set("i", "<CR>", function()
 		vim.api.nvim_win_set_cursor(0, { vim.fn.line("."), 0 })
 		return
 	end
-	-- Otherwise fall back to the default Enter (keeps list continuation via 'r').
+	-- Otherwise fall back to nvim-autopairs' Enter handling (pair expansion,
+	-- e.g. splitting ```|``` into 3 lines), or plain Enter if unavailable.
+	local ok, npairs = pcall(require, "nvim-autopairs")
+	if ok then
+		vim.api.nvim_feedkeys(npairs.autopairs_cr(), "n", false)
+		return
+	end
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", false)
 end, { buffer = true, desc = "Markdown: end list on empty item, else newline" })
 
