@@ -46,6 +46,9 @@ APT_PACKAGES=(
 
     # for neovim plugins and Mason installers
     ripgrep
+
+    # other
+    htop
 )
 NPM_PACKAGES=(
     # JavaScript package manager used by some development workflows.

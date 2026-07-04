@@ -56,6 +56,7 @@ APT_PACKAGES=(
     # others
     gpg
     fontconfig
+    htop
 )
 NPM_PACKAGES=(
     # JavaScript package manager used by some development workflows.
