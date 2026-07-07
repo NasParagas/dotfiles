@@ -30,7 +30,6 @@ config.initial_rows = 28
 
 -- window opacity
 config.window_background_opacity = 1.0
-
 wezterm.on("toggle-opacity", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	if not overrides.window_background_opacity then
