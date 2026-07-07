@@ -1,6 +1,6 @@
 local wezterm = require("wezterm")
 
--- reload when update config
+-- config保存時に自動的にreload
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
@@ -9,18 +9,21 @@ if not wezterm.target_triple:find("windows") then
 	config.default_prog = { "/bin/bash", "-l" }
 end
 
--- font setting
+-- font
 config.font_size = 13
 config.font = wezterm.font("HackGen35 Console NF", { weight = "Bold" })
 
--- log
+-- scroll
 config.scrollback_lines = 10000
 
 --------------------
 -- window setting --
 --------------------
 
--- initail window size
+--------------------
+-- window setting --
+--------------------
+-- initial window size
 config.initial_cols = 120
 config.initial_rows = 28
 
@@ -39,28 +42,33 @@ end)
 
 -- background blur
 -- config.macos_window_background_blur = 2
--- window titlebar and bordar setting
--- NONE: desable titlebar and border
--- TITLE: desable resizable border
--- RESIZE: desable title bar
--- TITLE | RESIZE: enable both (default)
+
+-- window titlebar and bordar setting()
+-- NONE,TITLE,RESIZE,TITLE | RESIZE の4つ。試すのがわかりやすい
 config.window_decorations = "RESIZE"
 config.audible_bell = "Disabled"
 
--- tab setting
--- transparent
+-----------------
+-- tab setting --
+-----------------
+-- titlebarを透明化
 config.window_frame = {
 	inactive_titlebar_bg = "none",
 	active_titlebar_bg = "none",
 }
 config.hide_tab_bar_if_only_one_tab = true
+-- tabの余計なボタンとか削除
 config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
 
--- other setting
+-------------------
+-- other setting --
+-------------------
 config.hide_mouse_cursor_when_typing = true
 
--- keymaps
+-------------
+-- keybind --
+-------------
 config.keys = {
 	-- -- split pane
 	{
