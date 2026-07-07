@@ -5,9 +5,9 @@ local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
 -- windows以外だったらbash起動
-if not wezterm.target_triple:find("windows") then
-	config.default_prog = { "/bin/bash", "-l" }
-end
+-- if not wezterm.target_triple:find("windows") then
+-- 	config.default_prog = { "/bin/bash", "-l" } -- prog == program
+-- end
 
 -- font
 config.font_size = 13
@@ -46,14 +46,15 @@ end)
 -- window titlebar and bordar setting()
 -- NONE,TITLE,RESIZE,TITLE | RESIZE の4つ。試すのがわかりやすい
 config.window_decorations = "RESIZE"
-config.audible_bell = "Disabled"
+
+-- config.audible_bell = "Disabled"
 
 -----------------
 -- tab setting --
 -----------------
 -- titlebarを透明化
 config.window_frame = {
-	inactive_titlebar_bg = "none",
+	-- inactive_titlebar_bg = "none",
 	active_titlebar_bg = "none",
 }
 
