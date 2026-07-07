@@ -77,7 +77,7 @@ config.keys = {
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
-		key = "o",
+		key = "v",
 		mods = "SHIFT|CTRL",
 		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
@@ -123,7 +123,7 @@ config.keys = {
 	-- tab名変更
 	{
 		key = "r",
-		mods = "CTRL|SHIFT",
+		mods = "SHIFT|CTRL",
 		action = wezterm.action.PromptInputLine({
 			description = "Enter new name for tab",
 			action = wezterm.action_callback(function(window, pane, line)
@@ -134,8 +134,8 @@ config.keys = {
 		}),
 	},
 	{
-		key = "t",
-		mods = "CTRL|SHIFT",
+		key = "o",
+		mods = "SHIFT|CTRL",
 		action = wezterm.action.EmitEvent("toggle-opacity"),
 	},
 }
