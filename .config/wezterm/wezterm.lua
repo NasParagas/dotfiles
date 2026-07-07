@@ -56,7 +56,7 @@ config.window_frame = {
 	inactive_titlebar_bg = "none",
 	active_titlebar_bg = "none",
 }
-config.hide_tab_bar_if_only_one_tab = true
+
 -- tabの余計なボタンとか削除
 -- config.hide_tab_bar_if_only_one_tab = true
 config.show_new_tab_button_in_tab_bar = false
