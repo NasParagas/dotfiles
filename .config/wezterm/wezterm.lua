@@ -61,6 +61,32 @@ config.hide_tab_bar_if_only_one_tab = true
 config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
 
+-- tab名を明示的に指定していない場合は、カレントディレクトリ名をtab名にする
+local function get_current_working_dir(tab)
+	local cwd_uri = tab.active_pane and tab.active_pane.current_working_dir
+	if not cwd_uri then
+		return ""
+	end
+
+	local cwd = cwd_uri.file_path or tostring(cwd_uri)
+	cwd = cwd:gsub("/$", "") -- gsub(patter, replacement)で末尾の/を取り除いている(/$で末尾($)にある/)
+
+	local home = os.getenv("HOME")
+	if home and cwd == home then
+		return "$HOME"
+	end
+
+	return cwd:match("([^/]+)$") or cwd
+end
+-- weztermは定期的に"format-tab-title"イベントを呼び出すので、それが呼ばれた時にこのhandlerを呼んでもらうように
+wezterm.on("format-tab-title", function(tab)
+	-- ユーザーが明示的に名前を設定していたらそれを優先
+	if tab.tab_title and #tab.tab_title > 0 then
+		return tab.tab_title
+	end
+	return get_current_working_dir(tab)
+end)
+
 -------------------
 -- other setting --
 -------------------
