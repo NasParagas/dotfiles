@@ -18,8 +18,11 @@ config.scrollback_lines = 10000
 config.enable_scroll_bar = true
 
 --------------------
--- window setting --
+-- color setting --
 --------------------
+config.colors = {
+	scrollbar_thumb = "#dfffff",
+}
 
 --------------------
 -- window setting --
