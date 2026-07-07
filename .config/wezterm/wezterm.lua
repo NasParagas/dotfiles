@@ -15,6 +15,7 @@ config.font = wezterm.font("HackGen35 Console NF", { weight = "Bold" })
 
 -- scroll
 config.scrollback_lines = 10000
+config.enable_scroll_bar = true
 
 --------------------
 -- window setting --
