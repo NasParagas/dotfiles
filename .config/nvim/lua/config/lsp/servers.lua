@@ -39,11 +39,18 @@ local definitions = {
 			"clangd",
 			"--clang-tidy",
 			"--background-index",
-			"--extra-arg=-std=c++23",
+			"--all-scopes-completion", -- includeしていないheaderのシンボルも補完候補として出す
+			"--header-insertion=never", -- auto includeしない
+			"--compile-commands-dir=build",
+			"--query-driver=/usr/bin/g++,/usr/bin/g++-*,/usr/local/cuda/bin/nvcc",
+			1, -- TODO: ??
 		},
 		filetypes = {
 			"c",
 			"cpp",
+			"cuda",
+			"cu",
+			"cuh",
 		},
 	},
 	lua_ls = {
