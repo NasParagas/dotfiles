@@ -24,11 +24,12 @@ end
 
 local definitions = {
 	pyright = {
-		pythonVersion = "3.12",
-		on_new_config = function(new_config, root_dir)
-			new_config.settings = new_config.settings or {}
-			new_config.settings.python = new_config.settings.python or {}
-			new_config.settings.python.pythonPath = get_python_path(root_dir)
+		-- Inject the interpreter per project root. `before_init` is the
+		-- vim.lsp.config replacement for the old lspconfig `on_new_config`.
+		before_init = function(_, config)
+			config.settings = config.settings or {}
+			config.settings.python = config.settings.python or {}
+			config.settings.python.pythonPath = get_python_path(config.root_dir)
 		end,
 	},
 	rust_analyzer = {},
