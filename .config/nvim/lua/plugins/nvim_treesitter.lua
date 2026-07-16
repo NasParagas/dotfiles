@@ -32,11 +32,15 @@ return {
 
 			require("nvim-treesitter").install(parsers)
 
+			-- Metal Shading Language is C++ based; reuse the cpp parser
+			vim.treesitter.language.register("cpp", "metal")
+
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = {
 					"sh",
 					"c",
 					"cpp",
+					"metal",
 					"cmake",
 					"diff",
 					"html",
