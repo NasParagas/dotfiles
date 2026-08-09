@@ -1,5 +1,4 @@
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+-- install lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -16,105 +15,104 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---  To check the current status of your plugins, run
---    :Lazy
---  To update plugins you can run
---    :Lazy update
+-- plugins
 require("lazy").setup({
 
 	-- nvim/lua/plugins/**
 
-	----- Appearance / UI -----
-	-- all colorscheme
+	----- 見た目 / UI -----
+	-- colorscheme 全般
 	{ import = "plugins.colorscheme" },
 	-- colorscheme selector
 	{ import = "plugins.themery" },
 	-- status bar
 	{ import = "plugins.lualine" },
-	-- display line on indent
+	-- indent に ガイド表示
 	{ import = "plugins.hlchunk" },
-	-- show pending keybind
+	-- 入力途中のキーバインド表示
 	{ import = "plugins.which_key" },
-	-- show keymaps randomly
+	-- キーマップをランダムに表示
 	{ import = "plugins.random_key_tips" },
 
-	----- LSP / Coding Support -----
-	-- language server protocol
+	----- LSP / コーディング支援 -----
+	-- Language Server Protocol
 	{ import = "plugins.lsp" },
-	-- show function signature when typing
+	-- 入力中に関数シグネチャを表示
 	{ import = "plugins.lsp_signature" },
-	-- completion engine
+	-- 補完エンジン
 	{ import = "plugins.blink_cmp" },
-	-- auto formatter
+	-- 自動フォーマッタ
 	{ import = "plugins.conform" },
-	-- parsing & highlighting
+	-- パース & ハイライト
 	{ import = "plugins.nvim_treesitter" },
-	-- Shows virtual text of the current context after functions, methods, statements
+	-- 関数・メソッド・文などの後ろに現在のコンテキストを仮想テキストで表示
 	{ import = "plugins.nvim_context_vt" },
-	-- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
+	-- 配列・ハッシュ・文・オブジェクト・辞書などのコードブロックを分割/結合
 	{ import = "plugins.treesj" },
 
-	----- Editor Enhancements -----
-	-- auto complete pairs like `{}`
+	----- エディタ拡張 -----
+	-- `{}` などのペアを自動補完
 	{ import = "plugins.autopairs" },
-	-- extended increment/decrement
+	-- インクリメント/デクリメントの拡張
 	{ import = "plugins.dial" },
-	-- fold/unfold enhancement
+	-- 折りたたみ機能の強化
 	{ import = "plugins.nvim_ufo" },
-	-- pane resizer
+	-- ペインのリサイズ
 	{ import = "plugins.winresizer" },
 
-	----- Navigation -----
-	-- fuzzy finder
+	----- ナビゲーション -----
+	-- ファジーファインダー
 	{ import = "plugins.telescope" },
-	-- file explorer (editing like a buffer)
+	-- ファイルエクスプローラ(バッファのように編集できる)
 	{ import = "plugins.oil" },
-	-- highlight f/F/t/T jump targets
+	-- f/F/t/T のジャンプ先をハイライト
 	{ import = "plugins.quick_scope" },
 	--
 	{ import = "plugins.flash" },
 
 	----- Git -----
-	-- for checking git status line by line
+	-- git の状態を行単位で確認
 	{ import = "plugins.gitsigns" },
 	-- git TUI
 	{ import = "plugins.lazygit" },
-	-- git diffview
+	-- git の差分表示
 	{ import = "plugins.diffview" },
-	-- show commit message under cursor
+	-- カーソル下のコミットメッセージを表示
 	{ import = "plugins.git_messanger" },
 
-	----- Writing / Productivity -----
-	-- markdown preview in browser
+	----- 執筆 / 生産性 -----
+	-- markdown をブラウザでプレビュー
 	{ import = "plugins.live_preview" },
-	-- render markdown in buffer
+	-- markdown をバッファ内でレンダリング
 	{ import = "plugins.render_markdown" },
-	-- comment highlight & search
+	-- コメントのハイライト & 検索
 	{ import = "plugins.todo_comments" },
-	-- image paster
+	-- 画像の貼り付け
 	{ import = "plugins.img_clip" },
-	-- exit pair symbol ealily
+	-- ペア記号から簡単に抜ける
 	{ import = "plugins.in-and-out" },
-	-- autopair ex.<div></div>
+	-- タグの自動ペア 例: <div></div>
 	{ import = "plugins.nvim-ts-autotag" },
 
-	----- Utilities -----
-	-- collection of utility plugins
+	----- ユーティリティ -----
+	-- ユーティリティプラグイン集
 	{ import = "plugins.mini" },
-	-- terminal integration
+	-- ターミナル統合
 	{ import = "plugins.toggleterm" },
+	-- buffer の中身の表示場所を pane 中心にする
+	{ import = "plugins.no-neck-pain" },
 
-	--- Other ---
+	--- その他 ---
 	{ import = "plugins.lean" },
+	{ import = "plugins.veryl" },
 
-	----- Disabled / Unused -----
-	-- LaTeX math preview
+	----- 無効 / 未使用 -----
+	-- LaTeX 数式プレビュー
 	-- { import = "plugins.nabla" },
-	----- AI Support -----
+	----- AI 支援 -----
 	-- github copilot
 	-- { import = "plugins.copilot" },
-	-- AI chat & code companion
+	-- AI チャット & コーディング支援
 	-- { import = "plugins.codecompanion" },
 
 	-- { import = "plugins.none_ls" },
@@ -130,8 +128,8 @@ require("lazy").setup({
 	-- { import = "plugins.nvim_tree" },
 }, {
 	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+		-- Nerd Font を使っている場合: icons を空テーブルにすると lazy.nvim デフォルトの
+		-- Nerd Font アイコンが使われる。そうでない場合は unicode アイコンのテーブルを定義する
 		icons = vim.g.have_nerd_font and {} or {
 			cmd = "⌘",
 			config = "🛠",

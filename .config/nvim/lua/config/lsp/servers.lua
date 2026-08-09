@@ -43,7 +43,6 @@ local definitions = {
 			"--header-insertion=never", -- auto includeしない
 			"--compile-commands-dir=build",
 			"--query-driver=/usr/bin/g++,/usr/bin/g++-*,/usr/local/cuda/bin/nvcc",
-			1, -- TODO: ??
 		},
 		filetypes = {
 			"c",
