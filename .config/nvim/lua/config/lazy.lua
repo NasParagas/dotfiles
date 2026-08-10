@@ -32,7 +32,7 @@ require("lazy").setup({
 	-- 入力途中のキーバインド表示
 	{ import = "plugins.which_key" },
 	-- キーマップをランダムに表示
-	{ import = "plugins.random_key_tips" },
+	-- { import = "plugins.random_key_tips" },
 
 	----- LSP / コーディング支援 -----
 	-- Language Server Protocol
@@ -67,7 +67,7 @@ require("lazy").setup({
 	{ import = "plugins.oil" },
 	-- f/F/t/T のジャンプ先をハイライト
 	{ import = "plugins.quick_scope" },
-	--
+	-- f/F の機能強化
 	{ import = "plugins.flash" },
 
 	----- Git -----
@@ -100,7 +100,7 @@ require("lazy").setup({
 	-- ターミナル統合
 	{ import = "plugins.toggleterm" },
 	-- buffer の中身の表示場所を pane 中心にする
-	{ import = "plugins.no-neck-pain" },
+	-- { import = "plugins.no-neck-pain" },
 
 	--- その他 ---
 	{ import = "plugins.lean" },
