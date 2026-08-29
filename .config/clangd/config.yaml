@@ -1,0 +1,14 @@
+# clangd のユーザー共通デフォルト設定
+# setup_scripts/setup_config_symlink.sh により、OS ごとのユーザー設定パスへ
+# シンボリックリンクされる
+#   macOS: ~/Library/Preferences/clangd/config.yaml
+#   Linux: ~/.config/clangd/config.yaml
+#
+# プロジェクトにかかわらず、常に適用したい設定を記述
+# CompileFlags、インクルードパス、-std のバージョンなどのプロジェクト固有設定は、
+# 各プロジェクトルートの .clangd に記述する
+# 設定が競合した場合は、このユーザー設定がプロジェクトの .clangd より優先される
+# https://clangd.llvm.org/config
+
+Completion:
+  AllScopes: true
