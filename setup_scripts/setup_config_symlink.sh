@@ -3,7 +3,8 @@ set -euo pipefail
 
 # This script creates symbolic links for configuration files from the dotfiles repository to the home directory.
 
-DOTFILES_ROOT="${DOTFILES_ROOT:-$HOME/dotfiles}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+DOTFILES_ROOT="${DOTFILES_ROOT:-${SCRIPT_DIR}/..}"
 SOURCE_ROOT="$(cd "$DOTFILES_ROOT" && pwd -P)"
 
 # Targets whose home-directory path is identical to their path in the repo.
@@ -12,7 +13,6 @@ TARGETS=(
     ".bashrc"
     ".config/nvim"
     ".config/wezterm"
-    ".aerospace.toml"
 )
 
 timestamp="$(date +%Y%m%d-%H%M%S)"
@@ -56,16 +56,20 @@ for name in "${TARGETS[@]}"; do
     link_path "$SOURCE_ROOT/$name" "$HOME/$name"
 done
 
-# clangd's user config lives at a different path per OS, so it can't go
-# through the same-path TARGETS loop above.
+clangd_config="$SOURCE_ROOT/.config/clangd/config.yaml"
 case "$(uname -s)" in
 Darwin)
-    link_path "$SOURCE_ROOT/.config/clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
+    link_path "$SOURCE_ROOT/.aerospace.toml" "$HOME/.aerospace.toml"
+    if [[ -e "$clangd_config" || -L "$clangd_config" ]]; then
+        link_path "$clangd_config" "$HOME/Library/Preferences/clangd/config.yaml"
+    fi
     ;;
 Linux)
-    link_path "$SOURCE_ROOT/.config/clangd/config.yaml" "${XDG_CONFIG_HOME:-$HOME/.config}/clangd/config.yaml"
+    if [[ -e "$clangd_config" || -L "$clangd_config" ]]; then
+        link_path "$clangd_config" "${XDG_CONFIG_HOME:-$HOME/.config}/clangd/config.yaml"
+    fi
     ;;
 *)
-    warn "unsupported OS for clangd user config: $(uname -s)"
+    warn "unsupported OS for platform-specific config: $(uname -s)"
     ;;
 esac

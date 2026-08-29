@@ -2,22 +2,29 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd -P)"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/versions.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/common.sh"
+source "${REPO_ROOT}/setup_components/common.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/rust.sh"
+source "${REPO_ROOT}/setup_components/rust.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/tree_sitter.sh"
+source "${REPO_ROOT}/setup_components/tree_sitter.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/node.sh"
+source "${REPO_ROOT}/setup_components/node.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/uv.sh"
+source "${REPO_ROOT}/setup_components/uv.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/lazygit.sh"
+source "${REPO_ROOT}/setup_components/lazygit.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/neovim.sh"
+source "${REPO_ROOT}/setup_components/neovim.sh"
+# shellcheck source=/dev/null
+source "${REPO_ROOT}/setup_components/hackgen.sh"
+# shellcheck source=/dev/null
+source "${REPO_ROOT}/setup_components/just.sh"
+# shellcheck source=/dev/null
+source "${REPO_ROOT}/setup_components/docker_ubuntu.sh"
 
 setup_enable_tmp_cleanup
 
@@ -47,7 +54,9 @@ APT_PACKAGES=(
     # for neovim plugins and Mason installers
     ripgrep
 
-    # other
+    # others
+    gpg
+    fontconfig
     htop
 )
 NPM_PACKAGES=(
@@ -62,7 +71,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 # Pre-checks
 #=============================
 if [[ "$(uname -s)" != "Linux" ]]; then
-    echo "Error: this script is for Ubuntu containers only." >&2
+    echo "Error: this script is for Ubuntu hosts only." >&2
     exit 1
 fi
 
@@ -96,13 +105,29 @@ install_npm_packages "${NPM_PACKAGES[@]}"
 install_uv
 install_lazygit_for_linux
 install_neovim_from_source
+install_just_for_linux
+install_docker_engine_for_ubuntu
+
+#=============================
+# WezTerm
+#=============================
+curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
+sudo apt-get update -y
+sudo apt-get install -y --no-install-recommends wezterm-nightly
+
+#=============================
+# Fonts
+#=============================
+install_hackgen_for_linux
 
 #=============================
 # Finish: Persist environment variables
 #=============================
 persist_nvm_env_for_ubuntu
 
-echo "Ubuntu Docker environment setup completed successfully."
+echo "Ubuntu host environment setup completed successfully."
 echo
 echo "NOTE: open a new shell (or run 'exec bash') before launching Neovim so that"
 echo "      nvm's node is on \$PATH; otherwise Mason cannot install Node-based LSP"

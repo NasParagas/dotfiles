@@ -2,26 +2,27 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd -P)"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/versions.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/common.sh"
+source "${REPO_ROOT}/setup_components/common.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/rust.sh"
+source "${REPO_ROOT}/setup_components/rust.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/tree_sitter.sh"
+source "${REPO_ROOT}/setup_components/tree_sitter.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/node.sh"
+source "${REPO_ROOT}/setup_components/node.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/uv.sh"
+source "${REPO_ROOT}/setup_components/uv.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/lazygit.sh"
+source "${REPO_ROOT}/setup_components/lazygit.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/neovim.sh"
+source "${REPO_ROOT}/setup_components/neovim.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/hackgen.sh"
+source "${REPO_ROOT}/setup_components/hackgen.sh"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/setup_components/just.sh"
+source "${REPO_ROOT}/setup_components/just.sh"
 
 setup_enable_tmp_cleanup
 
