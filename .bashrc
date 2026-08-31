@@ -209,3 +209,5 @@ if command -v uv >/dev/null 2>&1; then
 else
     warn_missing "uv is not installed; shell completion skipped"
 fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
