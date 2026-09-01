@@ -7,7 +7,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	desc = "Make dir if not exist",
-	callback = function()
+	callback = function(args)
+		if vim.bo[args.buf].buftype ~= "" then
+			return
+		end
+
 		local dir = vim.fn.expand("<afile>:p:h")
 		if vim.fn.isdirectory(dir) == 0 then
 			vim.fn.mkdir(dir, "p")
