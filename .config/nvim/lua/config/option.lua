@@ -60,3 +60,20 @@ vim.opt.smartindent = true
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
+
+-- On SSH sessions there is no local clipboard tool, so copy through the
+-- terminal with OSC 52. Auto-detection fails on WezTerm (it never answers
+-- the OSC 52 read query), so set the provider explicitly. Paste falls back
+-- to the unnamed register because WezTerm blocks clipboard reads; use the
+-- terminal's paste (Ctrl+Shift+V) to bring in text from outside Neovim.
+if vim.env.SSH_TTY then
+	local osc52 = require("vim.ui.clipboard.osc52")
+	local function paste_fallback()
+		return vim.split(vim.fn.getreg('"'), "\n")
+	end
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+		paste = { ["+"] = paste_fallback, ["*"] = paste_fallback },
+	}
+end

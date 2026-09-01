@@ -5,7 +5,10 @@
 !.gitignore
 !.bashrc
 !.bash_profile
+!.aerospace.toml
 !.config
+!.config/clangd/
+!.config/clangd/**
 !.config/nvim/
 !.config/nvim/**
 !.config/kitty/
@@ -18,6 +21,8 @@
 !versions.sh
 !setup_components/
 !setup_components/**
+!setup_scripts/
+!setup_scripts/**
 !doc/
 !doc/**
 !environment_setup_for_host_macos.sh

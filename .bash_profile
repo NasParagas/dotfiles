@@ -5,3 +5,5 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 eval "$(rbenv init - --no-rehash bash)"
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin"
+
+export PATH="$HOME/.elan/bin:$PATH"

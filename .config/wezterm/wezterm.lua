@@ -1,32 +1,38 @@
 local wezterm = require("wezterm")
 
--- reload when update config
+-- config保存時に自動的にreload
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
 -- windows以外だったらbash起動
-if not wezterm.target_triple:find("windows") then
-	config.default_prog = { "/bin/bash", "-l" }
-end
+-- if not wezterm.target_triple:find("windows") then
+-- 	config.default_prog = { "/bin/bash", "-l" } -- prog == program
+-- end
 
--- font setting
+-- font
 config.font_size = 13
 config.font = wezterm.font("HackGen35 Console NF", { weight = "Bold" })
 
--- log
+-- scroll
 config.scrollback_lines = 10000
+config.enable_scroll_bar = true
+
+--------------------
+-- color setting --
+--------------------
+config.colors = {
+	scrollbar_thumb = "#dfffff",
+}
 
 --------------------
 -- window setting --
 --------------------
-
--- initail window size
+-- initial window size
 config.initial_cols = 120
 config.initial_rows = 28
 
 -- window opacity
 config.window_background_opacity = 1.0
-
 wezterm.on("toggle-opacity", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	if not overrides.window_background_opacity then
@@ -39,28 +45,61 @@ end)
 
 -- background blur
 -- config.macos_window_background_blur = 2
--- window titlebar and bordar setting
--- NONE: desable titlebar and border
--- TITLE: desable resizable border
--- RESIZE: desable title bar
--- TITLE | RESIZE: enable both (default)
-config.window_decorations = "RESIZE"
-config.audible_bell = "Disabled"
 
--- tab setting
--- transparent
+-- window titlebar and bordar setting()
+-- NONE,TITLE,RESIZE,TITLE | RESIZE の4つ。試すのがわかりやすい
+config.window_decorations = "RESIZE"
+
+-- config.audible_bell = "Disabled"
+
+-----------------
+-- tab setting --
+-----------------
+-- titlebarを透明化
 config.window_frame = {
-	inactive_titlebar_bg = "none",
+	-- inactive_titlebar_bg = "none",
 	active_titlebar_bg = "none",
 }
-config.hide_tab_bar_if_only_one_tab = true
+
+-- tabの余計なボタンとか削除
+-- config.hide_tab_bar_if_only_one_tab = true
 config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
 
--- other setting
+-- tab名を明示的に指定していない場合は、カレントディレクトリ名をtab名にする
+local function get_current_working_dir(tab)
+	local cwd_uri = tab.active_pane and tab.active_pane.current_working_dir
+	if not cwd_uri then
+		return ""
+	end
+
+	local cwd = cwd_uri.file_path or tostring(cwd_uri)
+	cwd = cwd:gsub("/$", "") -- gsub(patter, replacement)で末尾の/を取り除いている(/$で末尾($)にある/)
+
+	local home = os.getenv("HOME")
+	if home and cwd == home then
+		return "$HOME"
+	end
+
+	return cwd:match("([^/]+)$") or cwd
+end
+-- weztermは定期的に"format-tab-title"イベントを呼び出すので、それが呼ばれた時にこのhandlerを呼んでもらうように
+wezterm.on("format-tab-title", function(tab)
+	-- ユーザーが明示的に名前を設定していたらそれを優先
+	if tab.tab_title and #tab.tab_title > 0 then
+		return tab.tab_title
+	end
+	return get_current_working_dir(tab)
+end)
+
+-------------------
+-- other setting --
+-------------------
 config.hide_mouse_cursor_when_typing = true
 
--- keymaps
+-------------
+-- keybind --
+-------------
 config.keys = {
 	-- -- split pane
 	{
@@ -69,7 +108,7 @@ config.keys = {
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
-		key = "o",
+		key = "z",
 		mods = "SHIFT|CTRL",
 		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
@@ -115,7 +154,7 @@ config.keys = {
 	-- tab名変更
 	{
 		key = "r",
-		mods = "CTRL|SHIFT",
+		mods = "SHIFT|CTRL",
 		action = wezterm.action.PromptInputLine({
 			description = "Enter new name for tab",
 			action = wezterm.action_callback(function(window, pane, line)
@@ -126,8 +165,8 @@ config.keys = {
 		}),
 	},
 	{
-		key = "t",
-		mods = "CTRL|SHIFT",
+		key = "o",
+		mods = "SHIFT|CTRL",
 		action = wezterm.action.EmitEvent("toggle-opacity"),
 	},
 }

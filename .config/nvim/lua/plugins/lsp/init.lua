@@ -25,37 +25,30 @@ return {
 			attach.setup()
 			diagnostics.setup()
 
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-			local function setup_server(server_name)
-				local server = servers.definitions[server_name] or {}
-				server.capabilities =
-					vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-				require("lspconfig")[server_name].setup(server)
+			-- Completion capabilities need no manual merging: blink.cmp
+			-- registers its own via vim.lsp.config("*").
+			for server_name, definition in pairs(servers.definitions) do
+				vim.lsp.config(server_name, definition)
 			end
 
 			require("mason-tool-installer").setup({
 				ensure_installed = servers.ensure_installed(),
 			})
 
+			-- mason-lspconfig v2 enables every Mason-installed server through
+			-- vim.lsp.enable() by itself (the v1 `handlers` option is gone).
 			require("mason-lspconfig").setup({
 				ensure_installed = {},
-				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						setup_server(server_name)
-					end,
-				},
 			})
 
 			-- Servers installed outside Mason (e.g. clangd from apt on Linux
-			-- aarch64, which Mason cannot provide). Configure them when the
+			-- aarch64, which Mason cannot provide). Enable them when the
 			-- binary is present, otherwise hint how to install it.
 			for _, server_name in ipairs(servers.system_servers()) do
 				local definition = servers.definitions[server_name] or {}
 				local binary = definition.cmd and definition.cmd[1] or server_name
 				if vim.fn.executable(binary) == 1 then
-					setup_server(server_name)
+					vim.lsp.enable(server_name)
 				else
 					vim.notify(
 						("LSP %s: '%s' not found on $PATH; install it via your system package manager.")

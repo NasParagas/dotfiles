@@ -23,10 +23,10 @@ end, { desc = "Insert HTML details and summary tags" })
 --------------
 -- Render a progress bar from a selected "current/total" expression (e.g. 10/200 -> 5%)
 -- ------------
-local PROGRESS_BAR_WIDTH = 10
+local PROGRESS_BAR_WIDTH = 20
 
--- Pattern matching an already rendered bar, e.g. " [████░░░░░░] 50%"
-local PROGRESS_BAR_PATTERN = "%s*%[[█░]*%]%s*%d+%%"
+-- Pattern matching an already rendered bar, e.g. " [#####-----] 50%"
+local PROGRESS_BAR_PATTERN = "%s*%[[#%-]*%]%s*%d+%%"
 
 local function build_progress_bar(text)
 	-- Drop any previously rendered bar so re-running updates instead of appending
@@ -46,7 +46,7 @@ local function build_progress_bar(text)
 
 	local ratio = math.min(math.max(current / total, 0), 1)
 	local filled = math.floor(ratio * PROGRESS_BAR_WIDTH + 0.5)
-	local bar = string.rep("█", filled) .. string.rep("░", PROGRESS_BAR_WIDTH - filled)
+	local bar = string.rep("#", filled) .. string.rep("-", PROGRESS_BAR_WIDTH - filled)
 	local rendered = string.format("[%s] %d%%", bar, math.floor(ratio * 100 + 0.5))
 
 	-- Insert the bar right after the `current/total` value, keeping any trailing text
