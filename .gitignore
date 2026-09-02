@@ -11,6 +11,7 @@
 !.config/clangd/**
 !.config/nvim/
 !.config/nvim/**
+.config/nvim/nvim-pack-lock.json
 !.config/kitty/
 !.config/kitty/**
 !.config/wezterm
@@ -36,4 +37,3 @@
 !scripts/**
 
 .DS_STORE
-.config/nvim/lua/plugins/copilot.lua
