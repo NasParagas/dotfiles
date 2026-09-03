@@ -27,8 +27,7 @@
 !doc/
 !doc/**
 !environment_setup_for_host_macos.sh
-!environment_setup_for_host_ubuntu.sh
-!environment_setup_for_docker_ubuntu.sh
+!ubuntu_env_setup.sh
 !README.md
 !TODO.md
 !CONTRIBUTING.md
