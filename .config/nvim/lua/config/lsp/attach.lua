@@ -1,16 +1,28 @@
 local M = {}
 
-local function client_supports_method(client, method, bufnr)
-	if vim.fn.has("nvim-0.11") == 1 then
-		return client:supports_method(method, bufnr)
-	end
-
-	return client.supports_method(method, { bufnr = bufnr })
-end
-
 function M.setup()
+	local highlight_method = vim.lsp.protocol.Methods.textDocument_documentHighlight
+	local highlight_group = vim.api.nvim_create_augroup("dotfiles-lsp-highlight", { clear = true })
+	local attach_group = vim.api.nvim_create_augroup("dotfiles-lsp-attach", { clear = true })
+
+	vim.api.nvim_create_autocmd("LspDetach", {
+		group = attach_group,
+		callback = function(event)
+			-- Detach fires before the client is removed from the buffer.
+			vim.schedule(function()
+				if not vim.api.nvim_buf_is_valid(event.buf) then
+					return
+				end
+				if #vim.lsp.get_clients({ bufnr = event.buf, method = highlight_method }) == 0 then
+					vim.api.nvim_buf_call(event.buf, vim.lsp.buf.clear_references)
+					vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = event.buf })
+				end
+			end)
+		end,
+	})
+
 	vim.api.nvim_create_autocmd("LspAttach", {
-		group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+		group = attach_group,
 		callback = function(event)
 			local map = function(keys, func, desc, mode)
 				mode = mode or "n"
@@ -28,42 +40,26 @@ function M.setup()
 			map("grt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
 
 			local client = vim.lsp.get_client_by_id(event.data.client_id)
-			if
-				client
-				and client_supports_method(
-					client,
-					vim.lsp.protocol.Methods.textDocument_documentHighlight,
-					event.buf
-				)
-			then
-				local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+			if client and client:supports_method(highlight_method, event.buf) then
+				-- Multiple clients can attach to one buffer; install only one set.
+				vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = event.buf })
 				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 					buffer = event.buf,
-					group = highlight_augroup,
+					group = highlight_group,
 					callback = vim.lsp.buf.document_highlight,
 				})
 
 				vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 					buffer = event.buf,
-					group = highlight_augroup,
+					group = highlight_group,
 					callback = vim.lsp.buf.clear_references,
-				})
-
-				vim.api.nvim_create_autocmd("LspDetach", {
-					group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
-					callback = function(event2)
-						vim.lsp.buf.clear_references()
-						vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
-					end,
 				})
 			end
 
-			if
-				client
-				and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
-			then
+			if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 				map("<leader>lh", function()
-					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+					local filter = { bufnr = event.buf }
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
 				end, "[L]SP Toggle Inlay [H]ints")
 			end
 		end,

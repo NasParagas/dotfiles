@@ -88,6 +88,7 @@ function M.ensure_installed()
 	vim.list_extend(ensure_installed, {
 		"stylua",
 	})
+	table.sort(ensure_installed)
 
 	return ensure_installed
 end
