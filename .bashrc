@@ -191,6 +191,13 @@ else
     warn_missing "user-local environment file not found: $HOME/.local/bin/env"
 fi
 
+# RISC-V toolchain (riscv-gnu-toolchain, installed by get-riscv-toolchain.sh)
+if [ -d "/opt/riscv/bin" ]; then
+    export PATH="/opt/riscv/bin:$PATH"
+else
+    warn_missing "RISC-V toolchain not found: /opt/riscv/bin"
+fi
+
 # Node.js via nvm. Node-based LSP servers such as bash-language-server depend on this.
 export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
