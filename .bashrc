@@ -220,3 +220,6 @@ fi
 
 # opencode
 export PATH=$HOME/.opencode/bin:$PATH
+
+# 
+export VIMRUNTIME="$HOME/neovim/runtime"
