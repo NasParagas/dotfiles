@@ -11,6 +11,7 @@
 !.config/clangd/**
 !.config/nvim/
 !.config/nvim/**
+.config/nvim/nvim-pack-lock.json
 !.config/kitty/
 !.config/kitty/**
 !.config/wezterm
@@ -26,8 +27,7 @@
 !doc/
 !doc/**
 !environment_setup_for_host_macos.sh
-!environment_setup_for_host_ubuntu.sh
-!environment_setup_for_docker_ubuntu.sh
+!ubuntu_env_setup.sh
 !README.md
 !TODO.md
 !CONTRIBUTING.md
@@ -36,4 +36,3 @@
 !scripts/**
 
 .DS_STORE
-.config/nvim/lua/plugins/copilot.lua
