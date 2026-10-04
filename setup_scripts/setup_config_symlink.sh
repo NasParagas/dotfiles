@@ -7,14 +7,16 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 DOTFILES_ROOT="${DOTFILES_ROOT:-${SCRIPT_DIR}/..}"
 SOURCE_ROOT="$(cd "$DOTFILES_ROOT" && pwd -P)"
 
-# Targets whose home-directory path is identical to their path in the repo.
+# Targets at home-directory.
 TARGETS=(
     ".bash_profile"
     ".bashrc"
+    ".config/aerospace"
     ".config/nvim"
     ".config/wezterm"
 )
 
+# backup file suffix 
 timestamp="$(date +%Y%m%d-%H%M%S)"
 
 info() { printf '\033[1;32m[INFO]\033[0m %s\n' "$*"; }
@@ -28,8 +30,8 @@ link_path() {
 
     # check if source exists
     if [[ ! -e "$src" && ! -L "$src" ]]; then
-        error "source not found: $src"
-        exit 1
+        warn "source not found: $src"
+        return
     fi
 
     # check if dest is already linked to the src
@@ -59,7 +61,6 @@ done
 clangd_config="$SOURCE_ROOT/.config/clangd/config.yaml"
 case "$(uname -s)" in
 Darwin)
-    link_path "$SOURCE_ROOT/.aerospace.toml" "$HOME/.aerospace.toml"
     if [[ -e "$clangd_config" || -L "$clangd_config" ]]; then
         link_path "$clangd_config" "$HOME/Library/Preferences/clangd/config.yaml"
     fi
