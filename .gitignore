@@ -1,7 +1,5 @@
 # white-list
 *
-!.github/
-!.github/pull_request_template.md
 !.gitignore
 !.bashrc
 !.bash_profile
@@ -12,12 +10,8 @@
 !.config/nvim/
 !.config/nvim/**
 .config/nvim/nvim-pack-lock.json
-!.config/kitty/
-!.config/kitty/**
 !.config/wezterm
 !.config/wezterm/**
-!.config/ghostty
-!.config/ghostty/**
 !setup_config_symlink.sh
 !versions.sh
 !setup_components/
@@ -29,8 +23,6 @@
 !environment_setup_for_host_macos.sh
 !ubuntu_env_setup.sh
 !README.md
-!TODO.md
-!CONTRIBUTING.md
 !AGENTS.md
 !scripts/
 !scripts/**
