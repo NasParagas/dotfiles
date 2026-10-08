@@ -3,33 +3,30 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# If not running interactively, don't do anything
+# If not running interactively, don't source this file.
 case $- in
 *i*) ;;
 *) return ;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
+### history config
+# don't put duplicate lines in the ./.bash_history
+HISTCONTROL=ignoredups
 # append to the history file, don't overwrite it
 shopt -s histappend
+# size of bash session history
+HISTSIZE=10000
+# size of .bash_history
+HISTFILESIZE=20000
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# update the values of LINES and COLUMNS after each command
 shopt -s checkwinsize
 
-os_name="$(uname -s)"
-
 is_wsl() {
-    [[ -n "${WSL_DISTRO_NAME:-}" || -n "${WSL_INTEROP:-}" ]] && return 0
     grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null
 }
+
+os_name="$(uname -s)"
 
 case "$os_name" in
 Darwin)
