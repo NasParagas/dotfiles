@@ -3,8 +3,9 @@
 !.gitignore
 !.bashrc
 !.bash_profile
-!.aerospace.toml
 !.config
+!.config/aerospace/
+!.config/aerospace/**
 !.config/clangd/
 !.config/clangd/**
 !.config/nvim/
