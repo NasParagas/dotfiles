@@ -106,8 +106,8 @@ MetalとCUDAはC++パーサーを再利用する。
 - **Treesitter**: パーサーのビルドにはCコンパイラ、tree-sitter CLIなどが必要。
   正確な要件は`:checkhealth nvim-treesitter`で確認できる。
 - **検索**: Telescopeのgrepには`rg`、fzf拡張のビルドには`make`が必要。
-- **ターミナル**: `/bin/bash`を利用する。`<leader>r...`はプロジェクトの`justfile`にある
-  `test`、`watch`、`check`、`dev`レシピを呼ぶ。
+- **ターミナル**: `PATH`上の`bash`を利用する（なければ`/bin/bash`）。
+  `<leader>r...`はプロジェクトの`justfile`にある`test`、`watch`、`check`、`dev`レシピを呼ぶ。
 - **Metal**: `xcrun -sdk macosx metal`を利用する。`xcrun`がない環境では診断処理を開始しない。
 - **Markdown内の数式**: render-markdownのLaTeX描画には`utftex`または`latex2text`を利用する。
 
