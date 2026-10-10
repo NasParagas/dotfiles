@@ -1,5 +1,3 @@
--- Colorschemes are lazy: lazy.nvim loads one when `:colorscheme <name>` runs or its
--- module is required, which is how Themery applies the saved theme at startup.
 return {
 	{
 		"catppuccin/nvim",

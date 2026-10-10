@@ -4,7 +4,6 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			-- Follow the colorscheme picked with Themery.
 			theme = "auto",
 		},
 		sections = {

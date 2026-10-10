@@ -11,7 +11,6 @@ return {
 		"ToggleTermSendVisualSelection",
 		"ToggleTermSetName",
 	},
-	-- Always use bash, preferring the one on PATH (Homebrew bash over /bin/bash 3.2 on macOS).
 	opts = function()
 		local bash = vim.fn.exepath("bash")
 		return { shell = bash ~= "" and bash or "/bin/bash" }

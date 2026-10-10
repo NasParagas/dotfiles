@@ -75,8 +75,6 @@ fi
 #############
 # user setting
 #############
-# Warn only about tools the setup scripts install on every host.
-# Optional tools (RISC-V, opencode, ...) are added silently when present.
 warn_missing() {
     printf '[WARN] .bashrc: %s\n' "$*" >&2
 }
