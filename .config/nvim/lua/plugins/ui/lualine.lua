@@ -4,7 +4,8 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			theme = "everforest",
+			-- Follow the colorscheme picked with Themery.
+			theme = "auto",
 		},
 		sections = {
 			lualine_a = { "mode" },

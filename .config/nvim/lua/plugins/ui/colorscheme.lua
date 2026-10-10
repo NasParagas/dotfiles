@@ -1,63 +1,53 @@
+-- Colorschemes are lazy: lazy.nvim loads one when `:colorscheme <name>` runs or its
+-- module is required, which is how Themery applies the saved theme at startup.
 return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"rebelot/kanagawa.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"neanias/everforest-nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"maxmx03/fluoromachine.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"github-main-user/lytmode.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"NTBBloodbath/sweetie.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"thesimonho/kanagawa-paper.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"shaunsingh/moonlight.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"rmehri01/onenord.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"savq/melange-nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 }

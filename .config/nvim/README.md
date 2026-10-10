@@ -51,7 +51,7 @@ disabled/                  無効なプラグイン設定の保管場所
 
 | 用途 | 方針・例 |
 | --- | --- |
-| 起動直後に必要 | `lazy = false`。配色、Oil、Treesitter、LSP基盤 |
+| 起動直後に必要 | `lazy = false`。Themery、Oil、Treesitter、LSP基盤 |
 | 入力時に必要 | `event = "InsertEnter"`。autopairs、autotag |
 | バッファで継続的に動作 | `BufReadPost` / `BufNewFile`。gitsigns、ufoなど |
 | 保存時に必要 | `BufWritePre`。Conform |
@@ -62,6 +62,9 @@ TelescopeはLSPのピッカーと`vim.ui.select`も担当するため、LSPの�
 読み込む。Blinkも最初のLSPクライアントに補完capabilitiesを渡すため、
 LSPの依存として読み込む。シグネチャ表示はBlinkに統一している。
 Flashは標準の`f/F/t/T`との連携があるため、`VeryLazy`で初期化する。
+配色のプラグインは`lazy = true`にしている。Themeryが保存済みの配色を適用するときの
+`require()`や`:colorscheme`でLazyが該当するものだけを読み込む。
+lualineは`theme = "auto"`で、選んだ配色に追従する。
 
 ## 設定を追加・変更するとき
 
