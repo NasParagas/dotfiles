@@ -3,6 +3,8 @@
 !.gitignore
 !.bashrc
 !.bash_profile
+!README.md
+!LICENSE
 !.config
 !.config/aerospace/
 !.config/aerospace/**
@@ -13,19 +15,9 @@
 .config/nvim/nvim-pack-lock.json
 !.config/wezterm
 !.config/wezterm/**
-!setup_config_symlink.sh
-!versions.sh
 !setup_components/
 !setup_components/**
 !setup_scripts/
 !setup_scripts/**
-!doc/
-!doc/**
-!environment_setup_for_host_macos.sh
-!ubuntu_env_setup.sh
-!README.md
-!AGENTS.md
-!scripts/
-!scripts/**
 
-.DS_STORE
+.DS_Store
