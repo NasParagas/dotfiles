@@ -75,8 +75,8 @@ fi
 #############
 # user setting
 #############
-echo "hello from .bashrc"
-
+# Warn only about tools the setup scripts install on every host.
+# Optional tools (RISC-V, opencode, ...) are added silently when present.
 warn_missing() {
     printf '[WARN] .bashrc: %s\n' "$*" >&2
 }
@@ -102,8 +102,6 @@ fi
 # RISC-V toolchain (riscv-gnu-toolchain, installed by get-riscv-toolchain.sh)
 if [ -d "/opt/riscv/bin" ]; then
     export PATH="/opt/riscv/bin:$PATH"
-else
-    warn_missing "RISC-V toolchain not found: /opt/riscv/bin"
 fi
 
 # Node.js via nvm. Node-based LSP servers such as bash-language-server depend on this.
@@ -127,4 +125,6 @@ fi
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 # opencode
-export PATH=$HOME/.opencode/bin:$PATH
+if [ -d "$HOME/.opencode/bin" ]; then
+    export PATH="$HOME/.opencode/bin:$PATH"
+fi
