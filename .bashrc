@@ -84,13 +84,6 @@ warn_missing() {
 # Use a compact colored prompt for interactive shells.
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 
-# neovim built from source
-if [ -d "$HOME/neovim/build/bin" ]; then
-    export PATH="$HOME/neovim/build/bin:$PATH"
-else
-    warn_missing "Neovim build path not found: $HOME/neovim/build/bin"
-fi
-
 # Rust
 if [ -r "$HOME/.cargo/env" ]; then
     # shellcheck source=/dev/null
@@ -135,6 +128,3 @@ fi
 
 # opencode
 export PATH=$HOME/.opencode/bin:$PATH
-
-# 
-export VIMRUNTIME="$HOME/neovim/runtime"
