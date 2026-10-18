@@ -146,10 +146,10 @@ install_uv
 install_lazygit_for_linux
 install_neovim_from_source
 install_opencode
+install_herdr
 
 if [[ "${PROFILE}" != "container" ]]; then
     install_just_for_linux
-    install_herdr
     install_docker_engine_for_ubuntu
 fi
 
