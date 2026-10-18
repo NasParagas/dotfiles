@@ -61,12 +61,13 @@ vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
 
--- On SSH sessions there is no local clipboard tool, so copy through the
--- terminal with OSC 52. Auto-detection fails on WezTerm (it never answers
--- the OSC 52 read query), so set the provider explicitly. Paste falls back
--- to the unnamed register because WezTerm blocks clipboard reads; use the
--- terminal's paste (Ctrl+Shift+V) to bring in text from outside Neovim.
-if vim.env.SSH_TTY then
+-- On SSH sessions and inside containers there is no local clipboard tool, so
+-- copy through the terminal with OSC 52. Auto-detection fails on WezTerm (it
+-- never answers the OSC 52 read query), so set the provider explicitly. Paste
+-- falls back to the unnamed register because WezTerm blocks clipboard reads;
+-- use the terminal's paste (Ctrl+Shift+V) to bring in text from outside Neovim.
+local in_container = vim.fn.filereadable("/.dockerenv") == 1 or vim.fn.filereadable("/run/.containerenv") == 1
+if vim.env.SSH_TTY or in_container then
 	local osc52 = require("vim.ui.clipboard.osc52")
 	local function paste_fallback()
 		return vim.split(vim.fn.getreg('"'), "\n")
