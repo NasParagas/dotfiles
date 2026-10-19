@@ -27,5 +27,7 @@
 !AGENTS.md
 !scripts/
 !scripts/**
+!bin/
+!bin/**
 
 .DS_STORE
