@@ -4,6 +4,20 @@ return {
 	lazy = false,
 	build = ":TSUpdate",
 	config = function()
+		-- Parsers not bundled with nvim-treesitter. Registered on TSUpdate so
+		-- install() and :TSUpdate both see them.
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "TSUpdate",
+			callback = function()
+				require("nvim-treesitter.parsers").veryl = {
+					install_info = {
+						url = "https://github.com/veryl-lang/tree-sitter-veryl",
+						queries = "queries",
+					},
+				}
+			end,
+		})
+
 		-- One parser -> filetypes table controls installation and highlighting.
 		-- Empty lists are parsers used only through language injections.
 		local languages = {
@@ -23,6 +37,8 @@ return {
 			python = { "python" },
 			query = { "query" },
 			typescript = { "typescript" },
+			-- .veryl files keep veryl.vim's syntax; the parser is for injections.
+			veryl = {},
 			vim = { "vim" },
 			vimdoc = { "help" },
 		}
