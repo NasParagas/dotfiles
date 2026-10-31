@@ -49,6 +49,10 @@ end)
 -- window titlebar and bordar setting()
 -- NONE,TITLE,RESIZE,TITLE | RESIZE の4つ。試すのがわかりやすい
 config.window_decorations = "RESIZE"
+-- Linuxはタイトルバーがないとマウスでウィンドウを動かせないので残す
+if wezterm.target_triple:find("linux") then
+	config.window_decorations = "TITLE | RESIZE"
+end
 
 -- config.audible_bell = "Disabled"
 
