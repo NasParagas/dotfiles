@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+# hdl-schematic: SystemVerilog / Verilog から回路図 (SVG) を作る
+#
+#   sv2v (SV -> Verilog) -> yosys (合成して JSON に) -> netlistsvg (SVG に描画)
+#   --dot のときは netlistsvg の代わりに yosys の show (graphviz) で描く
+#
+# 必要なツールは setup-hdl-tools で入る。
+set -euo pipefail
+
+usage() {
+    cat <<USAGE
+Usage: $(basename "$0") -t TOP [options] FILE...
+
+FILE の中のモジュール TOP の回路図を SVG で出力する。
+FILE には .sv / .v を指定する (Veryl なら veryl build で出る target/*.sv)。
+TOP が使っている別モジュールやパッケージのファイルも一緒に渡すこと。
+
+Options:
+  -t, --top NAME   回路図にするモジュール名 (必須)
+                   Veryl の場合はプロジェクト名が前に付く (例: study_full_adder)
+  -o, --out FILE   出力先 (省略時: NAME.svg)
+  --flat           下位のモジュールを展開して 1 枚の図にする
+  --gate           AND / OR / XOR などの基本ゲートまで分解して描く
+  --dot            netlistsvg ではなく graphviz で描く
+                   (見た目は素っ気ないが、大きい回路でも描ける)
+  --open           出力後にビューアで開く
+  -h, --help       このヘルプを表示
+
+Example:
+  cd study && veryl build
+  $(basename "$0") -t study_full_adder --gate target/01_comb.sv
+  $(basename "$0") -t study_adder4 --flat --gate target/01_comb.sv
+  $(basename "$0") -t study_counter target/02_counter.sv
+  $(basename "$0") -t study_regfile --dot target/03_alu.sv target/04_regfile.sv
+USAGE
+}
+
+TOP=""
+OUT=""
+FLAT=0
+GATE=0
+DOT=0
+OPEN=0
+FILES=()
+
+while (($# > 0)); do
+    case "$1" in
+        -t | --top)
+            TOP="${2:?--top needs a value}"
+            shift
+            ;;
+        -o | --out)
+            OUT="${2:?--out needs a value}"
+            shift
+            ;;
+        --flat) FLAT=1 ;;
+        --gate) GATE=1 ;;
+        --dot) DOT=1 ;;
+        --open) OPEN=1 ;;
+        -h | --help)
+            usage
+            exit 0
+            ;;
+        -*)
+            echo "Error: unknown option: $1" >&2
+            exit 1
+            ;;
+        *) FILES+=("$1") ;;
+    esac
+    shift
+done
+
+if [[ -z "${TOP}" || ${#FILES[@]} -eq 0 ]]; then
+    usage >&2
+    exit 1
+fi
+OUT="${OUT:-${TOP}.svg}"
+
+required=(sv2v yosys)
+if ((DOT)); then
+    required+=(dot)
+else
+    required+=(netlistsvg)
+fi
+for cmd in "${required[@]}"; do
+    if ! command -v "${cmd}" >/dev/null 2>&1; then
+        echo "Error: ${cmd} が見つかりません (setup-hdl-tools で入れてください)" >&2
+        exit 1
+    fi
+done
+
+TMP_DIR="$(mktemp -d)"
+trap 'rm -rf "${TMP_DIR}"' EXIT
+
+# 1. SystemVerilog -> Verilog
+sv2v "${FILES[@]}" >"${TMP_DIR}/design.v"
+
+# TOP が無ければ、使えるモジュール名を表示して終わる
+if ! grep -qE "^module ${TOP}\b" "${TMP_DIR}/design.v"; then
+    echo "Error: モジュール '${TOP}' が見つかりません。指定できるモジュール:" >&2
+    sed -nE 's/^module ([A-Za-z0-9_$]+).*/  \1/p' "${TMP_DIR}/design.v" >&2
+    exit 1
+fi
+
+# 2. yosys で合成して JSON に
+#    proc: always ブロックを FF やマルチプレクサに変換
+#    opt : 不要な部分を取り除く
+script="read_verilog ${TMP_DIR}/design.v; hierarchy -check -top ${TOP}; proc; opt -purge"
+((FLAT)) && script+="; flatten; opt -purge"
+((GATE)) && script+="; techmap; opt -purge"
+script+="; clean -purge"
+
+if ((DOT)); then
+    # 3. yosys の show で graphviz を使って描く (<prefix>.svg ができる)
+    yosys -q -p "${script}; show -format svg -prefix ${TMP_DIR}/design ${TOP}"
+    mv "${TMP_DIR}/design.svg" "${OUT}"
+else
+    # 3. JSON に書き出して netlistsvg で描く
+    yosys -q -p "${script}; write_json ${TMP_DIR}/design.json"
+    if ! netlistsvg "${TMP_DIR}/design.json" -o "${OUT}"; then
+        echo "Error: netlistsvg が失敗しました。回路が大きすぎる場合は --dot を試してください" >&2
+        exit 1
+    fi
+fi
+echo "wrote ${OUT}"
+
+if ((OPEN)); then
+    if command -v open >/dev/null 2>&1; then
+        open "${OUT}"
+    elif command -v xdg-open >/dev/null 2>&1; then
+        xdg-open "${OUT}"
+    fi
+fi
