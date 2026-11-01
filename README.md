@@ -13,13 +13,13 @@
 ## 構成
 
 ```text
-install.sh    入口
-profiles/     マシンの役割ごとのモジュール一覧
-modules/      ツール単位の設定、インストール処理、シェル連携
-lib/          OS 判定、パッケージ導入、リンク処理
+install.sh    setup 時に実行する script
+profiles/     対象 machine ごとの module
+modules/      tool ことの設定、install 処理、 PATH 設定などが記載された script 郡
+lib/          script で使用する処理関数置き場
 ```
 
-追加や変更の置き場所は [AGENTS.md](AGENTS.md) を参照。
+tool の追加や変更をする際にいじるべきファイル等は [AGENTS.md](AGENTS.md) を参照。
 
 ## setup
 
@@ -74,9 +74,10 @@ git pull
 - neovim
 - opencode
 - claude
-- mise で管理: node, uv, lazygit, just, tree-sitter, yarn
-- rust, herdr, wezterm, aerospace, docker, HDL 関連ツール
-- go, java, rbenv, lean
+- mise で管理: node, uv, lazygit, just, tree-sitter
+- herdr, wezterm, aerospace, docker
+
+必要なマシンにだけ入れるツールや、管理していないツールの入れ方は [docs/tools.md](docs/tools.md) を参照。
 
 ### その他
 

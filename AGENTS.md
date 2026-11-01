@@ -1,26 +1,25 @@
 # AGENTS.md
 
-macOS と Ubuntu で共有する個人用 dotfiles。Neovim の設定が中心で、`./install.sh <profile>` で環境を構築する。
+macOS と Ubuntu で共有する個人用 dotfiles
 
 ## 構成
 
-- `install.sh`: 入口。プロファイルが指定したモジュールを順に処理する
-- `unlink.sh`: `install.sh` が作ったリンクを削除し、バックアップを戻す。導入したツールは残す
-- `profiles/`: マシンの役割ごとのモジュール一覧。全環境共通は `cli.sh`
+- `install.sh`: profile が指定した module を順に処理する setup 用 script
+- `unlink.sh`: `install.sh` が作った symlink を削除し、backup から復元する( install した tool はそのまま)
+- `profiles/`: profile ごとの module 一覧。 `cli.sh` は全環境共通
 - `modules/<name>/`: ツール単位の設定、インストール処理、シェル連携
-- `lib/`: OS 判定、パッケージ導入、リンク処理
+- `lib/`: script で用いる処理関数置き場
 - `modules/nvim/config/`: Neovim 設定。詳細は同じディレクトリの `README.md` を読む
 
 OS は `lib/os.sh` が自動判定し、プロファイルは役割だけを表す。
 
 ## モジュールの規約
 
-ファイルはすべて任意。置くだけで次のように扱われる。
+必要なファイルだけ配置、記載する。それぞれ次のように扱われる。
 
 | ファイル | 扱い |
 | --- | --- |
-| `packages.brew` / `packages.apt` | 該当するパッケージマネージャーで導入する |
-| `packages.cask` | macOS で Homebrew の cask として導入する。tap の cask は `owner/tap/name` と書く |
+| `packages.****` | 該当するパッケージマネージャーで導入する(tap の cask は `owner/tap/name` と書く) |
 | `module.sh` の `module_links` | `link <モジュール内のパス> <リンク先>` を書く |
 | `module.sh` の `module_install` | パッケージ以外のインストール処理を書く。冪等にする |
 | `shell.sh` | `~/.config/bash/rc.d/<name>.sh` にリンクする |
@@ -35,6 +34,9 @@ OS は `lib/os.sh` が自動判定し、プロファイルは役割だけを表�
 - 設定やシェル連携が必要なツール: `modules/<name>/` を作り、プロファイルに足す
 - ツール固有の実行ファイル: `modules/<tool>/bin/`
 - 汎用の実行ファイル: `modules/scripts/bin/`
+- 必要なマシンにだけ手動で入れるツール: `modules/scripts/bin/setup-<name>`
+- 特定のプロジェクトでしか使わないツール: dotfiles に入れず、そのプロジェクトの `mise.toml` や Dockerfile に書く
+- どれにも当たらない、手順だけ残すツール: `docs/tools.md`
 - マシン固有の値: Git 管理外の `~/.config/dotfiles/local.sh`。リポジトリに入れない
 
 ## 実装時の注意
