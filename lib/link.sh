@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-# Symlink management. Every link made by a run is recorded in a manifest, so a
-# later run can remove links left by modules that were dropped from the profile.
+# Symlink management. Links are recorded in a manifest as they are made, so
+# unlink.sh can undo a run that stopped halfway, and a later run can remove
+# links left by modules that were dropped from the profile.
 
 LINK_MANIFEST="${XDG_STATE_HOME:-${HOME}/.local/state}/dotfiles/links"
+PREVIOUS_LINKS="$(cat "${LINK_MANIFEST}" 2>/dev/null || true)"
 LINKED_PATHS=""
 BACKUP_SUFFIX="backup-$(date +%Y%m%d-%H%M%S)"
 
@@ -21,14 +23,14 @@ link() {
 
     LINKED_PATHS="${LINKED_PATHS}${dst}
 "
+    mkdir -p "$(dirname "${LINK_MANIFEST}")"
+    printf '%s\n' "${dst}" >>"${LINK_MANIFEST}"
 
     if [[ -L "${dst}" && "$(readlink "${dst}")" == "${src}" ]]; then
         return 0
     fi
 
     if is_repo_link "${dst}"; then
-        rm "${dst}"
-    elif [[ -f "${dst}" && ! -L "${dst}" ]] && cmp -s "${src}" "${dst}"; then
         rm "${dst}"
     elif [[ -e "${dst}" || -L "${dst}" ]]; then
         warn "backup: ${dst} -> ${dst}.${BACKUP_SUFFIX}"
@@ -59,21 +61,21 @@ link_conventional_paths() {
 prune_stale_links() {
     local path
 
-    if [[ -f "${LINK_MANIFEST}" ]]; then
-        while IFS= read -r path; do
-            case "
+    while IFS= read -r path; do
+        [[ -n "${path}" ]] || continue
+
+        case "
 ${LINKED_PATHS}" in
-                *"
+            *"
 ${path}
 "*) continue ;;
-            esac
+        esac
 
-            if is_repo_link "${path}"; then
-                info "remove stale link: ${path}"
-                rm "${path}"
-            fi
-        done <"${LINK_MANIFEST}"
-    fi
+        if is_repo_link "${path}"; then
+            info "remove stale link: ${path}"
+            rm "${path}"
+        fi
+    done <<<"${PREVIOUS_LINKS}"
 
     mkdir -p "$(dirname "${LINK_MANIFEST}")"
     printf '%s' "${LINKED_PATHS}" >"${LINK_MANIFEST}"
