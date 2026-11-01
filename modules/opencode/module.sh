@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-module_install() {
+install_module_extras() {
     export PATH="${HOME}/.opencode/bin:${PATH}"
 
     if ! have opencode; then

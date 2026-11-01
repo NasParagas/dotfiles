@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-# Preconditions that package installation depends on. install.sh installs the
-# packages right after this file is sourced, so the checks run at source time.
-if ((LINK_ONLY == 0)); then
+# パッケージ導入に必要な前提を確認し、後続の module も使う PATH を整える
+prepare_module() {
     case "${OS}" in
         darwin)
             xcode-select -p >/dev/null 2>&1 || die "Xcode Command Line Tools are required. Run: xcode-select --install"
@@ -19,9 +18,10 @@ if ((LINK_ONLY == 0)); then
                 sudo -v || die "sudo privileges are required."
             fi
             ;;
+        *) die_unsupported_os ;;
     esac
-fi
+}
 
-module_install() {
+install_module_extras() {
     ensure_local_bin
 }

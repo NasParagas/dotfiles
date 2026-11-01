@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-module_links() {
-    link config "${HOME}/.config/mise"
+create_module_symlinks() {
+    symlink config "${HOME}/.config/mise"
 }
 
 MISE_VERSION="v2026.10.24"
 
-module_install() {
+install_module_extras() {
     case "${OS}" in
         darwin) ;; # packages.brew
         ubuntu)
@@ -16,7 +16,7 @@ module_install() {
                 curl -fsSL https://mise.run | MISE_VERSION="${MISE_VERSION}" sh
             fi
             ;;
-        *) unsupported_os ;;
+        *) die_unsupported_os ;;
     esac
 
     mise install --yes

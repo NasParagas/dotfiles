@@ -11,6 +11,7 @@
 | `setup-rust` | Rust（rustup） |
 | `setup-lean` | Lean（elan） |
 | `setup-hdl-tools` | yosys, graphviz, sv2v, verilator, netlistsvg, surfer |
+| `setup-sshd` | openssh-server（Ubuntu のみ） |
 
 `setup-hdl-tools` の Linux 版は、sv2v と surfer を x86_64 でのみ導入する。GUI のないサーバーでは `--no-viewer` を付ける。
 

@@ -14,12 +14,26 @@
 
 ```text
 install.sh    setup 時に実行する script
+unlink.sh     install.sh が作った link を元に戻す script
 profiles/     対象 machine ごとの module
-modules/      tool ことの設定、install 処理、 PATH 設定などが記載された script 郡
+modules/      tool ごとの設定、install 処理、 PATH 設定などが記載された script 群
 lib/          script で使用する処理関数置き場
+docs/         install.sh が入れない tool の手順
 ```
 
 tool の追加や変更をする際にいじるべきファイル等は [AGENTS.md](AGENTS.md) を参照。
+
+## 処理の流れ
+
+`install.sh <profile>` は、`profiles/<profile>.sh` に書かれた module を順に、次の手順で処理する。
+
+1. `prepare_module`: 前提を確認する
+2. パッケージを導入する
+3. リンクを作る
+4. `install_module_extras`: パッケージ以外のインストール処理を行う
+
+すべての module の処理後に、profile から外れた module のリンクを削除する。
+`--link-only` のときは、リンクの処理だけを行う。
 
 ## setup
 
@@ -41,7 +55,7 @@ cd ~/dotfiles
 
 - ツールのバージョンは `modules/mise/config/config.toml` で管理する。
 - Ubuntu で `sudo` なしに `docker` を使う場合は、`DOCKER_ADD_USER_TO_GROUP=true` を付けて実行する。
-- マシン固有の設定は、Git 管理外の `~/.config/dotfiles/local.sh` に書く。
+- マシン固有の設定は、Git 管理外の `~/.config/dotfiles/local.sh` に書く。対話シェルでのみ読まれる。
 
 ### pull した後
 
@@ -73,7 +87,6 @@ git pull
 
 - neovim
 - opencode
-- claude
 - mise で管理: node, uv, lazygit, just, tree-sitter
 - herdr, wezterm, aerospace, docker
 
@@ -94,7 +107,7 @@ sudo apt update
 sudo apt install git
 
 # Ubuntu に ssh で入れるようにする場合（clone 後に実行）
-bash ~/dotfiles/modules/sshd/ubuntu-host-minimal-setup.sh
+bash ~/dotfiles/modules/scripts/bin/setup-sshd
 
 # macOS
 xcode-select --install

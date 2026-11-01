@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-module_links() {
+create_module_symlinks() {
     case "${OS}" in
-        darwin) link config.yaml "${HOME}/Library/Preferences/clangd/config.yaml" ;;
-        ubuntu) link config.yaml "${HOME}/.config/clangd/config.yaml" ;;
-        *) unsupported_os ;;
+        darwin) symlink config.yaml "${HOME}/Library/Preferences/clangd/config.yaml" ;;
+        ubuntu) symlink config.yaml "${HOME}/.config/clangd/config.yaml" ;;
+        *) die_unsupported_os ;;
     esac
 }

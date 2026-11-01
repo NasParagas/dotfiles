@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-module_links() {
-    link config "${HOME}/.config/nvim"
+create_module_symlinks() {
+    symlink config "${HOME}/.config/nvim"
 }

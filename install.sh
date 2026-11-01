@@ -7,8 +7,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 PROFILE_DIR="${REPO_ROOT}/profiles"
 
-# ---- 使い方の表示 ----
-usage() {
+print_usage() {
     cat <<EOF
 Usage: $(basename "$0") <profile> [--link-only]
 
@@ -23,7 +22,7 @@ Options:
 EOF
 }
 
-# ---- 引数の解析 ----
+# 引数解析
 PROFILE=""
 LINK_ONLY=0
 
@@ -31,16 +30,16 @@ while (($# > 0)); do
     case "$1" in
     --link-only) LINK_ONLY=1 ;;
     -h | --help)
-        usage
+        print_usage
         exit 0
         ;;
     -*)
-        usage >&2
+        print_usage >&2
         exit 2
         ;;
     *)
         if [[ -n "${PROFILE}" ]]; then
-            usage >&2
+            print_usage >&2
             exit 2
         fi
         PROFILE="$1"
@@ -51,21 +50,20 @@ done
 
 # profile の指定漏れや、存在しない profile を弾く
 if [[ -z "${PROFILE}" || ! -f "${PROFILE_DIR}/${PROFILE}.sh" ]]; then
-    usage >&2
+    print_usage >&2
     exit 2
 fi
 
-# ---- 共通処理の読み込みと OS 判定 ----
 # shellcheck source=lib/common.sh
 source "${REPO_ROOT}/lib/common.sh"
 # shellcheck source=lib/os.sh
 source "${REPO_ROOT}/lib/os.sh"
-# shellcheck source=lib/link.sh
-source "${REPO_ROOT}/lib/link.sh"
+# shellcheck source=lib/packages.sh
+source "${REPO_ROOT}/lib/packages.sh"
+# shellcheck source=lib/symlink.sh
+source "${REPO_ROOT}/lib/symlink.sh"
 
-# 途中で失敗した場合にも tmp dir を削除
 trap cleanup_tmp_dirs EXIT
-
 detect_os
 
 # ---- 指定された profile の module を読み込む ----
@@ -83,8 +81,8 @@ for MODULE in "${MODULES[@]}"; do
     MODULE_DIR="${REPO_ROOT}/modules/${MODULE}"
     info "module: ${MODULE}"
 
-    # 前の module の関数が残らないように消す
-    unset -f module_links module_install 2>/dev/null || true
+    # 前の module の setup 関数を消す
+    unset -f prepare_module create_module_symlinks install_module_extras 2>/dev/null || true
 
     if [[ -f "${MODULE_DIR}/module.sh" ]]; then
         # shellcheck source=/dev/null
@@ -92,29 +90,31 @@ for MODULE in "${MODULES[@]}"; do
     fi
 
     # -- 対象 module において対応する処理があれば実行する --
-    if ((LINK_ONLY == 0)) && [[ -f "${MODULE_DIR}/packages.${PKG_MANAGER}" ]]; then
-        install_packages "${MODULE_DIR}/packages.${PKG_MANAGER}"
+    # パッケージ導入より前に、module の前提を確認する
+    if ((LINK_ONLY == 0)) && declare -F prepare_module >/dev/null; then
+        prepare_module
     fi
 
-    if ((LINK_ONLY == 0)) && [[ "${PKG_MANAGER}" == "brew" && -f "${MODULE_DIR}/packages.cask" ]]; then
-        install_casks "${MODULE_DIR}/packages.cask"
+    if ((LINK_ONLY == 0)); then
+        install_packages_for_module "${MODULE_DIR}"
     fi
 
-    # リンクを作る。bin/ と rc.d/ はリンク先が決まっていて、それ以外は module_links に書く
-    link_contents bin "${HOME}/.local/bin"
-    link_contents rc.d "${HOME}/.config/bash/rc.d"
-    if declare -F module_links >/dev/null; then
-        module_links
+    # リンクを作る。bin/ と rc.d/ はリンク先が決まっていて、それ以外は create_module_symlinks に書く
+    symlink_contents bin "${HOME}/.local/bin"
+    symlink_contents rc.d "${HOME}/.config/bash/rc.d"
+    if declare -F create_module_symlinks >/dev/null; then
+        create_module_symlinks
     fi
 
     # パッケージ以外のインストール処理を実行する
-    if ((LINK_ONLY == 0)) && declare -F module_install >/dev/null; then
-        module_install
+    if ((LINK_ONLY == 0)) && declare -F install_module_extras >/dev/null; then
+        install_module_extras
     fi
 done
 
 # ---- 後片付け ----
-# 今回の profile で使わなくなったリンクを削除する
-prune_stale_links
+prune_stale_symlinks
+# manifest を、今回作ったリンクだけに書き直す
+compact_symlink_manifest
 
 info "profile '${PROFILE}' is ready. Open a new shell to pick up the changes."

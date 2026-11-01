@@ -16,6 +16,8 @@ have() { command -v "$1" >/dev/null 2>&1; }
 
 SETUP_TMP_DIRS=""
 
+# 作成したディレクトリを TMP_DIR に入れる。
+# $(make_tmp_dir) で受け取ると、サブシェルで SETUP_TMP_DIRS への記録が失われる。
 make_tmp_dir() {
     TMP_DIR="$(mktemp -d)"
     SETUP_TMP_DIRS="${SETUP_TMP_DIRS} ${TMP_DIR}"

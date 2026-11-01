@@ -3,7 +3,7 @@
 
 HACKGEN_VERSION="2.10.0"
 
-module_install() {
+install_module_extras() {
     local font_root
     local font_dir
     local zip_name="HackGen_NF_v${HACKGEN_VERSION}.zip"
@@ -12,7 +12,7 @@ module_install() {
     case "${OS}" in
         darwin) font_root="${HOME}/Library/Fonts" ;;
         ubuntu) font_root="${HOME}/.local/share/fonts" ;;
-        *) unsupported_os ;;
+        *) die_unsupported_os ;;
     esac
     font_dir="${font_root}/HackGen"
 
