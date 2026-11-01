@@ -2,7 +2,7 @@
 # setup-rust: rustup で Rust ツールチェーンを入れる
 #
 # ~/.bashrc はこのリポジトリへのリンクなので、--no-modify-path で書き換えを防ぐ。
-# PATH は modules/scripts/shell.sh が設定する。
+# PATH は modules/scripts/rc.d/scripts.sh が設定する。
 set -euo pipefail
 
 if [[ -x "${HOME}/.cargo/bin/rustc" ]]; then

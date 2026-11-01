@@ -20,10 +20,10 @@ OS は `lib/os.sh` が自動判定し、プロファイルは役割だけを表�
 | ファイル | 扱い |
 | --- | --- |
 | `packages.****` | 該当するパッケージマネージャーで導入する(tap の cask は `owner/tap/name` と書く) |
-| `module.sh` の `module_links` | `link <モジュール内のパス> <リンク先>` を書く |
-| `module.sh` の `module_install` | パッケージ以外のインストール処理を書く。冪等にする |
-| `shell.sh` | `~/.config/bash/rc.d/<name>.sh` にリンクする |
 | `bin/*` | `~/.local/bin/` にリンクする。実行権限を付ける |
+| `rc.d/*` | `~/.config/bash/rc.d/` にリンクする。ファイル名は `<module>.sh` にする |
+| `module.sh` の `module_links` | その他のリンクを `link <モジュール内のパス> <リンク先>` で書く |
+| `module.sh` の `module_install` | パッケージ以外のインストール処理を書く。冪等にする |
 
 処理順は、パッケージ導入、リンク、`module_install`。
 
@@ -42,7 +42,7 @@ OS は `lib/os.sh` が自動判定し、プロファイルは役割だけを表�
 ## 実装時の注意
 
 - `install.sh`、`unlink.sh`、`lib/`、`profiles/`、`module.sh` は Bash 3.2 で動かす。新しい Mac の初回実行は標準の `/bin/bash` になるため、連想配列、`mapfile`、空配列の展開は使わない
-- `shell.sh` はシェル起動のたびに読まれる。何も出力せず、外部コマンドの実行は最小限にする。`bashrc` の対話判定より前に読まれるので、対話時専用の処理は自分で `$-` を確認する
+- `rc.d/*` はシェル起動のたびに読まれる。何も出力せず、外部コマンドの実行は最小限にする。`bashrc` の対話判定より前に読まれるので、対話時専用の処理は自分で `$-` を確認する
 - OS 分岐の `case` には `*) unsupported_os ;;` を入れ、未対応の OS を黙って通さない。モジュールを追加するときは、`module_install` を再実行しても壊れないようにする
 - `~/.bashrc` や `~/.config/nvim` などはこのリポジトリへのリンクなので、編集はすぐ実環境に反映される。ファイルを移動すると実環境のリンクが切れるので、移動後は `./install.sh <profile> --link-only` を実行する
 - `lazy-lock.json` は Neovim が更新する。手で編集しない
@@ -52,7 +52,7 @@ OS は `lib/os.sh` が自動判定し、プロファイルは役割だけを表�
 
 ```sh
 shellcheck -x -e SC1091 -s bash install.sh unlink.sh lib/*.sh profiles/*.sh \
-  modules/*/module.sh modules/*/shell.sh modules/bash/bashrc
+  modules/*/module.sh modules/*/rc.d/*.sh modules/bash/bashrc
 
 # 実環境に触れずにリンク処理を確認する
 HOME="$(mktemp -d)" /bin/bash ./install.sh container --link-only

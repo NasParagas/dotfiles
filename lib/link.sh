@@ -42,19 +42,20 @@ link() {
     ln -s "${src}" "${dst}"
 }
 
-# Conventions that need no declaration in module.sh.
-link_conventional_paths() {
-    local file
+# module 内のディレクトリの中身を、すべて指定のディレクトリへリンクする
+# link_contents <module 内のディレクトリ> <リンク先のディレクトリ>
+link_contents() {
+    local dir="$1"
+    local dst_dir="$2"
+    local file name
 
-    if [[ -f "${MODULE_DIR}/shell.sh" ]]; then
-        link shell.sh "${HOME}/.config/bash/rc.d/${MODULE}.sh"
-    fi
+    [[ -d "${MODULE_DIR}/${dir}" ]] || return 0
 
-    if [[ -d "${MODULE_DIR}/bin" ]]; then
-        for file in "${MODULE_DIR}"/bin/*; do
-            link "bin/$(basename "${file}")" "${HOME}/.local/bin/$(basename "${file}")"
-        done
-    fi
+    for file in "${MODULE_DIR}/${dir}"/*; do
+        [[ -e "${file}" ]] || continue
+        name="$(basename "${file}")"
+        link "${dir}/${name}" "${dst_dir}/${name}"
+    done
 }
 
 # Remove links from the previous run that this run no longer wants.

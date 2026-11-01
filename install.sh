@@ -100,8 +100,9 @@ for MODULE in "${MODULES[@]}"; do
         install_casks "${MODULE_DIR}/packages.cask"
     fi
 
-    # リンクを作る。shell.sh と bin/* は自動で、それ以外は module_links で作る
-    link_conventional_paths
+    # リンクを作る。bin/ と rc.d/ はリンク先が決まっていて、それ以外は module_links に書く
+    link_contents bin "${HOME}/.local/bin"
+    link_contents rc.d "${HOME}/.config/bash/rc.d"
     if declare -F module_links >/dev/null; then
         module_links
     fi

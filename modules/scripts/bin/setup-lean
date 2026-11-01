@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # setup-lean: elan で Lean のツールチェーン管理を入れる
 #
-# PATH は modules/scripts/shell.sh が設定する。
+# PATH は modules/scripts/rc.d/scripts.sh が設定する。
 set -euo pipefail
 
 if [[ -x "${HOME}/.elan/bin/elan" ]]; then
