@@ -27,7 +27,7 @@ tool の追加や変更をする際にいじるべきファイル等は [AGENTS.
 
 `install.sh <profile>` は、`profiles/<profile>.sh` に書かれた module を順に、次の手順で処理する。
 
-1. `prepare_module`: 前提を確認する
+1. `ensure_module_prerequisites`: 前提を確認する
 2. パッケージを導入する
 3. リンクを作る
 4. `install_module_extras`: パッケージ以外のインストール処理を行う

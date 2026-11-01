@@ -81,8 +81,7 @@ for MODULE in "${MODULES[@]}"; do
     MODULE_DIR="${REPO_ROOT}/modules/${MODULE}"
     info "module: ${MODULE}"
 
-    # 前の module の setup 関数を消す
-    unset -f prepare_module create_module_symlinks install_module_extras 2>/dev/null || true
+    unset -f ensure_module_prerequisites create_module_symlinks install_module_extras 2>/dev/null || true
 
     if [[ -f "${MODULE_DIR}/module.sh" ]]; then
         # shellcheck source=/dev/null
@@ -90,23 +89,20 @@ for MODULE in "${MODULES[@]}"; do
     fi
 
     # -- 対象 module において対応する処理があれば実行する --
-    # パッケージ導入より前に、module の前提を確認する
-    if ((LINK_ONLY == 0)) && declare -F prepare_module >/dev/null; then
-        prepare_module
+    if ((LINK_ONLY == 0)) && declare -F ensure_module_prerequisites >/dev/null; then
+        ensure_module_prerequisites
     fi
 
     if ((LINK_ONLY == 0)); then
         install_packages_for_module "${MODULE_DIR}"
     fi
 
-    # リンクを作る。bin/ と rc.d/ はリンク先が決まっていて、それ以外は create_module_symlinks に書く
-    symlink_contents bin "${HOME}/.local/bin"
-    symlink_contents rc.d "${HOME}/.config/bash/rc.d"
+    symlink_module_dir_contents bin "${HOME}/.local/bin"
+    symlink_module_dir_contents rc.d "${HOME}/.config/bash/rc.d"
     if declare -F create_module_symlinks >/dev/null; then
         create_module_symlinks
     fi
 
-    # パッケージ以外のインストール処理を実行する
     if ((LINK_ONLY == 0)) && declare -F install_module_extras >/dev/null; then
         install_module_extras
     fi
@@ -114,7 +110,6 @@ done
 
 # ---- 後片付け ----
 prune_stale_symlinks
-# manifest を、今回作ったリンクだけに書き直す
 compact_symlink_manifest
 
 info "profile '${PROFILE}' is ready. Open a new shell to pick up the changes."

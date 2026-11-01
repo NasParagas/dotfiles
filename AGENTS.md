@@ -22,11 +22,11 @@ OS は `lib/os.sh` が自動判定し、プロファイルは役割だけを表�
 | `packages.****` | 該当するパッケージマネージャーで導入する(tap の cask は `owner/tap/name` と書く) |
 | `bin/*` | `~/.local/bin/` にリンクする。実行権限を付ける |
 | `rc.d/*` | `~/.config/bash/rc.d/` にリンクする。ファイル名は `<module>.sh` にする。`bashrc` が定義する `path_prepend` を使える |
-| `module.sh` の `prepare_module` | パッケージ導入より前に行う前提の確認を書く |
+| `module.sh` の `ensure_module_prerequisites` | パッケージ導入より前に行う前提の確認を書く |
 | `module.sh` の `create_module_symlinks` | その他のリンクを `symlink <モジュール内のパス> <リンク先>` で書く |
 | `module.sh` の `install_module_extras` | パッケージ以外のインストール処理を書く。冪等にする |
 
-処理順は、`prepare_module`、パッケージ導入、リンク、`install_module_extras`。`--link-only` のときはリンクだけを処理する。
+処理順は、`ensure_module_prerequisites`、パッケージ導入、リンク、`install_module_extras`。`--link-only` のときはリンクだけを処理する。
 
 `module.sh` のトップレベルには関数と定数だけを書き、処理は上の関数に入れる。
 

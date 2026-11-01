@@ -47,8 +47,8 @@ symlink() {
 }
 
 # module 内のディレクトリの中身を、すべて指定のディレクトリへリンクする
-# symlink_contents <module 内のディレクトリ> <リンク先のディレクトリ>
-symlink_contents() {
+# symlink_module_dir_contents <module 内のディレクトリ> <リンク先のディレクトリ>
+symlink_module_dir_contents() {
     local dir="$1"
     local dst_dir="$2"
     local file name
