@@ -1,0 +1,43 @@
+name: install
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          shellcheck -x -e SC1091 -s bash install.sh lib/*.sh profiles/*.sh \
+            modules/*/module.sh modules/*/shell.sh modules/bash/bashrc
+
+  ubuntu:
+    runs-on: ubuntu-24.04
+    env:
+      # mise downloads from GitHub; unauthenticated requests get rate limited.
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: ./install.sh container
+      - name: Install again
+        run: ./install.sh container
+      - name: Check tools from a login shell
+        run: bash -lc 'nvim --version && node --version && lazygit --version && just --version'
+      - name: Check Neovim loads its config
+        run: bash -lc 'nvim --headless +qa'
+      - name: Check links for the other profiles
+        run: |
+          for profile in workstation server; do
+            HOME="$(mktemp -d)" ./install.sh "$profile" --link-only
+          done
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links with the system Bash
+        run: HOME="$(mktemp -d)" /bin/bash ./install.sh mac --link-only
