@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          shellcheck -x -e SC1091 -s bash install.sh lib/*.sh profiles/*.sh \
+          shellcheck -x -e SC1091 -s bash install.sh unlink.sh lib/*.sh profiles/*.sh \
             modules/*/module.sh modules/*/shell.sh modules/bash/bashrc
 
   ubuntu:
@@ -34,10 +34,22 @@ jobs:
           for profile in workstation server; do
             HOME="$(mktemp -d)" ./install.sh "$profile" --link-only
           done
+      - name: Check links can be undone
+        run: |
+          export HOME="$(mktemp -d)"
+          echo original > "$HOME/.bashrc"
+          ./install.sh container --link-only
+          ./unlink.sh
+          test "$(cat "$HOME/.bashrc")" = original
+          test -z "$(find "$HOME" -type l)"
 
   macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Check links with the system Bash
-        run: HOME="$(mktemp -d)" /bin/bash ./install.sh mac --link-only
+        run: |
+          export HOME="$(mktemp -d)"
+          /bin/bash ./install.sh mac --link-only
+          /bin/bash ./unlink.sh
+          test -z "$(find "$HOME" -type l)"
