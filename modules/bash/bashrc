@@ -71,6 +71,12 @@ Darwin)
     notes() {
         cd "${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes" || return
     }
+
+    # bash 4.2 未満では、読み込まれても何もしない
+    if [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+        # shellcheck source=/dev/null
+        . /opt/homebrew/etc/profile.d/bash_completion.sh
+    fi
     ;;
 Linux)
     # make `less` more friendly for non-text input files, see lesspipe(1)

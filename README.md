@@ -56,6 +56,7 @@ cd ~/dotfiles
 - ツールのバージョンは `modules/mise/config/config.toml` で管理する。
 - Ubuntu で `sudo` なしに `docker` を使う場合は、`DOCKER_ADD_USER_TO_GROUP=true` を付けて実行する。
 - マシン固有の設定は、Git 管理外の `~/.config/dotfiles/local.sh` に書く。対話シェルでのみ読まれる。
+- macOS では、`install.sh` がログインシェルを Homebrew の bash に切り替える。反映にはターミナルの再起動が必要で、`herdr` などを使っている場合はそれらも再起動する。`bash` コマンドは `/bin/bash` のままなので、確認には `echo "$BASH_VERSION"` を使う。
 
 ### pull した後
 
