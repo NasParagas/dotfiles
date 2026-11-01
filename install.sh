@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
-
 # 指定した profile における setup を実行する script
 # 重複実行可能
+
+set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 PROFILE_DIR="${REPO_ROOT}/profiles"
@@ -22,10 +22,10 @@ Options:
 EOF
 }
 
-# 引数解析
 PROFILE=""
 LINK_ONLY=0
 
+# 引数解析
 while (($# > 0)); do
     case "$1" in
     --link-only) LINK_ONLY=1 ;;
@@ -66,7 +66,7 @@ source "${REPO_ROOT}/lib/symlink.sh"
 trap cleanup_tmp_dirs EXIT
 detect_os
 
-# ---- 指定された profile の module を読み込む ----
+# ---- 指定された profile で使用するツール(module)ごとのセットアップを実行 ----
 MODULES=()
 # shellcheck source=/dev/null
 source "${PROFILE_DIR}/${PROFILE}.sh"
@@ -76,7 +76,6 @@ for MODULE in "${MODULES[@]}"; do
     [[ -d "${REPO_ROOT}/modules/${MODULE}" ]] || die "unknown module in profile '${PROFILE}': ${MODULE}"
 done
 
-# ---- module を順に処理 ----
 for MODULE in "${MODULES[@]}"; do
     MODULE_DIR="${REPO_ROOT}/modules/${MODULE}"
     info "module: ${MODULE}"
@@ -89,17 +88,21 @@ for MODULE in "${MODULES[@]}"; do
         source "${MODULE_DIR}/module.sh"
     fi
 
-    # -- 対象 module において対応する処理があれば実行する --
     if ((LINK_ONLY == 0)) && declare -F ensure_module_prerequisites >/dev/null; then
         ensure_module_prerequisites
     fi
 
+    # ツールで使用される package を distro ごとの package manager で導入
     if ((LINK_ONLY == 0)); then
         install_packages_for_module "${MODULE_DIR}"
     fi
 
+    # bin: そのツールに関連したスクリプトなどが格納されたディレクトリ
     symlink_module_dir_contents bin "${HOME}/.local/bin"
+
+    # rc.d: bashrc への追記処理などを行うためのファイルが入ったディレクトリ
     symlink_module_dir_contents rc.d "${HOME}/.config/bash/rc.d"
+
     if declare -F create_module_symlinks >/dev/null; then
         create_module_symlinks
     fi
