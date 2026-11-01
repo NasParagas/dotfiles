@@ -24,6 +24,8 @@ lib/          OS 判定、パッケージ導入、リンク処理
 ## setup
 
 ```sh
+git clone https://github.com/NasParagas/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 ./install.sh <profile>
 ```
 
@@ -37,7 +39,9 @@ lib/          OS 判定、パッケージ導入、リンク処理
 何度実行しても問題ない。既存のファイルは `<名前>.backup-<日時>` に退避する。
 リンクだけを更新する場合は `--link-only` を付ける。
 
-マシン固有の設定は、Git 管理外の `~/.config/dotfiles/local.sh` に書く。
+- ツールのバージョンは `modules/mise/config/config.toml` で管理する。
+- Ubuntu で `sudo` なしに `docker` を使う場合は、`DOCKER_ADD_USER_TO_GROUP=true` を付けて実行する。
+- マシン固有の設定は、Git 管理外の `~/.config/dotfiles/local.sh` に書く。
 
 ### pull した後
 

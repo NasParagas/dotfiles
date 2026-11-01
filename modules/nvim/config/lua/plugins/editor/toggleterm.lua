@@ -11,7 +11,10 @@ return {
 		"ToggleTermSendVisualSelection",
 		"ToggleTermSetName",
 	},
-	opts = { shell = "/bin/bash" },
+	opts = function()
+		local bash = vim.fn.exepath("bash")
+		return { shell = bash ~= "" and bash or "/bin/bash" }
+	end,
 	keys = {
 		{
 			"<leader>tt",
