@@ -1,0 +1,17 @@
+git
+curl
+vim
+wget
+ca-certificates
+build-essential
+unzip
+ripgrep
+iproute2
+htop
+
+# C/C++ development and tree-sitter parser builds
+cmake
+ninja-build
+clang
+libclang-dev
+libc6-dev

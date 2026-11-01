@@ -1,0 +1,120 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# shellcheck shell=bash
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# Move a directory to the front of PATH if it exists. An existing entry has to
+# move too: path_helper on macOS reorders PATH in nested login shells.
+path_prepend() {
+    [ -d "$1" ] || return 0
+    local rest=":$PATH:"
+    rest="${rest//:$1:/:}"
+    rest="${rest#:}"
+    rest="${rest%:}"
+    PATH="$1${rest:+:$rest}"
+}
+
+# Homebrew's script installer doesn't add itself to PATH. Append it, the same
+# position /etc/paths.d would give it, so system tools keep their precedence.
+for dir in /opt/homebrew/bin /opt/homebrew/sbin; do
+    case ":$PATH:" in
+    *":$dir:"*) ;;
+    *) [ -d "$dir" ] && PATH="$PATH:$dir" ;;
+    esac
+done
+unset dir
+
+# User-local executable path
+path_prepend "$HOME/.local/bin"
+
+# Module fragments, linked by install.sh for the modules in this machine's
+# profile. These run before the interactive check so `ssh host cmd` and
+# `bash -lc cmd` get the same PATH; they must stay silent, and anything
+# interactive-only has to check $- itself.
+for fragment in "$HOME"/.config/bash/rc.d/*.sh; do
+    if [ -r "$fragment" ]; then
+        # shellcheck source=/dev/null
+        . "$fragment"
+    fi
+done
+unset fragment
+
+export PATH
+
+# If not running interactively, don't source the rest of this file.
+case $- in
+*i*) ;;
+*) return ;;
+esac
+
+### history config
+# don't put duplicate lines in the ./.bash_history
+HISTCONTROL=ignoredups
+# append to the history file, don't overwrite it
+shopt -s histappend
+# size of bash session history
+HISTSIZE=10000
+# size of .bash_history
+HISTFILESIZE=20000
+
+# update the values of LINES and COLUMNS after each command
+shopt -s checkwinsize
+
+os_name="$(uname -s)"
+
+case "$os_name" in
+Darwin)
+    # macOS shows a default-shell migration warning when Bash is used.
+    export BASH_SILENCE_DEPRECATION_WARNING=1
+
+    # "notes" alias for iCloud notes.
+    notes() {
+        cd "${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes" || return
+    }
+    ;;
+Linux)
+    # make `less` more friendly for non-text input files, see lesspipe(1)
+    [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+    # enable color support for some commands
+    if [ -x /usr/bin/dircolors ]; then
+        if [ -r ~/.dircolors ]; then
+            eval "$(dircolors -b ~/.dircolors)"
+        else
+            eval "$(dircolors -b)"
+        fi
+        alias ls='ls --color=auto'
+        alias grep='grep --color=auto'
+    fi
+
+    # enable programmable completion features
+    if ! shopt -oq posix; then
+        if [ -f /usr/share/bash-completion/bash_completion ]; then
+            # shellcheck source=/dev/null
+            . /usr/share/bash-completion/bash_completion
+        elif [ -f /etc/bash_completion ]; then
+            # shellcheck source=/dev/null
+            . /etc/bash_completion
+        fi
+    fi
+    ;;
+esac
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+if [ -f ~/.bash_aliases ]; then
+    # shellcheck source=/dev/null
+    . ~/.bash_aliases
+fi
+
+# Use a compact colored prompt for interactive shells.
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+
+# Settings for this machine only; not tracked in the repository.
+if [ -r "$HOME/.config/dotfiles/local.sh" ]; then
+    # shellcheck source=/dev/null
+    . "$HOME/.config/dotfiles/local.sh"
+fi

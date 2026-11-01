@@ -1,0 +1,2 @@
+# Mason has no clangd prebuilt for Linux aarch64; see lsp/servers.lua in the nvim module.
+clangd

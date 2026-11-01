@@ -1,0 +1,14 @@
+bash
+git
+curl
+wget
+unzip
+ripgrep
+fd
+fzf
+gnupg
+
+# C/C++ development
+cmake
+ninja
+llvm
