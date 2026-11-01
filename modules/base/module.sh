@@ -22,6 +22,6 @@ ensure_module_prerequisites() {
     esac
 }
 
-install_module_extras() {
+setup_module_extras() {
     ensure_local_bin
 }

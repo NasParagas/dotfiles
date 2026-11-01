@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-install_module_extras() {
+setup_module_extras() {
     ensure_local_bin
 
     if ! have herdr; then

@@ -7,7 +7,7 @@ create_module_symlinks() {
 
 MISE_VERSION="v2026.10.24"
 
-install_module_extras() {
+setup_module_extras() {
     case "${OS}" in
         darwin) ;; # packages.brew
         ubuntu)

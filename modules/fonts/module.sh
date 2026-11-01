@@ -3,7 +3,7 @@
 
 HACKGEN_VERSION="2.10.0"
 
-install_module_extras() {
+setup_module_extras() {
     local font_root
     local font_dir
     local zip_name="HackGen_NF_v${HACKGEN_VERSION}.zip"

@@ -30,7 +30,7 @@ tool の追加や変更をする際にいじるべきファイル等は [AGENTS.
 1. `ensure_module_prerequisites`: 前提を確認する
 2. パッケージを導入する
 3. リンクを作る
-4. `install_module_extras`: パッケージ以外のインストール処理を行う
+4. `setup_module_extras`: パッケージ以外のセットアップ処理を行う
 
 すべての module の処理後に、profile から外れた module のリンクを削除する。
 `--link-only` のときは、リンクの処理だけを行う。

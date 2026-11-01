@@ -82,7 +82,7 @@ for MODULE in "${MODULES[@]}"; do
     info "module: ${MODULE}"
 
     # 前の module の setup 関数を消す
-    unset -f ensure_module_prerequisites create_module_symlinks install_module_extras 2>/dev/null || true
+    unset -f ensure_module_prerequisites create_module_symlinks setup_module_extras 2>/dev/null || true
 
     if [[ -f "${MODULE_DIR}/module.sh" ]]; then
         # shellcheck source=/dev/null
@@ -104,8 +104,8 @@ for MODULE in "${MODULES[@]}"; do
         create_module_symlinks
     fi
 
-    if ((LINK_ONLY == 0)) && declare -F install_module_extras >/dev/null; then
-        install_module_extras
+    if ((LINK_ONLY == 0)) && declare -F setup_module_extras >/dev/null; then
+        setup_module_extras
     fi
 done
 

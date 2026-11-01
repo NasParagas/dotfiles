@@ -5,7 +5,7 @@ create_module_symlinks() {
     symlink config "${HOME}/.config/wezterm"
 }
 
-install_module_extras() {
+setup_module_extras() {
     case "${OS}" in
         darwin) ;; # installed by hand
         ubuntu)

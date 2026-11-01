@@ -79,7 +79,7 @@ configure_docker_group() {
     fi
 }
 
-install_module_extras() {
+setup_module_extras() {
     [[ "${OS}" == "ubuntu" ]] || die_unsupported_os
 
     remove_conflicting_docker_packages
