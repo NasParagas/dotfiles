@@ -9,6 +9,7 @@
 #   sv2v        SystemVerilog -> Verilog 変換 (yosys が読める形にする)
 #   netlistsvg  yosys の出力から見やすい回路図 SVG を描く (npm)
 #   surfer      波形ビューア (VCD / FST)
+#   verilator   シミュレータ
 #
 # バージョンは環境変数で上書きできる (Linux でバイナリを落とすもの / npm のみ):
 #   SV2V_VERSION, SURFER_VERSION, NETLISTSVG_VERSION
@@ -26,7 +27,7 @@ usage() {
     cat <<USAGE
 Usage: $(basename "$0") [options]
 
-HDL の回路図・波形表示ツール (yosys, graphviz, sv2v, netlistsvg, surfer) を入れる。
+HDL の回路図・波形表示ツール (yosys, graphviz, sv2v, verilator, netlistsvg, surfer) を入れる。
 すでに入っているものはスキップする。
 
 Options:
@@ -97,6 +98,9 @@ install_netlistsvg() {
     if have npm; then
         log "netlistsvg: npm install -g netlistsvg@${NETLISTSVG_VERSION}"
         run npm install -g "netlistsvg@${NETLISTSVG_VERSION}"
+        if have mise; then
+            run mise reshim
+        fi
     elif have brew; then
         log "netlistsvg: npm not found, using Homebrew"
         run brew install netlistsvg
@@ -114,7 +118,7 @@ setup_macos() {
         exit 1
     fi
 
-    local pkgs=(yosys graphviz sv2v)
+    local pkgs=(yosys graphviz sv2v verilator)
     ((WITH_VIEWER)) && pkgs+=(surfer)
 
     local missing=()
@@ -146,9 +150,9 @@ setup_ubuntu() {
     local sudo=()
     ((EUID != 0)) && sudo=(sudo)
 
-    log "apt-get install yosys graphviz curl unzip"
+    log "apt-get install yosys graphviz verilator curl unzip"
     run "${sudo[@]}" apt-get update
-    run "${sudo[@]}" apt-get install -y yosys graphviz curl unzip
+    run "${sudo[@]}" apt-get install -y yosys graphviz verilator curl unzip
 
     # sv2v / surfer は Linux では x86_64 用のビルド済みバイナリのみ配布されている
     local arch
@@ -202,7 +206,7 @@ esac
 
 echo
 log "インストール結果"
-for cmd in yosys dot sv2v netlistsvg surfer; do
+for cmd in yosys dot sv2v verilator netlistsvg surfer; do
     if have "${cmd}"; then
         printf '  %-11s %s\n' "${cmd}" "$(command -v "${cmd}")"
     else

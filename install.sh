@@ -12,7 +12,7 @@ Usage: $(basename "$0") <profile> [--link-only]
 
 Profiles:
   mac          macOS host
-  workstation  Ubuntu workstation with WezTerm, fonts, Docker Engine and HDL tools
+  workstation  Ubuntu workstation with WezTerm, fonts and Docker Engine
   server       Headless Ubuntu server with Docker Engine
   container    Ubuntu development container without host-only tools
 

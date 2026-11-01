@@ -3,4 +3,4 @@
 
 # shellcheck source=profiles/cli.sh
 source "${PROFILE_DIR}/cli.sh"
-MODULES+=(docker wezterm fonts hdl riscv)
+MODULES+=(docker wezterm fonts)
