@@ -78,6 +78,9 @@ git pull
 sudo apt update
 sudo apt install git
 
+# Ubuntu に ssh で入れるようにする場合（clone 後に実行）
+bash ~/dotfiles/modules/sshd/ubuntu-host-minimal-setup.sh
+
 # macOS
 xcode-select --install
 # Homebrew: https://brew.sh/
