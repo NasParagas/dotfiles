@@ -81,6 +81,7 @@ for MODULE in "${MODULES[@]}"; do
     MODULE_DIR="${REPO_ROOT}/modules/${MODULE}"
     info "module: ${MODULE}"
 
+    # 前の module の setup 関数を消す
     unset -f ensure_module_prerequisites create_module_symlinks install_module_extras 2>/dev/null || true
 
     if [[ -f "${MODULE_DIR}/module.sh" ]]; then
