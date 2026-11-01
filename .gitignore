@@ -1,4 +1,3 @@
 .DS_Store
 .claude/
-memo.md
 modules/nvim/config/nvim-pack-lock.json
