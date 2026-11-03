@@ -10,4 +10,4 @@
 [[ "${PROFILE}" != "cli" ]] || die "profile 'cli' is shared by the other profiles; choose one of them"
 
 # shellcheck disable=SC2034 # read by install.sh
-MODULES=(base bash scripts mise nvim clangd herdr opencode)
+MODULES=(base bash scripts mise nvim clangd herdr opencode agents)
