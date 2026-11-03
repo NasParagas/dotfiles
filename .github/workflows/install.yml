@@ -13,6 +13,16 @@ jobs:
       - run: |
           shellcheck -x -e SC1091 -s bash install.sh unlink.sh lib/*.sh profiles/*.sh \
             modules/*/module.sh modules/*/rc.d/*.sh modules/bash/bashrc
+      # 版によって整形結果が変わるので、手元(Mason が入れたもの)と同じ版に固定する
+      - name: Install StyLua
+        run: |
+          curl -fsSL -o "${RUNNER_TEMP}/stylua.zip" \
+            https://github.com/JohnnyMorganz/StyLua/releases/download/v2.5.2/stylua-linux-x86_64.zip
+          unzip -q "${RUNNER_TEMP}/stylua.zip" -d "${RUNNER_TEMP}/stylua"
+          echo "${RUNNER_TEMP}/stylua" >> "${GITHUB_PATH}"
+      - name: Check Lua formatting
+        working-directory: modules/nvim/config
+        run: stylua --check init.lua lua after
 
   ubuntu:
     runs-on: ubuntu-24.04

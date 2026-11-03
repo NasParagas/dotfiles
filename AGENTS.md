@@ -90,7 +90,7 @@ HOME="$(mktemp -d)" /bin/bash ./install.sh container --link-only
 (cd modules/nvim/config && stylua --check init.lua lua after)
 ```
 
-`.github/workflows/install.yml` が Ubuntu での実インストールと、macOS でのリンク処理を確認する。
+`.github/workflows/install.yml` が shellcheck と stylua のチェック、Ubuntu での実インストール、macOS でのリンク処理を確認する。
 
 ## コミット
 
