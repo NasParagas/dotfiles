@@ -60,7 +60,13 @@ install_docker_engine() {
         containerd.io \
         docker-buildx-plugin \
         docker-compose-plugin
+}
 
+is_docker_engine_installed() {
+    dpkg-query -W -f='${Status}' docker-ce 2>/dev/null | grep -q '^install ok installed$'
+}
+
+start_docker_service() {
     if have systemctl && systemctl list-unit-files docker.service >/dev/null 2>&1; then
         run_as_root systemctl start docker
     fi
@@ -83,7 +89,13 @@ setup_module_extras() {
     [[ "${OS}" == "ubuntu" ]] || die_unsupported_os
 
     remove_conflicting_docker_packages
-    add_docker_apt_repository
-    install_docker_engine
+
+    # 入っていれば、リポジトリの鍵の取得と apt-get update を繰り返さない。更新は apt upgrade で入る
+    if ! is_docker_engine_installed; then
+        add_docker_apt_repository
+        install_docker_engine
+    fi
+
+    start_docker_service
     configure_docker_group
 }
