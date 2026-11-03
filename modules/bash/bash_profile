@@ -1,1 +1,4 @@
+# shellcheck shell=bash
+# ログインシェルでも、設定は ~/.bashrc にまとめて書く
+# shellcheck source=/dev/null
 if [ -f ~/.bashrc ]; then . ~/.bashrc; fi

@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           shellcheck -x -e SC1091 -s bash install.sh unlink.sh lib/*.sh profiles/*.sh \
-            modules/*/module.sh modules/*/rc.d/*.sh modules/bash/bashrc
+            modules/*/module.sh modules/*/rc.d/*.sh modules/bash/bashrc modules/bash/bash_profile
       # 版によって整形結果が変わるので、手元(Mason が入れたもの)と同じ版に固定する
       - name: Install StyLua
         run: |

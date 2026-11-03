@@ -81,7 +81,7 @@ profile では `require_os <OS>` で対応 OS を指定できる。module が ex
 
 ```sh
 shellcheck -x -e SC1091 -s bash install.sh unlink.sh lib/*.sh profiles/*.sh \
-  modules/*/module.sh modules/*/rc.d/*.sh modules/bash/bashrc
+  modules/*/module.sh modules/*/rc.d/*.sh modules/bash/bashrc modules/bash/bash_profile
 
 # 実環境に触れずにリンク処理を確認する
 HOME="$(mktemp -d)" /bin/bash ./install.sh container --link-only
