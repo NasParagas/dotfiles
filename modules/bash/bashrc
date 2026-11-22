@@ -119,9 +119,9 @@ fi
 # Use a compact colored prompt for interactive shells.
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 
-# このマシンだけの設定。Git 管理外。
-# 対話シェルでのみ読むので、`ssh host cmd` などには効かない。
-if [ -r "$HOME/.config/dotfiles/local.sh" ]; then
+# このマシンだけの bashrc の続き。Git 管理外なので、コミットしたくない設定を書く。
+# 対話判定より後に読むので、`ssh host cmd` などの非対話シェルには効かない。
+if [ -r "$HOME/.config/dotfiles/bashrc.local.sh" ]; then
     # shellcheck source=/dev/null
-    . "$HOME/.config/dotfiles/local.sh"
+    . "$HOME/.config/dotfiles/bashrc.local.sh"
 fi
