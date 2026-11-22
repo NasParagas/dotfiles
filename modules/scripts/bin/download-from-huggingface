@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# download-from-huggingface: Hugging Face Hub からモデルのリポジトリをダウンロードする
+#
+# hf CLI (huggingface_hub) の `hf download` を使う。
+# hf が入っていなければ uvx で一時的に取ってきて実行する。
+set -euo pipefail
+
+usage() {
+    cat <<USAGE
+Usage: $(basename "$0") [-d DIR] <owner/repo> [hf download のオプション...]
+
+<owner/repo> のモデルをダウンロードする。
+https://huggingface.co/<owner>/<repo> の URL もそのまま渡せる。
+
+保存先は既定で Hugging Face のキャッシュ (~/.cache/huggingface/hub, HF_HOME で変更可)。
+transformers などからはリポジトリ名で読み込める。
+
+Options:
+  -d, --dir DIR   キャッシュではなく DIR に保存する
+  -h, --help      このヘルプを表示
+
+<owner/repo> より後ろの引数はそのまま hf download に渡す。
+
+Example:
+  $(basename "$0") thinkingmachines/Inkling-2-Mini
+  $(basename "$0") -d ./models/inkling thinkingmachines/Inkling-2-Mini
+  $(basename "$0") thinkingmachines/Inkling-2-Mini --include '*.safetensors' '*.json'
+  $(basename "$0") thinkingmachines/Inkling-2-Mini --revision main
+
+非公開・利用申請が必要なモデルは、先に \`hf auth login\` するか HF_TOKEN を設定する。
+USAGE
+}
+
+# URL で渡されたときに owner/repo だけを取り出す
+normalize_repo_id() {
+    local repo_id="$1"
+    repo_id="${repo_id#https://huggingface.co/}"
+    repo_id="${repo_id#http://huggingface.co/}"
+    repo_id="${repo_id#huggingface.co/}"
+    # /tree/main などの URL の後半を落とす
+    printf '%s\n' "$repo_id" | cut -d/ -f1-2
+}
+
+run_hf() {
+    if command -v hf >/dev/null 2>&1; then
+        hf "$@"
+    elif command -v uvx >/dev/null 2>&1; then
+        uvx --from huggingface_hub hf "$@"
+    else
+        echo "Error: hf も uvx も見つからない。uv を入れるか、huggingface_hub を入れる。" >&2
+        exit 1
+    fi
+}
+
+local_dir=""
+while (($# > 0)); do
+    case "$1" in
+    -d | --dir)
+        if (($# < 2)); then
+            echo "Error: $1 には保存先を指定する。" >&2
+            exit 1
+        fi
+        local_dir="$2"
+        shift 2
+        ;;
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -*)
+        echo "Error: 不明なオプション: $1 (hf download のオプションは <owner/repo> の後に書く)" >&2
+        exit 1
+        ;;
+    *)
+        break
+        ;;
+    esac
+done
+
+if (($# < 1)); then
+    usage >&2
+    exit 1
+fi
+
+repo_id="$(normalize_repo_id "$1")"
+shift
+
+if [[ ! "$repo_id" =~ ^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$ ]]; then
+    echo "Error: リポジトリは <owner>/<repo> の形で指定する: $repo_id" >&2
+    exit 1
+fi
+
+download_args=("$repo_id")
+if [[ -n "$local_dir" ]]; then
+    download_args+=(--local-dir "$local_dir")
+fi
+
+run_hf download "${download_args[@]}" "$@"
