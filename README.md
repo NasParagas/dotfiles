@@ -50,9 +50,9 @@ cd ~/dotfiles
 | `server` | GUI のない Ubuntu サーバー |
 | `container` | Ubuntu の開発用コンテナ |
 
-何度実行しても問題ない。既存のファイルは `<名前>.backup-<日時>` に退避する。
-リンクだけを更新する場合は `--link-only` を付ける。
-
+- 何度実行しても問題ない
+  - 既存のファイルは `<名前>.backup-<日時>` に退避する。
+  - リンクだけを更新したい場合は `--link-only` を付ける。
 - ツールのバージョンは `modules/mise/config/config.toml` で管理する。
 - Ubuntu で `sudo` なしに `docker` を使う場合は、`DOCKER_ADD_USER_TO_GROUP=true` を付けて実行する。
 - マシン固有の設定は、Git 管理外の `~/.config/dotfiles/local.sh` に書く。対話シェルでのみ読まれる。
@@ -86,10 +86,18 @@ git pull
 
 ### ツール
 
+- herdr
+- wezterm
+- aerospace
+- docker
 - neovim
 - opencode
-- mise で管理: node, uv, lazygit, just, tree-sitter
-- herdr, wezterm, aerospace, docker
+- mise
+  - node
+  - uv
+  - lazygit
+  - just
+  - tree-sitter
 
 必要なマシンにだけ入れるツールや、管理していないツールの入れ方は [docs/tools.md](docs/tools.md) を参照。
 
@@ -105,8 +113,7 @@ git pull
 
 ```sh
 # linux
-sudo apt update
-sudo apt install git
+sudo apt update && sudo apt install -y git
 
 # Ubuntu に ssh で入れるようにする場合（clone 後に実行）
 bash ~/dotfiles/modules/scripts/bin/setup-sshd
