@@ -11,4 +11,13 @@ create_module_symlinks() {
     symlink instructions.md "${HOME}/.config/opencode/AGENTS.md"
     # kiro-cli は steering/ 以下の AGENTS.md を常に読み込む
     symlink instructions.md "${HOME}/.kiro/steering/AGENTS.md"
+
+    # skill はディレクトリごとにリンクする。
+    # テンプレートの拡張子を .tmpl にしているのは、ここで作業するときに
+    # templates/AGENTS.md がこのリポジトリの規約として読まれないようにするため。
+    symlink_module_dir_contents skills "${HOME}/.claude/skills"
+    # Codex のユーザー単位の skill の置き場所。opencode も ~/.claude/skills と合わせてここを読む
+    symlink_module_dir_contents skills "${HOME}/.agents/skills"
+    # kiro-cli の既定のエージェントはここを読む。カスタムエージェントでは resources への追加が必要
+    symlink_module_dir_contents skills "${HOME}/.kiro/skills"
 }

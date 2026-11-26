@@ -107,6 +107,7 @@ git pull
 - `.bash_profile`
 - clangd の設定
 - コーディングエージェント(Claude Code、Codex、opencode、kiro-cli)のグローバルな指示: `modules/agents/instructions.md`
+- コーディングエージェントの skill: `modules/agents/skills/`
 - HackGen フォント
 
 ## とりあえず必要なもの
