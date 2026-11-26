@@ -1,0 +1,4 @@
+**/.claude/settings.local.json
+
+# modules/agents/instructions.md でエージェントに作業用として使わせているフォルダ
+.agents-notes/
